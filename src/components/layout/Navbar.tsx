@@ -1,0 +1,169 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, X, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { NAV_LINKS, APP_LINKS } from '@/lib/constants';
+
+const Navbar = () => {
+    const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    const handleNavClick = (href: string) => {
+        setIsMobileMenuOpen(false);
+        const element = document.querySelector(href);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    return (
+        <header
+            className={cn(
+                'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
+                isScrolled
+                    ? 'bg-white/95 backdrop-blur-md shadow-md'
+                    : 'bg-transparent'
+            )}
+        >
+            <nav className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+                {/* Logo */}
+                <motion.a
+                    href="#home"
+                    className="flex items-center gap-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5 }}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick('#home');
+                    }}
+                >
+                    <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
+                        <svg className="w-6 h-6" viewBox="0 0 64 64" fill="none">
+                            <path d="M20 44 L32 20 L44 44" stroke="#FFC107" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                            <circle cx="32" cy="20" r="4" fill="#FFC107" />
+                            <circle cx="20" cy="44" r="3" fill="#E53935" />
+                            <circle cx="44" cy="44" r="3" fill="#E53935" />
+                        </svg>
+                    </div>
+                    <span className={cn(
+                        'font-display font-bold text-lg md:text-xl transition-colors',
+                        isScrolled ? 'text-dark' : 'text-dark'
+                    )}>
+                        MSME Pathways
+                    </span>
+                </motion.a>
+
+                {/* Desktop Navigation */}
+                <motion.div
+                    className="hidden md:flex items-center gap-8"
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                    {NAV_LINKS.map((link) => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleNavClick(link.href);
+                            }}
+                            className={cn(
+                                'text-sm font-medium transition-colors hover:text-primary-blue relative group',
+                                isScrolled ? 'text-gray-700' : 'text-gray-700'
+                            )}
+                        >
+                            {link.label}
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all group-hover:w-full" />
+                        </a>
+                    ))}
+                </motion.div>
+
+                {/* CTA Button */}
+                <motion.div
+                    className="hidden md:block"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                    <Button asChild size="lg" className="gap-2 rounded-full">
+                        <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                            <Download className="w-4 h-4" />
+                            Download App
+                        </a>
+                    </Button>
+                </motion.div>
+
+                {/* Mobile Menu Button */}
+                <button
+                    className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+                    aria-expanded={isMobileMenuOpen}
+                >
+                    {isMobileMenuOpen ? (
+                        <X className="w-6 h-6 text-gray-700" />
+                    ) : (
+                        <Menu className="w-6 h-6 text-gray-700" />
+                    )}
+                </button>
+            </nav>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+                {isMobileMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="md:hidden bg-white border-t shadow-lg overflow-hidden"
+                    >
+                        <div className="container mx-auto px-4 py-4 space-y-4">
+                            {NAV_LINKS.map((link, index) => (
+                                <motion.a
+                                    key={link.href}
+                                    href={link.href}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavClick(link.href);
+                                    }}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: index * 0.05 }}
+                                    className="block py-2 text-gray-700 font-medium hover:text-primary-blue transition-colors"
+                                >
+                                    {link.label}
+                                </motion.a>
+                            ))}
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: NAV_LINKS.length * 0.05 }}
+                            >
+                                <Button asChild className="w-full gap-2 rounded-full">
+                                    <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                                        <Download className="w-4 h-4" />
+                                        Download App
+                                    </a>
+                                </Button>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </header>
+    );
+};
+
+export default Navbar;
