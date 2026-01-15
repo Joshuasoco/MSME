@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
@@ -12,7 +12,6 @@ const iconMap: Record<string, React.ComponentType<any>> = {
 
 const ProblemSection = () => {
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: '-50px' });
 
   return (
     <section
