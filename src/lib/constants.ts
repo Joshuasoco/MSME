@@ -198,9 +198,9 @@ export const SOCIAL_LINKS = [
 
 // Contact Info
 export const CONTACT_INFO = {
-    email: 'support@msmepathways.ph',
+    email: 'Joshuaco@msmepathways.ph',
     phone: '+63 XXX XXX XXXX',
-    address: 'Manila, Philippines',
+    address: 'Pangasinan, Philippines',
 };
 
 // App Store Links

@@ -123,23 +123,23 @@ const HeroSection = () => {
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3, duration: 0.6 }}
-                            className="mb-6"
+                            className="mb-6 overflow-visible"
                         >
-                            <h1 className="font-display font-bold leading-[0.95] tracking-tight">
-                                <span className="block text-3xl md:text-4xl lg:text-5xl text-gray-600 font-medium mb-1">
+                            <h1 className="font-display font-bold leading-tight tracking-tight space-y-1 overflow-visible">
+                                <span className="block text-3xl md:text-4xl lg:text-5xl text-gray-600 font-medium">
                                     Simulan ang iyong
                                 </span>
                                 <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-gradient-blue">
                                     Pangarap na
                                 </span>
-                                <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl relative">
-                                    <span className="text-gradient-gold">Negosyo</span>
+                                <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl relative pb-4 overflow-visible min-h-[1.2em]">
+                                    <span className="text-gradient-gold inline-block">Negosyo</span>
                                     <motion.span
-                                        className="absolute -right-2 -top-2 text-3xl"
+                                        className="absolute -right-2 -top-2 text-3xl pointer-events-none"
                                         animate={{ rotate: [0, 15, 0], scale: [1, 1.2, 1] }}
                                         transition={{ duration: 2, repeat: Infinity }}
                                     >
-                                        ✨
+                                        <Sparkles className="w-8 h-8 text-primary-yellow" />
                                     </motion.span>
                                 </span>
                             </h1>
@@ -342,7 +342,7 @@ const HeroSection = () => {
                                 animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
                                 transition={{ duration: 3, repeat: Infinity }}
                             >
-                                <span className="text-3xl">🚀</span>
+                                <span className="text-3xl">🤖</span>
                             </motion.div>
 
                             <motion.div

@@ -259,7 +259,7 @@ const CTASection = () => {
                                     animate={{ rotate: [0, 10, 0], y: [0, -10, 0] }}
                                     transition={{ duration: 3, repeat: Infinity }}
                                 >
-                                    <span className="text-3xl">🚀</span>
+                                    <span className="text-3xl">🤖</span>
                                 </motion.div>
 
                                 <motion.div
