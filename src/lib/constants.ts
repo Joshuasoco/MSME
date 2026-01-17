@@ -1,9 +1,8 @@
 // Navigation Links
 export const NAV_LINKS = [
     { href: '#home', label: 'Home' },
+    { href: '#how-it-works', label: 'Paano?' },
     { href: '#features', label: 'Features' },
-    { href: '#how-it-works', label: 'How It Works' },
-    { href: '#about', label: 'About' },
     { href: '#faq', label: 'FAQ' },
 ] as const;
 
@@ -123,23 +122,23 @@ export const BENEFITS = [
 // Testimonials Data
 export const TESTIMONIALS = [
     {
-        quote: 'Sobrang helpful ng app na \'to! Simple lang at easy to understand!',
-        name: 'Maria Santos',
-        role: 'Sari-sari Store Owner',
+        quote: 'Dati ayaw ako pautangin ng bank kasi wala akong credit history. Ngayon nakapag-loan na ako ng ₱15,000 para madagdagan ang stocks ko! Salamat MSME Pathways!',
+        name: 'Ate Minda',
+        role: 'Sari-sari Store Owner, Tondo',
         rating: 5,
         avatar: '/avatar-1.png',
     },
     {
-        quote: 'Kahit walang credit history, natulungan ako. Thank you MSME Pathways!',
-        name: 'Juan dela Cruz',
-        role: 'Market Vendor',
+        quote: 'Simple lang i-navigate ang app kahit hindi ako tech-savvy. Yung AI chatbot nila, patient mag-explain ng mga terms. Sobrang helpful!',
+        name: 'Kuya Rodel',
+        role: 'Market Vendor, Divisoria',
         rating: 5,
         avatar: '/avatar-2.png',
     },
     {
-        quote: 'Free pa at maraming natutunan ako about loans at financial literacy.',
-        name: 'Rosa Reyes',
-        role: 'Home-based Seller',
+        quote: 'Nagtitinda ako ng ulam sa bahay. Hindi ko inexpect na may mag-aalok ng loan sa akin. Ngayon may pangdagdag capital na ako para sa aking maliit na negosyo!',
+        name: 'Aling Nena',
+        role: 'Home-based Seller, Cavite',
         rating: 5,
         avatar: '/avatar-3.png',
     },

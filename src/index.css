@@ -36,12 +36,19 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  line-height: 1.6;
+  line-height: 1.7;
   color: #1A1A1A;
   background-color: #FFFFFF;
+  font-size: 17px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 18px;
+  }
 }
 
 h1,

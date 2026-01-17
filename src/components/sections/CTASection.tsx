@@ -36,15 +36,15 @@ const CTASection = () => {
                 />
             </div>
 
-            {/* Floating Particles */}
+            {/* Floating Particles - Reduced for performance */}
             <div className="absolute inset-0 overflow-hidden">
-                {[...Array(20)].map((_, i) => (
+                {[...Array(6)].map((_, i) => (
                     <motion.div
                         key={i}
                         className="absolute w-2 h-2 rounded-full bg-white/20"
                         style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
+                            left: `${15 + i * 15}%`,
+                            top: `${20 + i * 12}%`,
                         }}
                         animate={{
                             y: [0, -30, 0],
@@ -52,9 +52,9 @@ const CTASection = () => {
                             scale: [1, 1.5, 1],
                         }}
                         transition={{
-                            duration: 3 + Math.random() * 2,
+                            duration: 3 + i * 0.5,
                             repeat: Infinity,
-                            delay: Math.random() * 2,
+                            delay: i * 0.3,
                         }}
                     />
                 ))}

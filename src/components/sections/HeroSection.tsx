@@ -1,5 +1,5 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Download, ChevronDown, Sparkles, TrendingUp, Users, Shield } from 'lucide-react';
+import { Download, ChevronDown, Sparkles, TrendingUp, Users, Shield, Lock, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
 import { useRef } from 'react';
@@ -127,13 +127,13 @@ const HeroSection = () => {
                         >
                             <h1 className="font-display font-bold leading-tight tracking-tight space-y-1 overflow-visible">
                                 <span className="block text-3xl md:text-4xl lg:text-5xl text-gray-600 font-medium">
-                                    Simulan ang iyong
+                                    Walang Credit History?
                                 </span>
                                 <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-gradient-blue">
-                                    Pangarap na
+                                    Pwede Ka
                                 </span>
                                 <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl relative pb-4 overflow-visible min-h-[1.2em]">
-                                    <span className="text-gradient-gold inline-block">Negosyo</span>
+                                    <span className="text-gradient-gold inline-block">Pa Rin!</span>
                                     <motion.span
                                         className="absolute -right-2 -top-2 text-3xl pointer-events-none"
                                         animate={{ rotate: [0, 15, 0], scale: [1, 1.2, 1] }}
@@ -152,10 +152,10 @@ const HeroSection = () => {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.5 }}
                         >
-                            Your AI-powered guide para sa{' '}
+                            Hindi kailangan ng credit history! May AI na tutulong sa'yo para sa{' '}
                             <span className="font-semibold text-primary-blue">safe</span> at{' '}
-                            <span className="font-semibold text-primary-blue">easy</span> loan application.
-                            Para sa mga sari-sari store owners, vendors, at microentrepreneurs.
+                            <span className="font-semibold text-primary-blue">easy</span> na pag-loan.
+                            Para sa mga sari-sari store owners, vendors, at home-based sellers.
                         </motion.p>
 
                         {/* CTAs */}
@@ -214,6 +214,23 @@ const HeroSection = () => {
                                     </div>
                                 </motion.div>
                             ))}
+                        </motion.div>
+
+                        {/* Trust Badges */}
+                        <motion.div
+                            className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mt-6"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 1 }}
+                        >
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-200">
+                                <Lock className="w-3.5 h-3.5 text-emerald-600" />
+                                <span className="text-emerald-700 text-xs font-medium">Data Privacy Act Compliant</span>
+                            </div>
+                            <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full border border-blue-200">
+                                <Building2 className="w-3.5 h-3.5 text-blue-600" />
+                                <span className="text-blue-700 text-xs font-medium">BSP Registered Partners</span>
+                            </div>
                         </motion.div>
                     </motion.div>
 
