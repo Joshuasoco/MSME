@@ -12,8 +12,11 @@ const BotpressChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Your Botpress Bot ID from deployment
+  // Your Botpress credentials
   const BOTPRESS_BOT_ID = 'dd48763a-e8cb-4063-972b-8d989dd7fc8b';
+  // TODO: Replace with your actual Webchat Configuration ID from Botpress Dashboard
+  // Go to: Botpress Dashboard > Webchat > Copy the Configuration ID
+  const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID || 'ef7fa665-d217-4eb0-897c-c78b3596de73';
 
   // Show widget after 5 seconds
   useEffect(() => {
@@ -23,6 +26,11 @@ const BotpressChatWidget = () => {
 
   // Load Botpress Web Chat script
   useEffect(() => {
+    // Check if clientId is configured
+    if (BOTPRESS_CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
+      console.error('⚠️ Botpress clientId not configured. Please add VITE_BOTPRESS_CLIENT_ID to your .env file.');
+      return;
+    }
     // Check if script is already loaded
     if (document.getElementById('botpress-webchat-script')) {
       setIsLoaded(true);
@@ -40,6 +48,9 @@ const BotpressChatWidget = () => {
       if (window.botpress) {
         window.botpress.init({
           botId: BOTPRESS_BOT_ID,
+          clientId: BOTPRESS_CLIENT_ID,
+          hostUrl: 'https://cdn.botpress.cloud/webchat/v2.2',
+          messagingUrl: 'https://messaging.botpress.cloud',
           configuration: {
             botName: 'Aling Nina',
             botDescription: 'AI Assistant para sa MSME Pathways',
@@ -59,6 +70,7 @@ const BotpressChatWidget = () => {
         // Hide the default Botpress button (we use our own)
         window.botpress.on('webchat:ready', () => {
           setIsLoaded(true);
+          console.log('✅ Botpress webchat loaded successfully');
           // Hide default fab button
           const style = document.createElement('style');
           style.textContent = `
