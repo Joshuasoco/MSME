@@ -1,51 +1,122 @@
+import { Suspense, lazy, useState, useEffect } from 'react';
+import { AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/sections/HeroSection';
-import ProblemSection from '@/components/sections/ProblemSection';
-import FeaturesSection from '@/components/sections/FeaturesSection';
-import EligibilitySection from '@/components/sections/EligibilitySection';
-import HowItWorksSection from '@/components/sections/HowItWorksSection';
-import BenefitsSection from '@/components/sections/BenefitsSection';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import StatsSection from '@/components/sections/StatsSection';
-import FAQSection from '@/components/sections/FAQSection';
-import CTASection from '@/components/sections/CTASection';
-import ChatWidget from '@/components/common/ChatWidget';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
+import LoadingScreen from '@/components/common/LoadingScreen';
+import ScrollToTop from '@/components/common/ScrollToTop';
+import CookieConsent from '@/components/common/CookieConsent';
+import BotpressChatWidget from '@/components/common/BotpressChatWidget';
+
+// Lazy load below-fold sections for better performance
+const ProblemSection = lazy(() => import('@/components/sections/ProblemSection'));
+const FeaturesSection = lazy(() => import('@/components/sections/FeaturesSection'));
+const EligibilitySection = lazy(() => import('@/components/sections/EligibilitySection'));
+const HowItWorksSection = lazy(() => import('@/components/sections/HowItWorksSection'));
+const BenefitsSection = lazy(() => import('@/components/sections/BenefitsSection'));
+const TestimonialsSection = lazy(() => import('@/components/sections/TestimonialsSection'));
+const StatsSection = lazy(() => import('@/components/sections/StatsSection'));
+const FAQSection = lazy(() => import('@/components/sections/FAQSection'));
+const CTASection = lazy(() => import('@/components/sections/CTASection'));
+
+// Section loading fallback
+const SectionLoader = () => (
+  <div className="py-20 flex items-center justify-center">
+    <div className="flex gap-1">
+      {[0, 1, 2].map((i) => (
+        <div
+          key={i}
+          className="w-2 h-2 rounded-full bg-primary-blue animate-pulse"
+          style={{ animationDelay: `${i * 150}ms` }}
+        />
+      ))}
+    </div>
+  </div>
+);
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate initial load / wait for fonts
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white">
-      {/* Skip to content link for accessibility */}
-      <a
-        href="#home"
-        className="skip-link"
-      >
-        Skip to main content
-      </a>
+    <ErrorBoundary>
+      {/* Loading Screen */}
+      <AnimatePresence mode="wait">
+        {isLoading && <LoadingScreen />}
+      </AnimatePresence>
 
-      {/* Sticky Navigation */}
-      <Navbar />
+      <div className="min-h-screen bg-white">
+        {/* Skip to content link for accessibility */}
+        <a
+          href="#home"
+          className="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-blue focus:text-white focus:rounded-lg"
+        >
+          Skip to main content
+        </a>
 
-      {/* Main Content */}
-      <main>
-        <HeroSection />
-        <ProblemSection />
-        <FeaturesSection />
-        <EligibilitySection />
-        <HowItWorksSection />
-        <BenefitsSection />
-        <TestimonialsSection />
-        <StatsSection />
-        <FAQSection />
-        <CTASection />
-      </main>
+        {/* Sticky Navigation */}
+        <Navbar />
 
-      {/* Footer */}
-      <Footer />
+        {/* Main Content */}
+        <main id="main-content" role="main">
+          <HeroSection />
+          
+          <Suspense fallback={<SectionLoader />}>
+            <ProblemSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <FeaturesSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <EligibilitySection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <HowItWorksSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <BenefitsSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <TestimonialsSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <StatsSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <FAQSection />
+          </Suspense>
+          
+          <Suspense fallback={<SectionLoader />}>
+            <CTASection />
+          </Suspense>
+        </main>
 
-      {/* Floating Chat Widget */}
-      <ChatWidget />
-    </div>
+        {/* Footer */}
+        <Footer />
+
+        {/* Scroll to Top Button */}
+        <ScrollToTop />
+
+        {/* Botpress AI Chatbot */}
+        <BotpressChatWidget />
+
+        {/* Cookie Consent Banner */}
+        <CookieConsent />
+      </div>
+    </ErrorBoundary>
   );
 }
 

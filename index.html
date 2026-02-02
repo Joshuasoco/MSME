@@ -5,28 +5,96 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
+    <!-- Preconnect to external resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.botpress.cloud" />
+    
+    <!-- Preload critical fonts -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" as="style" />
+    
     <!-- SEO Meta Tags -->
     <title>MSME Pathways - Smart Loan Support for Filipino Microentrepreneurs</title>
     <meta name="description" content="AI-powered financial guidance app helping Filipino sari-sari stores, vendors, and micro-businesses access formal loans. No credit history needed. Download now!" />
-    <meta name="keywords" content="microfinance philippines, sari-sari loan, msme financing, ai financial app, credit-free loans, Filipino microentrepreneurs" />
+    <meta name="keywords" content="microfinance philippines, sari-sari loan, msme financing, ai financial app, credit-free loans, Filipino microentrepreneurs, small business loans Philippines" />
     <meta name="author" content="MSME Pathways" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://msmepathways.ph/" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://msmepathways.ph/" />
     <meta property="og:title" content="MSME Pathways - Smart Loan Support for Filipino Microentrepreneurs" />
     <meta property="og:description" content="AI-powered financial guidance app helping Filipino sari-sari stores, vendors, and micro-businesses access formal loans. No credit history needed." />
-    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:image" content="https://msmepathways.ph/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_PH" />
+    <meta property="og:site_name" content="MSME Pathways" />
     
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://msmepathways.ph/" />
-    <meta property="twitter:title" content="MSME Pathways - Smart Loan Support for Filipino Microentrepreneurs" />
-    <meta property="twitter:description" content="AI-powered financial guidance app helping Filipino sari-sari stores, vendors, and micro-businesses access formal loans. No credit history needed." />
-    <meta property="twitter:image" content="/og-image.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://msmepathways.ph/" />
+    <meta name="twitter:title" content="MSME Pathways - Smart Loan Support for Filipino Microentrepreneurs" />
+    <meta name="twitter:description" content="AI-powered financial guidance app helping Filipino sari-sari stores, vendors, and micro-businesses access formal loans. No credit history needed." />
+    <meta name="twitter:image" content="https://msmepathways.ph/og-image.png" />
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#1565C0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="MSME Pathways" />
+    
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "MobileApplication",
+        "name": "MSME Pathways",
+        "operatingSystem": "Android",
+        "applicationCategory": "FinanceApplication",
+        "description": "AI-powered financial guidance app helping Filipino micro-entrepreneurs access formal loans without credit history.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "PHP"
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.8",
+          "ratingCount": "10000"
+        },
+        "author": {
+          "@type": "Organization",
+          "name": "MSME Pathways",
+          "url": "https://msmepathways.ph"
+        }
+      }
+    </script>
+    
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "MSME Pathways",
+        "url": "https://msmepathways.ph",
+        "logo": "https://msmepathways.ph/logo.png",
+        "description": "Empowering Filipino Microentrepreneurs with AI-powered financial guidance and inclusive lending solutions.",
+        "foundingDate": "2024",
+        "sameAs": [
+          "https://www.facebook.com/msmepathways",
+          "https://www.instagram.com/msmepathways",
+          "https://www.linkedin.com/company/msmepathways"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+63-XXX-XXX-XXXX",
+          "contactType": "customer service",
+          "areaServed": "PH",
+          "availableLanguage": ["English", "Filipino"]
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>
