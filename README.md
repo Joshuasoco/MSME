@@ -19,55 +19,69 @@ If you are developing a production application, we recommend updating the config
 export default defineConfig([
   globalIgnores(['dist']),
   {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+    # MSME Pathways — Web
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+    A concise, user-facing web frontend for MSME Pathways: a platform that helps micro-entrepreneurs and freelancers in the Philippines access loans using alternative data.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    **Status**: Production-ready frontend (React + TypeScript)
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+    **Tech stack**
+    - React + TypeScript
+    - Vite
+    - Tailwind CSS
+    - Framer Motion, lucide-react (icons)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    **Quick start (local)**
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    1. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+    2. Create local environment variables by copying `.env.example` to `.env` and filling values:
+
+    ```bash
+    cp .env.example .env
+    # on Windows (PowerShell): Copy-Item .env.example .env
+    ```
+
+    Required environment variables (set locally or in your CI/CD provider):
+    - `VITE_BOTPRESS_BOT_ID`
+    - `VITE_BOTPRESS_CLIENT_ID`
+
+    3. Start development server:
+
+    ```bash
+    npm run dev
+    ```
+
+    4. Build for production:
+
+    ```bash
+    npm run build
+    ```
+
+    **Netlify deployment**
+    - Netlify does not read local `.env` files. Add the environment variables in the Netlify site dashboard under "Environment variables" and then trigger a deploy (choose "Clear cache and deploy site" for a clean build).
+    - Publish directory: `dist`
+
+    **Common tasks**
+    - `npm run dev` — start development server
+    - `npm run build` — run TypeScript and produce production assets
+    - `npm run preview` — preview production build locally
+
+    **Contributing**
+    - Create a branch: `git checkout -b feat/your-change`
+    - Run lint/tests and open a PR against `main`
+
+    **Contact**
+    - Project owner: Joshua Soco
+    - Repo: https://github.com/Joshuasoco/MSME
+
+    ---
+
+    If you'd like, I can also:
+    - Add a Netlify deployment checklist
+    - Add a GitHub Actions workflow to run `npm run build` on PRs
+    - Expand Windows-specific setup notes
