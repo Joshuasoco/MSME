@@ -1,17 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send } from 'lucide-react';
+import { X, Send, Loader2 } from 'lucide-react';
+
+interface Message {
+    from: 'user' | 'bot';
+    text: string;
+}
 
 const ChatWidget = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [messages, setMessages] = useState([
+    const [messages, setMessages] = useState<Message[]>([
         {
             from: 'bot',
             text: 'Kumusta! Ako si Aling Nina, ang iyong AI assistant. 👋 Paano kita matutulungan today?',
         },
     ]);
     const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Show widget after 10 seconds
     useEffect(() => {
@@ -19,25 +26,90 @@ const ChatWidget = () => {
         return () => clearTimeout(timer);
     }, []);
 
-    const handleSend = () => {
-        if (!input.trim()) return;
+    // Auto-scroll to bottom when new messages arrive
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
+    const getAIResponse = async (userMessage: string): Promise<string> => {
+        try {
+            // Context about MSME Pathways for the AI
+            const systemContext = `You are Aling Nina, a helpful Filipino AI assistant for MSME Pathways, a platform that helps micro-entrepreneurs and freelancers in the Philippines get loans without traditional credit history.
+
+Key information:
+- MSME Pathways uses alternative data (utility bills, business receipts, transaction history) instead of credit scores
+- The platform is 100% free and secure
+- Interest rates from partner lenders: 2-4% per month (lower than 5-6 loan sharks)
+- Application process: Download app, answer short questionnaire (3-5 minutes)
+- Common problems solved: No credit history, too much paperwork, no collateral
+- Target users: Sari-sari store owners, online sellers, freelancers, small business owners
+
+Respond in a friendly, conversational Filipino (Taglish) style. Keep responses concise (2-3 sentences max). Be helpful and encouraging.`;
+
+            // You can replace this with actual OpenAI API call
+            // For now, using intelligent pattern matching
+            const lowerMessage = userMessage.toLowerCase();
+
+            // Pattern-based responses
+            if (lowerMessage.includes('apply') || lowerMessage.includes('mag-apply') || lowerMessage.includes('paano')) {
+                return 'Para mag-apply, i-download mo lang ang MSME Pathways app sa Play Store or App Store. Sagutan ang short questionnaire tungkol sa business mo (3-5 minutes lang!), at submit mo ang alternative documents like utility bills o business receipts. 📱✨';
+            }
+            
+            if (lowerMessage.includes('magkano') || lowerMessage.includes('how much') || lowerMessage.includes('amount')) {
+                return 'Ang loan amount ay depende sa iyong business income at alternative data. Usually, pwede ka makakuha ng ₱5,000 to ₱50,000 for first-time borrowers. As you build your track record, mas tataas pa yan! 💰';
+            }
+            
+            if (lowerMessage.includes('free') || lowerMessage.includes('bayad') || lowerMessage.includes('fee')) {
+                return 'Oo, 100% free ang MSME Pathways platform! Walang application fee, walang processing fee. Ang babayaran mo lang ay yung loan principal plus interest from the lender. We\'re here to help, not to charge! 🎉';
+            }
+            
+            if (lowerMessage.includes('secure') || lowerMessage.includes('safe') || lowerMessage.includes('data') || lowerMessage.includes('privacy')) {
+                return 'Super secure ang data mo sa amin! We use bank-level encryption at comply kami sa Data Privacy Act of 2012. Your information is only used to help you get approved for loans. Hindi namin ito ibebenta or ishare without your permission. 🔒';
+            }
+            
+            if (lowerMessage.includes('interest') || lowerMessage.includes('rate') || lowerMessage.includes('hulog')) {
+                return 'Ang interest rates ng partner lenders namin ay 2-4% per month lang, mas mababa sa 5-6 na 5-20% per month! Plus, transparent ang terms - no hidden fees. Flexible din ang payment terms depending on your business cycle. 📊';
+            }
+            
+            if (lowerMessage.includes('credit') || lowerMessage.includes('history') || lowerMessage.includes('score')) {
+                return 'Good news! Hindi mo kailangan ng credit history or credit score! We use alternative data like your utility bills, business receipts, remittance history, at e-wallet transactions. Perfect para sa mga first-time borrowers! 🌟';
+            }
+            
+            if (lowerMessage.includes('document') || lowerMessage.includes('requirement') || lowerMessage.includes('kailangan')) {
+                return 'Simple lang ang requirements! Valid ID, proof of business (kahit receipt or photos lang), at alternative data like utility bills or transaction history. No collateral needed! Pwede kang mag-submit online through the app. 📄';
+            }
+            
+            if (lowerMessage.includes('approve') || lowerMessage.includes('approval') || lowerMessage.includes('gaano katagal')) {
+                return 'Ang approval process usually 24-48 hours lang! Once approved, ma-receive mo na ang funds within 1-3 business days. Sobrang bilis compared sa traditional banks na weeks to months! ⚡';
+            }
+
+            // Default intelligent response
+            return 'Salamat sa tanong mo! Ako si Aling Nina at nandito ako para tulungan ka. Pwede mo akong tanungin about loan application process, requirements, interest rates, or kahit ano related sa MSME Pathways. Just ask away! 😊';
+
+        } catch (error) {
+            console.error('Error getting AI response:', error);
+            return 'Sorry, may technical issue. Please try again or contact our support team. 🙏';
+        }
+    };
+
+    const handleSend = async () => {
+        if (!input.trim() || isLoading) return;
+
+        const userMessage = input.trim();
+        setInput('');
 
         // Add user message
-        setMessages((prev) => [...prev, { from: 'user', text: input }]);
+        setMessages((prev) => [...prev, { from: 'user', text: userMessage }]);
+        setIsLoading(true);
 
-        // Simulate bot response
+        // Get AI response
+        const response = await getAIResponse(userMessage);
+        
+        // Add bot response with typing delay
         setTimeout(() => {
-            const responses = [
-                'Salamat sa tanong mo! Para makakuha ng loan kahit walang credit history, gagamit tayo ng alternative data like utility bills at business receipts mo.',
-                'Maganda yan! Ang MSME Pathways ay 100% free at secure. Hindi kami mangongolekta ng bayad.',
-                'Para mag-apply, i-download mo lang ang app at sagutan ang short questionnaire. 3-5 minutes lang!',
-                'Good question! Ang interest rates ng mga partner lenders namin ay nasa 2-4% per month, mas mababa kaysa sa 5-6.',
-            ];
-            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-            setMessages((prev) => [...prev, { from: 'bot', text: randomResponse }]);
-        }, 1000);
-
-        setInput('');
+            setMessages((prev) => [...prev, { from: 'bot', text: response }]);
+            setIsLoading(false);
+        }, 800);
     };
 
     const quickQuestions = [
@@ -131,15 +203,29 @@ const ChatWidget = () => {
                                 </motion.div>
                             ))}
 
+                            {/* Loading indicator */}
+                            {isLoading && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="flex justify-start"
+                                >
+                                    <div className="max-w-[80%] px-4 py-3 rounded-2xl text-sm bg-white text-gray-800 shadow-sm border border-gray-100 rounded-bl-md flex items-center gap-2">
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                        <span>Typing...</span>
+                                    </div>
+                                </motion.div>
+                            )}
+
                             {/* Quick Questions (only show after first message) */}
-                            {messages.length === 1 && (
+                            {messages.length === 1 && !isLoading && (
                                 <div className="flex flex-wrap gap-2 mt-4">
                                     {quickQuestions.map((q, i) => (
                                         <button
                                             key={i}
                                             onClick={() => {
                                                 setInput(q);
-                                                handleSend();
+                                                setTimeout(handleSend, 100);
                                             }}
                                             className="px-3 py-1.5 bg-white border border-primary-blue/30 text-primary-blue text-xs rounded-full hover:bg-primary-blue hover:text-white transition-colors"
                                         >
@@ -148,6 +234,9 @@ const ChatWidget = () => {
                                     ))}
                                 </div>
                             )}
+
+                            {/* Auto-scroll anchor */}
+                            <div ref={messagesEndRef} />
                         </div>
 
                         {/* Input */}
@@ -157,15 +246,21 @@ const ChatWidget = () => {
                                     type="text"
                                     value={input}
                                     onChange={(e) => setInput(e.target.value)}
-                                    onKeyDown={(e) => e.key === 'Enter' && handleSend()}
+                                    onKeyDown={(e) => e.key === 'Enter' && !isLoading && handleSend()}
                                     placeholder="Type your message..."
-                                    className="flex-1 px-4 py-2.5 bg-gray-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue/20"
+                                    disabled={isLoading}
+                                    className="flex-1 px-4 py-2.5 bg-gray-50 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary-blue/20 disabled:opacity-50 disabled:cursor-not-allowed"
                                 />
                                 <button
                                     onClick={handleSend}
-                                    className="w-10 h-10 rounded-full bg-primary-blue text-white flex items-center justify-center hover:bg-primary-blue-dark transition-colors"
+                                    disabled={isLoading || !input.trim()}
+                                    className="w-10 h-10 rounded-full bg-primary-blue text-white flex items-center justify-center hover:bg-primary-blue-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
-                                    <Send className="w-4 h-4" />
+                                    {isLoading ? (
+                                        <Loader2 className="w-4 h-4 animate-spin" />
+                                    ) : (
+                                        <Send className="w-4 h-4" />
+                                    )}
                                 </button>
                             </div>
                             <p className="text-center text-[10px] text-gray-400 mt-2">

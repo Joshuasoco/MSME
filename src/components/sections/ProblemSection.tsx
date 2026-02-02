@@ -3,6 +3,7 @@ import { useRef } from 'react';
 import * as LucideIcons from 'lucide-react';
 import { AlertTriangle } from 'lucide-react';
 import { PROBLEMS } from '@/lib/constants';
+import ChatWidget from '@/components/common/ChatWidget';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
   CircleX: LucideIcons.CircleX,
@@ -168,6 +169,9 @@ const ProblemSection = () => {
           })}
         </div>
       </div>
+
+      {/* AI Chatbot Widget */}
+      <ChatWidget />
     </section>
   );
 };
