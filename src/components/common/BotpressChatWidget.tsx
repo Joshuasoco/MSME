@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
 
 declare global {
   interface Window {
-    botpressWebChat: any;
+    botpress: any;
   }
 }
 
@@ -13,70 +12,61 @@ const BotpressChatWidget = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Show widget after 10 seconds
+  // Your Botpress Bot ID from deployment
+  const BOTPRESS_BOT_ID = 'dd48763a-e8cb-4063-972b-8d989dd7fc8b';
+
+  // Show widget after 5 seconds
   useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(true), 10000);
+    const timer = setTimeout(() => setIsVisible(true), 5000);
     return () => clearTimeout(timer);
   }, []);
 
   // Load Botpress Web Chat script
   useEffect(() => {
-    // Get credentials from environment variables or use defaults
-    const BOTPRESS_BOT_ID = import.meta.env.VITE_BOTPRESS_BOT_ID || 'YOUR_BOT_ID_HERE';
-    const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID || 'YOUR_CLIENT_ID_HERE';
-    const BOTPRESS_STYLE_ID = import.meta.env.VITE_BOTPRESS_STYLE_ID || '';
-    const BOTPRESS_HOST = 'https://cdn.botpress.cloud/webchat/v2.2/inject.js';
-
-    // Check if credentials are configured
-    if (BOTPRESS_BOT_ID === 'YOUR_BOT_ID_HERE' || BOTPRESS_CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
-      console.warn('Botpress credentials not configured. Please set VITE_BOTPRESS_BOT_ID and VITE_BOTPRESS_CLIENT_ID in your .env file.');
-      // Fall back to pattern-based chatbot
-      return;
-    }
-
     // Check if script is already loaded
     if (document.getElementById('botpress-webchat-script')) {
       setIsLoaded(true);
       return;
     }
 
-    // Load Botpress script
+    // Load Botpress inject script
     const script = document.createElement('script');
     script.id = 'botpress-webchat-script';
-    script.src = BOTPRESS_HOST;
+    script.src = 'https://cdn.botpress.cloud/webchat/v2.2/inject.js';
     script.async = true;
 
     script.onload = () => {
       // Initialize Botpress Web Chat
-      window.botpressWebChat.init({
-        botId: BOTPRESS_BOT_ID,
-        clientId: BOTPRESS_CLIENT_ID,
-        hostUrl: 'https://cdn.botpress.cloud/webchat/v2.2',
-        messagingUrl: 'https://messaging.botpress.cloud',
-        botName: 'Aling Nina',
-        botDescription: 'AI Assistant for MSME Pathways',
-        hideWidget: true, // We'll use our custom button
-        showCloseButton: true,
-        showPoweredBy: false,
-        stylesheet: BOTPRESS_STYLE_ID ? `https://webchat-styler-css.botpress.app/prod/code/${BOTPRESS_STYLE_ID}.css` : undefined,
-        containerWidth: '360px',
-        layoutWidth: '360px',
-        useSessionStorage: true,
-        enableConversationDeletion: true,
-        enableTranscriptDownload: false,
-        closeOnEscape: true,
-        className: 'botpress-chat-widget',
-        themeColor: '#3b82f6', // primary-blue
-      });
+      if (window.botpress) {
+        window.botpress.init({
+          botId: BOTPRESS_BOT_ID,
+          configuration: {
+            botName: 'Aling Nina',
+            botDescription: 'AI Assistant para sa MSME Pathways',
+            fabIcon: 'bot',
+            themeColor: '#3b82f6',
+            textColor: '#ffffff',
+            showPoweredBy: false,
+            enableTranscriptDownload: false,
+            closeOnEscape: true,
+            containerWidth: '360px',
+            layoutWidth: '360px',
+            composerPlaceholder: 'Type your message...',
+            locale: 'en',
+          },
+        });
 
-      setIsLoaded(true);
-
-      // Listen to webchat events
-      window.botpressWebChat.onEvent((event: any) => {
-        if (event.type === 'LIFECYCLE.READY') {
-          console.log('Botpress webchat is ready');
-        }
-      }, 'LIFECYCLE.READY');
+        // Hide the default Botpress button (we use our own)
+        window.botpress.on('webchat:ready', () => {
+          setIsLoaded(true);
+          // Hide default fab button
+          const style = document.createElement('style');
+          style.textContent = `
+            #bp-web-widget-container .bpw-floating-button { display: none !important; }
+          `;
+          document.head.appendChild(style);
+        });
+      }
     };
 
     script.onerror = () => {
@@ -86,7 +76,6 @@ const BotpressChatWidget = () => {
     document.body.appendChild(script);
 
     return () => {
-      // Cleanup on unmount
       const existingScript = document.getElementById('botpress-webchat-script');
       if (existingScript) {
         existingScript.remove();
@@ -95,25 +84,41 @@ const BotpressChatWidget = () => {
   }, []);
 
   const toggleChat = () => {
-    if (!isLoaded || !window.botpressWebChat) {
-      console.error('Botpress Web Chat not loaded yet');
+    if (!isLoaded || !window.botpress) {
+      console.warn('Botpress not loaded yet');
       return;
     }
 
     if (isOpen) {
-      window.botpressWebChat.sendEvent({ type: 'hide' });
+      window.botpress.close();
     } else {
-      window.botpressWebChat.sendEvent({ type: 'show' });
+      window.botpress.open();
     }
     
     setIsOpen(!isOpen);
   };
 
+  // Listen for Botpress open/close events
+  useEffect(() => {
+    if (!window.botpress) return;
+
+    const handleOpen = () => setIsOpen(true);
+    const handleClose = () => setIsOpen(false);
+
+    window.botpress.on('webchat:opened', handleOpen);
+    window.botpress.on('webchat:closed', handleClose);
+
+    return () => {
+      window.botpress.off('webchat:opened', handleOpen);
+      window.botpress.off('webchat:closed', handleClose);
+    };
+  }, [isLoaded]);
+
   if (!isVisible) return null;
 
   return (
     <>
-      {/* Chat Button */}
+      {/* Custom Chat Button */}
       <motion.div
         className="fixed bottom-6 right-6 z-50"
         initial={{ opacity: 0, scale: 0 }}
@@ -127,7 +132,9 @@ const BotpressChatWidget = () => {
           whileTap={{ scale: 0.95 }}
         >
           {/* Pulse ring */}
-          <span className="absolute inset-0 rounded-full bg-primary-blue animate-ping opacity-25" />
+          {!isOpen && (
+            <span className="absolute inset-0 rounded-full bg-primary-blue animate-ping opacity-25" />
+          )}
 
           {/* Bot avatar or close icon */}
           <AnimatePresence mode="wait">
@@ -138,8 +145,9 @@ const BotpressChatWidget = () => {
                 animate={{ rotate: 0, opacity: 1 }}
                 exit={{ rotate: 180, opacity: 0 }}
                 transition={{ duration: 0.2 }}
+                className="text-white text-2xl"
               >
-                <X className="relative w-6 h-6 text-white" />
+                ✕
               </motion.div>
             ) : (
               <motion.div
@@ -168,48 +176,15 @@ const BotpressChatWidget = () => {
         </motion.button>
       </motion.div>
 
-      {/* Custom styling for Botpress webchat */}
+      {/* Custom styling for Botpress webchat positioning */}
       <style>{`
-        .botpress-chat-widget {
-          position: fixed !important;
-          bottom: 90px !important;
-          right: 24px !important;
+        #bp-web-widget-container {
           z-index: 40 !important;
         }
-
-        /* Animate the Botpress webchat */
-        #bp-web-widget-container {
-          animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(20px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        /* Custom scrollbar for Botpress chat */
-        #bp-web-widget-container ::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        #bp-web-widget-container ::-webkit-scrollbar-track {
-          background: #f1f5f9;
-          border-radius: 10px;
-        }
-
-        #bp-web-widget-container ::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
-          border-radius: 10px;
-        }
-
-        #bp-web-widget-container ::-webkit-scrollbar-thumb:hover {
-          background: #94a3b8;
+        
+        #bp-web-widget-container iframe {
+          bottom: 90px !important;
+          right: 24px !important;
         }
       `}</style>
     </>
