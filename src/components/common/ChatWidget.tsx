@@ -33,21 +33,8 @@ const ChatWidget = () => {
 
     const getAIResponse = async (userMessage: string): Promise<string> => {
         try {
-            // Context about MSME Pathways for the AI
-            const systemContext = `You are Aling Nina, a helpful Filipino AI assistant for MSME Pathways, a platform that helps micro-entrepreneurs and freelancers in the Philippines get loans without traditional credit history.
-
-Key information:
-- MSME Pathways uses alternative data (utility bills, business receipts, transaction history) instead of credit scores
-- The platform is 100% free and secure
-- Interest rates from partner lenders: 2-4% per month (lower than 5-6 loan sharks)
-- Application process: Download app, answer short questionnaire (3-5 minutes)
-- Common problems solved: No credit history, too much paperwork, no collateral
-- Target users: Sari-sari store owners, online sellers, freelancers, small business owners
-
-Respond in a friendly, conversational Filipino (Taglish) style. Keep responses concise (2-3 sentences max). Be helpful and encouraging.`;
-
-            // You can replace this with actual OpenAI API call
-            // For now, using intelligent pattern matching
+            // Using intelligent pattern matching for chat responses
+            // Context: Aling Nina is a helpful Filipino AI assistant for MSME Pathways
             const lowerMessage = userMessage.toLowerCase();
 
             // Pattern-based responses
