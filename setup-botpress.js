@@ -5,9 +5,13 @@
  * Run this to configure your Botpress chatbot integration
  */
 
-const readline = require('readline');
-const fs = require('fs');
-const path = require('path');
+import readline from 'readline';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -61,7 +65,7 @@ VITE_BOTPRESS_CLIENT_ID=${clientId}
 ${styleId ? `VITE_BOTPRESS_STYLE_ID=${styleId}` : '# VITE_BOTPRESS_STYLE_ID='}
 `;
 
-    const envPath = path.join(process.cwd(), '.env');
+    const envPath = path.join(__dirname, '.env');
     fs.writeFileSync(envPath, envContent);
 
     console.log(`
