@@ -2,7 +2,7 @@ import { z, defineConfig } from "@botpress/runtime";
 
 export default defineConfig({
   name: "msme-chatbot",
-  description: "An AI agent built with Botpress ADK",
+  description: "AI assistant for MSME Pathways - helps Filipino micro-entrepreneurs get loans",
 
   bot: {
     state: z.object({}),
@@ -13,6 +13,11 @@ export default defineConfig({
   },
 
   dependencies: {
-    integrations: {},
+    integrations: {
+      webchat: {
+        version: "webchat@0.3.0",
+        enabled: true,
+      },
+    },
   },
 });

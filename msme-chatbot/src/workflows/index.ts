@@ -1,8 +1,6 @@
 /**
- * TODO: Add your workflows here
- *
- * This is a placeholder file to initialize the workflows directory.
- * You can delete this file once you add your own workflows.
+ * Workflows are not needed for this agent.
+ * All conversation logic is handled in src/conversations/index.ts
  */
 
 export default {};
