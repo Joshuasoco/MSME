@@ -168,12 +168,17 @@ const HeroSection = () => {
                             <Button
                                 asChild
                                 size="lg"
-                                className="group relative rounded-full gap-3 text-lg px-8 py-7 bg-gradient-to-r from-primary-blue to-primary-blue-dark hover:from-primary-blue-dark hover:to-primary-blue shadow-xl shadow-primary-blue/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                                className="group relative rounded-full gap-3 text-lg px-8 py-7 bg-gradient-to-r from-primary-blue to-primary-blue-dark hover:from-primary-blue-dark hover:to-primary-blue shadow-xl shadow-primary-blue/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-yellow focus-visible:ring-offset-2"
                             >
-                                <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                                <a 
+                                    href={APP_LINKS.playStore} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    aria-label="Download MSME Pathways app for free on Google Play Store"
+                                >
                                     <Download className="w-5 h-5 group-hover:animate-bounce" />
                                     Download Free
-                                    <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-primary-yellow text-dark text-xs font-bold rounded-full shadow-lg">
+                                    <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-primary-yellow text-dark text-xs font-bold rounded-full shadow-lg" aria-hidden="true">
                                         FREE
                                     </span>
                                 </a>
@@ -181,8 +186,9 @@ const HeroSection = () => {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="rounded-full gap-2 text-lg px-8 py-7 border-2 border-gray-200 hover:border-primary-blue hover:bg-primary-blue/5 transition-all duration-300"
+                                className="rounded-full gap-2 text-lg px-8 py-7 border-2 border-gray-200 hover:border-primary-blue hover:bg-primary-blue/5 transition-all duration-300 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
                                 onClick={scrollToFeatures}
+                                aria-label="Learn more about features"
                             >
                                 Alamin Pa
                                 <ChevronDown className="w-5 h-5" />
