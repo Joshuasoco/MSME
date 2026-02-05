@@ -137,25 +137,6 @@ const FAQSection = () => {
                                                 aria-hidden="true"
                                             />
                                         </button>
-                                                    }`}>
-                                                    {index + 1}
-                                                </span>
-                                                <span className={`font-semibold text-lg transition-colors ${openIndex === index ? 'text-primary-blue' : 'text-gray-900'
-                                                    }`}>
-                                                    {faq.question}
-                                                </span>
-                                            </span>
-                                            <motion.div
-                                                animate={{ rotate: openIndex === index ? 180 : 0 }}
-                                                transition={{ duration: 0.3 }}
-                                                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openIndex === index
-                                                        ? 'bg-primary-blue text-white'
-                                                        : 'bg-gray-100 text-gray-600'
-                                                    }`}
-                                            >
-                                                <ChevronDown className="w-4 h-4" />
-                                            </motion.div>
-                                        </button>
 
                                         {/* Answer */}
                                         <motion.div
