@@ -281,9 +281,11 @@ const HeroSection = () => {
                                             <div className="p-4 pt-10">
                                                 {/* Header */}
                                                 <div className="flex items-center gap-3 mb-4">
-                                                    <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-                                                        <span className="text-white font-bold text-lg">M</span>
-                                                    </div>
+                                                    <img 
+                                                        src="/msmeLogo.png" 
+                                                        alt="MSME Pathways" 
+                                                        className="w-10 h-10 rounded-xl object-contain bg-white/20 backdrop-blur-sm p-1"
+                                                    />
                                                     <div>
                                                         <p className="text-white font-semibold text-sm">MSME Pathways</p>
                                                         <p className="text-white/60 text-[10px]">Your Financial Guide</p>

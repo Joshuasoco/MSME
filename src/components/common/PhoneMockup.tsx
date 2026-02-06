@@ -35,9 +35,11 @@ const PhoneMockup = ({ animate = false }: PhoneMockupProps) => {
                     <div className="w-full h-full bg-gradient-to-b from-blue-50 to-white pt-12 px-4">
                         {/* App Header */}
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
-                                <span className="text-white font-bold text-lg">M</span>
-                            </div>
+                            <img 
+                                src="/msmeLogo.png" 
+                                alt="MSME Pathways" 
+                                className="w-10 h-10 rounded-xl object-contain"
+                            />
                             <div>
                                 <p className="font-semibold text-gray-800 text-sm">MSME Pathways</p>
                                 <p className="text-[10px] text-gray-500">Your Financial Journey</p>

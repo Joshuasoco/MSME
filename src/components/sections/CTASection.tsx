@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Download, ArrowRight, CheckCircle, Sparkles, Zap } from 'lucide-react';
+import { Download, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
 
@@ -229,11 +229,15 @@ const CTASection = () => {
                                             {/* Success Screen */}
                                             <div className="absolute inset-0 flex flex-col items-center justify-center text-white p-6">
                                                 <motion.div
-                                                    className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-6"
+                                                    className="w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-6 overflow-hidden"
                                                     animate={{ scale: [1, 1.1, 1] }}
                                                     transition={{ duration: 2, repeat: Infinity }}
                                                 >
-                                                    <Zap className="w-12 h-12 text-primary-yellow" />
+                                                    <img 
+                                                        src="/msmeLogo.png" 
+                                                        alt="MSME Pathways" 
+                                                        className="w-16 h-16 object-contain"
+                                                    />
                                                 </motion.div>
                                                 <p className="text-2xl font-bold mb-2">Ready ka na!</p>
                                                 <p className="text-white/70 text-center text-sm">

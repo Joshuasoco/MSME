@@ -16,21 +16,11 @@ const LoadingScreen = () => {
           transition={{ duration: 0.5 }}
           className="mb-6"
         >
-          <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-primary-blue to-primary-blue-dark flex items-center justify-center shadow-lg">
-            <svg className="w-12 h-12" viewBox="0 0 64 64" fill="none">
-              <path
-                d="M20 44 L32 20 L44 44"
-                stroke="#FFC107"
-                strokeWidth="4"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
-              <circle cx="32" cy="20" r="4" fill="#FFC107" />
-              <circle cx="20" cy="44" r="3" fill="#E53935" />
-              <circle cx="44" cy="44" r="3" fill="#E53935" />
-            </svg>
-          </div>
+          <img 
+            src="/msmeLogo.png" 
+            alt="MSME Pathways" 
+            className="w-24 h-24 mx-auto object-contain"
+          />
         </motion.div>
 
         {/* Brand Name */}

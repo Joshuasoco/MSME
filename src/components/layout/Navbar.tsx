@@ -47,14 +47,7 @@ const Navbar = () => {
                         handleNavClick('#home');
                     }}
                 >
-                    <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
-                        <svg className="w-6 h-6" viewBox="0 0 64 64" fill="none">
-                            <path d="M20 44 L32 20 L44 44" stroke="#FFC107" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-                            <circle cx="32" cy="20" r="4" fill="#FFC107" />
-                            <circle cx="20" cy="44" r="3" fill="#E53935" />
-                            <circle cx="44" cy="44" r="3" fill="#E53935" />
-                        </svg>
-                    </div>
+                    <img src="/msmeLogo.png" alt="MSME Pathways Logo" className="w-14 h-14 md:w-16 md:h-16 rounded-lg object-contain" />
                     <span className={cn(
                         'font-display font-bold text-lg md:text-xl transition-colors',
                         isScrolled ? 'text-dark' : 'text-dark'
