@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import DarkModeToggle from '@/components/common/DarkModeToggle';
 import { cn } from '@/lib/utils';
 import { NAV_LINKS, APP_LINKS } from '@/lib/constants';
 
@@ -86,14 +85,13 @@ const Navbar = () => {
                     ))}
                 </motion.nav>
 
-                {/* CTA Button & Dark Mode */}
+                {/* CTA Button */}
                 <motion.div
                     className="hidden md:flex items-center gap-3"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                    <DarkModeToggle />
                     <Button asChild size="lg" className="gap-2 rounded-full">
                         <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
                             <Download className="w-4 h-4" />
