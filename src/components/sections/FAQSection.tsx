@@ -6,10 +6,21 @@ import { FAQS } from '@/lib/constants';
 const FAQSection = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
+    const toggleFAQ = (index: number) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleFAQ(index);
+        }
+    };
+
     return (
-        <section id="faq" className="relative py-24 md:py-32 bg-white overflow-hidden">
+        <section id="faq" className="relative py-24 md:py-32 bg-white overflow-hidden" aria-labelledby="faq-heading">
             {/* Background Decorations */}
-            <div className="absolute inset-0">
+            <div className="absolute inset-0" aria-hidden="true">
                 <motion.div
                     className="absolute top-20 left-10 w-72 h-72 bg-primary-blue/5 rounded-full blur-3xl"
                     animate={{ scale: [1, 1.2, 1] }}
@@ -23,7 +34,7 @@ const FAQSection = () => {
             </div>
 
             {/* Large Decorative Text */}
-            <div className="absolute top-32 right-0 pointer-events-none overflow-hidden">
+            <div className="absolute top-32 right-0 pointer-events-none overflow-hidden" aria-hidden="true">
                 <span className="text-[180px] md:text-[250px] font-black text-gray-50 leading-none select-none">
                     FAQ
                 </span>
@@ -100,35 +111,38 @@ const FAQSection = () => {
                                     >
                                         {/* Question */}
                                         <button
-                                            onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                                            className="flex items-center justify-between w-full p-6 text-left"
+                                            onClick={() => toggleFAQ(index)}
+                                            onKeyDown={(e) => handleKeyDown(e, index)}
+                                            className="flex items-center justify-between w-full p-6 text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-inset rounded-2xl"
+                                            aria-expanded={openIndex === index}
+                                            aria-controls={`faq-answer-${index}`}
+                                            id={`faq-question-${index}`}
                                         >
                                             <span className="flex items-center gap-4">
                                                 <span className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-colors ${openIndex === index
                                                         ? 'bg-primary-blue text-white'
                                                         : 'bg-gray-200 text-gray-600 group-hover:bg-primary-blue/10 group-hover:text-primary-blue'
-                                                    }`}>
-                                                    {index + 1}
+                                                    }`}
+                                                    aria-hidden="true"
+                                                >
+                                                    {String(index + 1).padStart(2, '0')}
                                                 </span>
-                                                <span className={`font-semibold text-lg transition-colors ${openIndex === index ? 'text-primary-blue' : 'text-gray-900'
-                                                    }`}>
+                                                <span className="font-semibold text-dark text-lg pr-4">
                                                     {faq.question}
                                                 </span>
                                             </span>
-                                            <motion.div
-                                                animate={{ rotate: openIndex === index ? 180 : 0 }}
-                                                transition={{ duration: 0.3 }}
-                                                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-colors ${openIndex === index
-                                                        ? 'bg-primary-blue text-white'
-                                                        : 'bg-gray-100 text-gray-600'
+                                            <ChevronDown
+                                                className={`w-5 h-5 flex-shrink-0 text-gray-400 transition-transform duration-300 ${openIndex === index ? 'rotate-180 text-primary-blue' : ''
                                                     }`}
-                                            >
-                                                <ChevronDown className="w-4 h-4" />
-                                            </motion.div>
+                                                aria-hidden="true"
+                                            />
                                         </button>
 
                                         {/* Answer */}
                                         <motion.div
+                                            id={`faq-answer-${index}`}
+                                            role="region"
+                                            aria-labelledby={`faq-question-${index}`}
                                             initial={false}
                                             animate={{
                                                 height: openIndex === index ? 'auto' : 0,

@@ -8,6 +8,9 @@ import LoadingScreen from '@/components/common/LoadingScreen';
 import ScrollToTop from '@/components/common/ScrollToTop';
 import CookieConsent from '@/components/common/CookieConsent';
 import BotpressChatWidget from '@/components/common/BotpressChatWidget';
+import SEOHead from '@/components/common/SEOHead';
+import { ToastContainer } from '@/components/ui/toast';
+import { useToast } from '@/hooks/useToast';
 
 // Lazy load below-fold sections for better performance
 const ProblemSection = lazy(() => import('@/components/sections/ProblemSection'));
@@ -37,6 +40,7 @@ const SectionLoader = () => (
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const { toasts, removeToast } = useToast();
 
   useEffect(() => {
     // Simulate initial load / wait for fonts
@@ -46,6 +50,12 @@ function App() {
 
   return (
     <ErrorBoundary>
+      {/* SEO Meta Tags */}
+      <SEOHead />
+
+      {/* Toast Notifications */}
+      <ToastContainer toasts={toasts.map(t => ({ ...t, onClose: removeToast }))} />
+
       {/* Loading Screen */}
       <AnimatePresence mode="wait">
         {isLoading && <LoadingScreen />}
@@ -54,8 +64,9 @@ function App() {
       <div className="min-h-screen bg-white">
         {/* Skip to content link for accessibility */}
         <a
-          href="#home"
-          className="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-blue focus:text-white focus:rounded-lg"
+          href="#main-content"
+          className="skip-link sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary-blue focus:text-white focus:rounded-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+          aria-label="Skip to main content"
         >
           Skip to main content
         </a>

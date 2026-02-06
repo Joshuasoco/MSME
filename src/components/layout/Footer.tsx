@@ -61,7 +61,8 @@ const Footer = () => {
                                 <li key={link.href}>
                                     <a
                                         href={link.href}
-                                        className="text-gray-400 hover:text-primary-yellow transition-colors text-sm"
+                                        className="text-gray-400 hover:text-primary-yellow transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-yellow rounded px-1 py-0.5"
+                                        aria-label={`Navigate to ${link.label}`}
                                     >
                                         {link.label}
                                     </a>
@@ -70,7 +71,8 @@ const Footer = () => {
                             <li>
                                 <a
                                     href="/privacy-policy"
-                                    className="text-gray-400 hover:text-primary-yellow transition-colors text-sm"
+                                    className="text-gray-400 hover:text-primary-yellow transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-yellow rounded px-1 py-0.5"
+                                    aria-label="View Privacy Policy"
                                 >
                                     Privacy Policy
                                 </a>
@@ -78,7 +80,8 @@ const Footer = () => {
                             <li>
                                 <a
                                     href="/terms-of-service"
-                                    className="text-gray-400 hover:text-primary-yellow transition-colors text-sm"
+                                    className="text-gray-400 hover:text-primary-yellow transition-colors text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-yellow rounded px-1 py-0.5"
+                                    aria-label="View Terms of Service"
                                 >
                                     Terms of Service
                                 </a>
