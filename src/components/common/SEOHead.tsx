@@ -8,6 +8,7 @@ interface SEOHeadProps {
   ogType?: string
   twitterCard?: string
   canonicalUrl?: string
+  breadcrumbs?: Array<{ name: string; url: string }>
 }
 
 const SEOHead = ({
@@ -18,6 +19,7 @@ const SEOHead = ({
   ogType = 'website',
   twitterCard = 'summary_large_image',
   canonicalUrl = 'https://msmepathways.ph',
+  breadcrumbs = [],
 }: SEOHeadProps) => {
   useEffect(() => {
     // Update document title
@@ -50,16 +52,23 @@ const SEOHead = ({
     setMetaTag('og:title', title, true)
     setMetaTag('og:description', description, true)
     setMetaTag('og:image', ogImage, true)
+    setMetaTag('og:image:width', '1200', true)
+    setMetaTag('og:image:height', '630', true)
+    setMetaTag('og:image:alt', title, true)
     setMetaTag('og:url', canonicalUrl, true)
     setMetaTag('og:type', ogType, true)
     setMetaTag('og:site_name', 'MSME Pathways', true)
     setMetaTag('og:locale', 'en_PH', true)
+    setMetaTag('og:locale:alternate', 'tl_PH', true)
 
     // Twitter Card tags
     setMetaTag('twitter:card', twitterCard)
+    setMetaTag('twitter:site', '@msmepathways')
+    setMetaTag('twitter:creator', '@msmepathways')
     setMetaTag('twitter:title', title)
     setMetaTag('twitter:description', description)
     setMetaTag('twitter:image', ogImage)
+    setMetaTag('twitter:image:alt', title)
 
     // Mobile app meta tags
     setMetaTag('mobile-web-app-capable', 'yes')
@@ -79,41 +88,100 @@ const SEOHead = ({
     }
     linkTag.setAttribute('href', canonicalUrl)
 
-    // Structured Data (JSON-LD)
-    const structuredData = {
+    // Structured Data (JSON-LD) - Organization
+    const organizationData = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'MSME Pathways',
       description: description,
       url: canonicalUrl,
-      logo: `${canonicalUrl}/logo.png`,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${canonicalUrl}/logo.png`,
+        width: '512',
+        height: '512',
+      },
+      image: ogImage,
       contactPoint: {
         '@type': 'ContactPoint',
         telephone: '+63-XXX-XXX-XXXX',
         contactType: 'Customer Service',
         email: 'support@msmepathways.ph',
         availableLanguage: ['English', 'Filipino'],
+        areaServed: 'PH',
       },
       sameAs: [
         'https://facebook.com/msmepathways',
         'https://instagram.com/msmepathways',
         'https://linkedin.com/company/msmepathways',
       ],
-      areaServed: 'Philippines',
+      areaServed: {
+        '@type': 'Country',
+        name: 'Philippines',
+      },
       founder: {
         '@type': 'Organization',
         name: 'MSME Pathways Team',
       },
+      knowsAbout: [
+        'Microfinance',
+        'Small Business Lending',
+        'Financial Inclusion',
+        'AI Financial Advisory',
+        'MSME Support',
+      ],
     }
 
-    let scriptTag = document.querySelector('script[type="application/ld+json"]')
-    if (!scriptTag) {
-      scriptTag = document.createElement('script')
-      scriptTag.setAttribute('type', 'application/ld+json')
-      document.head.appendChild(scriptTag)
+    // WebSite Schema with Search Action
+    const websiteData = {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'MSME Pathways',
+      url: canonicalUrl,
+      description: description,
+      publisher: {
+        '@type': 'Organization',
+        name: 'MSME Pathways',
+      },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${canonicalUrl}/search?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
     }
-    scriptTag.textContent = JSON.stringify(structuredData)
-  }, [title, description, keywords, ogImage, ogType, twitterCard, canonicalUrl])
+
+    // Breadcrumb Schema
+    const breadcrumbData = breadcrumbs.length > 0 ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((crumb, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: crumb.name,
+        item: crumb.url,
+      })),
+    } : null
+
+    // Combine all structured data
+    const structuredDataArray = [organizationData, websiteData]
+    if (breadcrumbData) {
+      structuredDataArray.push(breadcrumbData)
+    }
+
+    // Remove old script tags
+    document.querySelectorAll('script[type="application/ld+json"]').forEach(tag => tag.remove())
+
+    // Add new structured data scripts
+    structuredDataArray.forEach((data) => {
+      const scriptTag = document.createElement('script')
+      scriptTag.setAttribute('type', 'application/ld+json')
+      scriptTag.textContent = JSON.stringify(data)
+      document.head.appendChild(scriptTag)
+    })
+  }, [title, description, keywords, ogImage, ogType, twitterCard, canonicalUrl, breadcrumbs])
 
   return null
 }
