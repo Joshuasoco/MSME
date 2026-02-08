@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 
 interface SEOHeadProps {
   title?: string
@@ -21,6 +21,9 @@ const SEOHead = ({
   canonicalUrl = 'https://msmepathways.ph',
   breadcrumbs = [],
 }: SEOHeadProps) => {
+  // Create a stable reference for breadcrumbs to avoid unnecessary re-renders
+  const breadcrumbsKey = useMemo(() => JSON.stringify(breadcrumbs), [breadcrumbs])
+
   useEffect(() => {
     // Update document title
     document.title = title
@@ -166,7 +169,7 @@ const SEOHead = ({
     } : null
 
     // Combine all structured data
-    const structuredDataArray = [organizationData, websiteData]
+    const structuredDataArray: Array<Record<string, any>> = [organizationData, websiteData]
     if (breadcrumbData) {
       structuredDataArray.push(breadcrumbData)
     }
@@ -181,7 +184,7 @@ const SEOHead = ({
       scriptTag.textContent = JSON.stringify(data)
       document.head.appendChild(scriptTag)
     })
-  }, [title, description, keywords, ogImage, ogType, twitterCard, canonicalUrl, breadcrumbs])
+  }, [title, description, keywords, ogImage, ogType, twitterCard, canonicalUrl, breadcrumbsKey])
 
   return null
 }
