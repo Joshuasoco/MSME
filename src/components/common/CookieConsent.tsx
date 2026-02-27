@@ -5,6 +5,11 @@ import { Cookie, X } from 'lucide-react';
 const CookieConsent = () => {
   const [isVisible, setIsVisible] = useState(false);
 
+  const openPrivacyPolicy = () => {
+    window.dispatchEvent(new CustomEvent('msme:open-legal', { detail: 'privacy' }));
+    setIsVisible(false);
+  };
+
   useEffect(() => {
     const consent = localStorage.getItem('cookie-consent');
     if (!consent) {
@@ -43,9 +48,13 @@ const CookieConsent = () => {
                 <p className="text-sm text-gray-600">
                   We use cookies to improve your experience and analyze site traffic. 
                   By continuing, you agree to our{' '}
-                  <a href="/privacy-policy" className="text-primary-blue hover:underline">
+                  <button
+                    type="button"
+                    onClick={openPrivacyPolicy}
+                    className="text-primary-blue hover:underline"
+                  >
                     Privacy Policy
-                  </a>.
+                  </button>.
                 </p>
               </div>
               <div className="flex items-center gap-2 w-full md:w-auto">

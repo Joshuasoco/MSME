@@ -1,4 +1,5 @@
 import { useEffect, useMemo } from 'react'
+import { CONTACT_INFO, SITE_URL } from '@/lib/constants'
 
 interface SEOHeadProps {
   title?: string
@@ -15,16 +16,18 @@ const SEOHead = ({
   title = 'MSME Pathways - AI-Powered Financial Inclusion for Filipino Microentrepreneurs',
   description = 'Walang Credit History? Pwede Ka Pa Rin! Get AI-powered financial guidance and inclusive lending solutions. No credit history required. Built for Filipino microentrepreneurs.',
   keywords = 'MSME, microenterprise, lending, Philippines, AI financial advisor, credit, small business loans, sari-sari store, financial inclusion',
-  ogImage = 'https://msmepathways.ph/og-image.jpg',
+  ogImage = `${SITE_URL}/og-image.png`,
   ogType = 'website',
   twitterCard = 'summary_large_image',
-  canonicalUrl = 'https://msmepathways.ph',
+  canonicalUrl = `${SITE_URL}/`,
   breadcrumbs = [],
 }: SEOHeadProps) => {
   // Create a stable reference for breadcrumbs to avoid unnecessary re-renders
   const breadcrumbsKey = useMemo(() => JSON.stringify(breadcrumbs), [breadcrumbs])
 
   useEffect(() => {
+    const normalizedCanonicalUrl = canonicalUrl.replace(/\/+$/, '')
+
     // Update document title
     document.title = title
 
@@ -58,7 +61,7 @@ const SEOHead = ({
     setMetaTag('og:image:width', '1200', true)
     setMetaTag('og:image:height', '630', true)
     setMetaTag('og:image:alt', title, true)
-    setMetaTag('og:url', canonicalUrl, true)
+    setMetaTag('og:url', normalizedCanonicalUrl, true)
     setMetaTag('og:type', ogType, true)
     setMetaTag('og:site_name', 'MSME Pathways', true)
     setMetaTag('og:locale', 'en_PH', true)
@@ -89,30 +92,34 @@ const SEOHead = ({
       linkTag.setAttribute('rel', 'canonical')
       document.head.appendChild(linkTag)
     }
-    linkTag.setAttribute('href', canonicalUrl)
+    linkTag.setAttribute('href', normalizedCanonicalUrl)
 
     // Structured Data (JSON-LD) - Organization
+    const contactPoint: Record<string, unknown> = {
+      '@type': 'ContactPoint',
+      contactType: 'Customer Service',
+      email: CONTACT_INFO.email,
+      availableLanguage: ['English', 'Filipino'],
+      areaServed: 'PH',
+    }
+    if (CONTACT_INFO.phone) {
+      contactPoint.telephone = CONTACT_INFO.phone
+    }
+
     const organizationData = {
       '@context': 'https://schema.org',
       '@type': 'Organization',
       name: 'MSME Pathways',
       description: description,
-      url: canonicalUrl,
+      url: normalizedCanonicalUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${canonicalUrl}/logo.png`,
+        url: `${normalizedCanonicalUrl}/msmeLogo.png`,
         width: '512',
         height: '512',
       },
       image: ogImage,
-      contactPoint: {
-        '@type': 'ContactPoint',
-        telephone: '+63-XXX-XXX-XXXX',
-        contactType: 'Customer Service',
-        email: 'support@msmepathways.ph',
-        availableLanguage: ['English', 'Filipino'],
-        areaServed: 'PH',
-      },
+      contactPoint,
       sameAs: [
         'https://facebook.com/msmepathways',
         'https://instagram.com/msmepathways',
@@ -140,7 +147,7 @@ const SEOHead = ({
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'MSME Pathways',
-      url: canonicalUrl,
+      url: normalizedCanonicalUrl,
       description: description,
       publisher: {
         '@type': 'Organization',
@@ -150,7 +157,7 @@ const SEOHead = ({
         '@type': 'SearchAction',
         target: {
           '@type': 'EntryPoint',
-          urlTemplate: `${canonicalUrl}/search?q={search_term_string}`,
+          urlTemplate: `${normalizedCanonicalUrl}/search?q={search_term_string}`,
         },
         'query-input': 'required name=search_term_string',
       },

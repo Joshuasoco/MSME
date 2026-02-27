@@ -1,10 +1,11 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
 import { Users, TrendingUp, Star, CheckCircle } from 'lucide-react';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const stats = [
   {
-    displayValue: '10K+',
     label: 'Active Users',
     description: 'Trusted by thousands',
     icon: Users,
@@ -16,7 +17,6 @@ const stats = [
     suffix: '+',
   },
   {
-    displayValue: '₱50M+',
     label: 'Loans Enabled',
     description: 'Enabling dreams',
     icon: TrendingUp,
@@ -24,11 +24,10 @@ const stats = [
     bgColor: 'bg-emerald-50',
     textColor: 'text-emerald-600',
     countEnd: 50,
-    prefix: '₱',
+    prefix: 'PHP ',
     suffix: 'M+',
   },
   {
-    displayValue: '95%',
     label: 'Success Rate',
     description: 'Proven results',
     icon: CheckCircle,
@@ -40,7 +39,6 @@ const stats = [
     suffix: '%',
   },
   {
-    displayValue: '4.8',
     label: 'App Rating',
     description: 'Highly rated',
     icon: Star,
@@ -89,11 +87,11 @@ const CountUp = ({
         setCount(end);
       }
     };
+
     requestAnimationFrame(step);
   }, [isInView, end, duration]);
 
-  const formattedCount =
-    decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString();
+  const formattedCount = decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString();
 
   return (
     <span ref={ref}>
@@ -107,6 +105,9 @@ const CountUp = ({
 const StatsSection = () => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: '-100px' });
+  const prefersReducedMotion = useReducedMotion();
+  const isMobile = useIsMobile();
+  const allowAmbientMotion = !prefersReducedMotion && !isMobile;
 
   return (
     <section
@@ -114,33 +115,30 @@ const StatsSection = () => {
       id="stats"
       className="relative py-24 md:py-32 bg-gradient-to-b from-gray-50 to-white overflow-hidden"
     >
-      {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-40">
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)`,
+            backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(0,0,0,0.03) 1px, transparent 0)',
             backgroundSize: '40px 40px',
           }}
         />
       </div>
 
-      {/* Gradient Orbs */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
           className="absolute -top-32 -left-32 w-96 h-96 bg-primary-blue/5 rounded-full blur-3xl"
-          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.3, 0.5] }}
-          transition={{ duration: 8, repeat: Infinity }}
+          animate={allowAmbientMotion ? { scale: [1, 1.1, 1], opacity: [0.5, 0.3, 0.5] } : undefined}
+          transition={allowAmbientMotion ? { duration: 8, repeat: Infinity } : undefined}
         />
         <motion.div
           className="absolute -bottom-32 -right-32 w-96 h-96 bg-primary-yellow/5 rounded-full blur-3xl"
-          animate={{ scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 10, repeat: Infinity }}
+          animate={allowAmbientMotion ? { scale: [1.1, 1, 1.1], opacity: [0.3, 0.5, 0.3] } : undefined}
+          transition={allowAmbientMotion ? { duration: 10, repeat: Infinity } : undefined}
         />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
         <motion.div
           className="text-center mb-20"
           initial={{ opacity: 0, y: 30 }}
@@ -152,7 +150,7 @@ const StatsSection = () => {
             className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-blue/10 text-primary-blue text-sm font-medium rounded-full mb-6 border border-primary-blue/20"
             whileHover={{ scale: 1.02 }}
           >
-            <span className="w-2 h-2 bg-primary-blue rounded-full animate-pulse" />
+            <span className={`w-2 h-2 bg-primary-blue rounded-full ${allowAmbientMotion ? 'animate-pulse' : ''}`} />
             Our Impact
           </motion.span>
 
@@ -165,14 +163,11 @@ const StatsSection = () => {
           </h2>
 
           <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of Filipinos who are transforming their financial
-            journey with MSME Pathways
+            Join thousands of Filipinos who are transforming their financial journey with MSME Pathways.
           </p>
         </motion.div>
 
-        {/* Stats Grid - Clean Modern Layout */}
         <div className="relative max-w-6xl mx-auto">
-          {/* Central Brand Element */}
           <div className="hidden lg:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
             <motion.div
               className="relative"
@@ -180,10 +175,8 @@ const StatsSection = () => {
               animate={isInView ? { scale: 1, opacity: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.3, type: 'spring' }}
             >
-              {/* Outer Ring */}
-              <div className="absolute -inset-4 rounded-full border-2 border-dashed border-gray-200 animate-spin-slow" />
+              <div className={`absolute -inset-4 rounded-full border-2 border-dashed border-gray-200 ${allowAmbientMotion ? 'animate-spin-slow' : ''}`} />
 
-              {/* Main Circle */}
               <div className="w-40 h-40 rounded-full bg-gradient-to-br from-primary-blue via-primary-blue to-blue-700 shadow-2xl shadow-primary-blue/30 flex items-center justify-center">
                 <div className="text-center text-white">
                   <p className="text-2xl font-bold tracking-tight">MSME</p>
@@ -193,51 +186,44 @@ const StatsSection = () => {
                 </div>
               </div>
 
-              {/* Pulse Effect */}
               <motion.div
                 className="absolute inset-0 rounded-full bg-primary-blue/20"
-                animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={allowAmbientMotion ? { scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] } : undefined}
+                transition={allowAmbientMotion ? { duration: 2, repeat: Infinity } : undefined}
               />
             </motion.div>
           </div>
 
-          {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {stats.map((stat, index) => (
               <motion.div
-                key={index}
+                key={stat.label}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`${index === 1 || index === 2 ? 'lg:mt-32' : ''}`}
+                className={`${index === 1 || index === 2 ? 'xl:mt-24' : ''}`}
               >
                 <motion.div
                   className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 overflow-hidden"
-                  whileHover={{ y: -4 }}
+                  whileHover={allowAmbientMotion ? { y: -4 } : undefined}
                 >
-                  {/* Hover Gradient */}
                   <div
                     className={`absolute inset-0 ${stat.bgColor} opacity-0 group-hover:opacity-50 transition-opacity duration-500`}
                   />
 
-                  {/* Top Accent Line */}
                   <div
                     className={`absolute top-0 left-0 right-0 h-1 ${stat.color} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`}
                   />
 
-                  {/* Content */}
                   <div className="relative z-10">
-                    {/* Icon */}
                     <motion.div
                       className={`w-14 h-14 rounded-xl ${stat.bgColor} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
-                      whileHover={{ rotate: -5 }}
+                      whileHover={allowAmbientMotion ? { rotate: -5 } : undefined}
                     >
                       <stat.icon className={`w-7 h-7 ${stat.textColor}`} />
                     </motion.div>
 
-                    {/* Value with CountUp */}
                     <div className="mb-2">
                       <span className="text-4xl lg:text-5xl font-bold text-gray-900 tracking-tight">
                         <CountUp
@@ -249,16 +235,10 @@ const StatsSection = () => {
                       </span>
                     </div>
 
-                    {/* Label */}
-                    <p className="text-lg font-semibold text-gray-800 mb-1">
-                      {stat.label}
-                    </p>
-
-                    {/* Description */}
+                    <p className="text-lg font-semibold text-gray-800 mb-1">{stat.label}</p>
                     <p className="text-sm text-gray-500">{stat.description}</p>
                   </div>
 
-                  {/* Corner Decoration */}
                   <div
                     className={`absolute -bottom-8 -right-8 w-24 h-24 ${stat.color} opacity-5 rounded-full group-hover:opacity-10 transition-opacity duration-300`}
                   />
@@ -267,7 +247,6 @@ const StatsSection = () => {
             ))}
           </div>
 
-          {/* Connecting Lines SVG */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-none hidden lg:block -z-0"
             viewBox="0 0 1000 600"
@@ -303,7 +282,6 @@ const StatsSection = () => {
           </svg>
         </div>
 
-        {/* Trust Indicators */}
         <motion.div
           className="mt-20 text-center"
           initial={{ opacity: 0, y: 20 }}
@@ -313,12 +291,12 @@ const StatsSection = () => {
         >
           <div className="inline-flex items-center gap-3 px-6 py-3 bg-white rounded-full shadow-sm border border-gray-100">
             <div className="flex -space-x-2">
-              {[...Array(4)].map((_, i) => (
+              {['A', 'B', 'C', 'D'].map((initial) => (
                 <div
-                  key={i}
+                  key={initial}
                   className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-200 to-gray-300 border-2 border-white flex items-center justify-center text-xs font-medium text-gray-600"
                 >
-                  {['👨', '👩', '👴', '👧'][i]}
+                  {initial}
                 </div>
               ))}
             </div>
@@ -331,7 +309,6 @@ const StatsSection = () => {
         </motion.div>
       </div>
 
-      {/* Bottom Wave */}
       <div className="absolute bottom-0 left-0 right-0">
         <svg
           viewBox="0 0 1440 80"

@@ -103,7 +103,7 @@ const FeaturesSection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group lg:col-span-2 lg:row-span-2 relative bg-gradient-to-br from-primary-blue via-blue-600 to-indigo-700 rounded-3xl p-8 text-white overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
+                        className="group md:col-span-2 lg:col-span-2 lg:row-span-2 relative bg-gradient-to-br from-primary-blue via-blue-600 to-indigo-700 rounded-3xl p-8 text-white overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
                     >
                         {/* Animated Background Pattern */}
                         <div className="absolute inset-0 opacity-10">
@@ -173,7 +173,7 @@ const FeaturesSection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group lg:row-span-2 relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-emerald-100"
+                        className="group md:row-span-2 lg:row-span-2 relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-emerald-100"
                     >
                         <div className="h-full flex flex-col">
                             {/* Icon */}
@@ -267,7 +267,7 @@ const FeaturesSection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.3 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group lg:col-span-2 relative bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100"
+                        className="group md:col-span-2 lg:col-span-2 relative bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100"
                     >
                         <div className="flex flex-col md:flex-row gap-6 items-center">
                             <motion.div

@@ -195,10 +195,15 @@ export const SOCIAL_LINKS = [
     { icon: 'Linkedin', href: 'https://linkedin.com/company/msmepathways', label: 'LinkedIn' },
 ] as const;
 
+const envPhone = import.meta.env.VITE_CONTACT_PHONE?.trim();
+const envSiteUrl = import.meta.env.VITE_SITE_URL?.trim();
+
+export const SITE_URL = (envSiteUrl ? envSiteUrl.replace(/\/+$/, '') : 'https://msmepathways.ph');
+
 // Contact Info
 export const CONTACT_INFO = {
-    email: 'Joshuaco@msmepathways.ph',
-    phone: '+63 XXX XXX XXXX',
+    email: 'support@msmepathways.ph',
+    phone: envPhone ?? '',
     address: 'Pangasinan, Philippines',
 };
 

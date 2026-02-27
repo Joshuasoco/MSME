@@ -3,16 +3,23 @@ import { Download, ChevronDown, Sparkles, TrendingUp, Users, Shield, Lock, Build
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
 import { useRef } from 'react';
+import PhoneMockup from '@/components/common/PhoneMockup';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const HeroSection = () => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const prefersReducedMotion = useReducedMotion();
+    const isMobile = useIsMobile();
+    const allowAmbientMotion = !prefersReducedMotion && !isMobile;
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
-        offset: ["start start", "end start"]
+        offset: ['start start', 'end start'],
     });
 
-    const phoneY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-    const bgY = useTransform(scrollYProgress, [0, 1], [0, 50]);
+    const phoneY = useTransform(scrollYProgress, [0, 1], [0, -70]);
+    const bgY = useTransform(scrollYProgress, [0, 1], [0, 40]);
 
     const scrollToFeatures = () => {
         const element = document.querySelector('#features');
@@ -20,9 +27,9 @@ const HeroSection = () => {
     };
 
     const floatingStats = [
-        { icon: Users, value: '10K+', label: 'Users', delay: 0 },
-        { icon: TrendingUp, value: '₱50M+', label: 'Enabled', delay: 0.1 },
-        { icon: Shield, value: '100%', label: 'Secure', delay: 0.2 },
+        { icon: Users, value: '10K+', label: 'Users' },
+        { icon: TrendingUp, value: 'PHP 50M+', label: 'Enabled' },
+        { icon: Shield, value: '100%', label: 'Secure' },
     ];
 
     return (
@@ -31,152 +38,79 @@ const HeroSection = () => {
             id="home"
             className="relative min-h-screen flex items-center overflow-hidden pt-20"
         >
-            {/* Background with Patterns */}
             <motion.div
                 className="absolute inset-0 bg-gradient-to-br from-blue-50/80 via-white to-yellow-50/30"
-                style={{ y: bgY }}
+                style={allowAmbientMotion ? { y: bgY } : undefined}
             />
 
-            {/* Animated Dot Pattern */}
-            <div className="absolute inset-0 dot-pattern opacity-50" />
-
-            {/* Diagonal Stripe Accent */}
+            <div className="absolute inset-0 dot-pattern opacity-45" />
             <div className="absolute inset-0 stripe-pattern" />
 
-            {/* Large Decorative Gradient Blobs */}
-            <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <motion.div
-                    className="absolute -top-40 -left-40 w-[600px] h-[600px] rounded-full"
+                    className="absolute -top-36 -left-36 w-[480px] h-[480px] rounded-full"
                     style={{
-                        background: 'radial-gradient(circle, rgba(21,101,192,0.08) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(21,101,192,0.12) 0%, transparent 70%)',
                     }}
-                    animate={{
-                        scale: [1, 1.1, 1],
-                        rotate: [0, 10, 0]
-                    }}
-                    transition={{ duration: 15, repeat: Infinity }}
+                    animate={allowAmbientMotion ? { scale: [1, 1.08, 1], rotate: [0, 8, 0] } : undefined}
+                    transition={allowAmbientMotion ? { duration: 14, repeat: Infinity } : undefined}
                 />
                 <motion.div
-                    className="absolute -bottom-20 -right-20 w-[500px] h-[500px] rounded-full"
+                    className="absolute -bottom-24 -right-24 w-[420px] h-[420px] rounded-full"
                     style={{
-                        background: 'radial-gradient(circle, rgba(255,193,7,0.1) 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, rgba(255,193,7,0.14) 0%, transparent 70%)',
                     }}
-                    animate={{
-                        scale: [1.1, 1, 1.1],
-                        x: [0, 20, 0]
-                    }}
-                    transition={{ duration: 12, repeat: Infinity }}
+                    animate={allowAmbientMotion ? { scale: [1.06, 1, 1.06], x: [0, 20, 0] } : undefined}
+                    transition={allowAmbientMotion ? { duration: 12, repeat: Infinity } : undefined}
                 />
-
-                {/* Floating Particles */}
-                {[...Array(6)].map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className={`absolute w-${2 + i % 3} h-${2 + i % 3} rounded-full ${i % 2 === 0 ? 'bg-primary-blue/30' : 'bg-primary-yellow/40'}`}
-                        style={{
-                            left: `${15 + i * 15}%`,
-                            top: `${20 + i * 12}%`,
-                            width: 8 + i * 2,
-                            height: 8 + i * 2,
-                        }}
-                        animate={{
-                            y: [0, -30 - i * 10, 0],
-                            x: [0, (i % 2 ? 15 : -15), 0],
-                            opacity: [0.5, 1, 0.5]
-                        }}
-                        transition={{
-                            duration: 4 + i,
-                            repeat: Infinity,
-                            delay: i * 0.5
-                        }}
-                    />
-                ))}
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="grid lg:grid-cols-12 gap-8 lg:gap-4 items-center">
-                    {/* Left Content - Spans 7 columns */}
+                <div className="grid lg:grid-cols-12 gap-10 lg:gap-6 items-center">
                     <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.8 }}
+                        initial={{ opacity: 0, y: 16 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7 }}
                         className="lg:col-span-7 text-center lg:text-left"
                     >
-                        {/* Floating Badge */}
                         <motion.div
                             className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-primary-blue/20 text-primary-blue text-sm font-medium rounded-full mb-6 shadow-lg"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            whileHover={{ scale: 1.05 }}
+                            whileHover={{ scale: 1.03 }}
                         >
                             <Sparkles className="w-4 h-4 text-primary-yellow" />
                             AI-Powered Financial Inclusion
-                            <span className="flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-primary-yellow opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-yellow"></span>
+                        </motion.div>
+
+                        <h1 className="font-display font-bold leading-tight tracking-tight mb-6">
+                            <span className="block text-3xl sm:text-4xl md:text-5xl text-gray-600 font-medium">
+                                Walang Credit History?
                             </span>
-                        </motion.div>
+                            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gradient-blue">
+                                Pwede Ka
+                            </span>
+                            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gradient-gold pb-2">
+                                Pa Rin!
+                            </span>
+                        </h1>
 
-                        {/* Main Headline - Dramatic Typography */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3, duration: 0.6 }}
-                            className="mb-6 overflow-visible"
-                        >
-                            <h1 className="font-display font-bold leading-tight tracking-tight space-y-1 overflow-visible">
-                                <span className="block text-3xl md:text-4xl lg:text-5xl text-gray-600 font-medium">
-                                    Walang Credit History?
-                                </span>
-                                <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-gradient-blue">
-                                    Pwede Ka
-                                </span>
-                                <span className="block text-5xl md:text-6xl lg:text-7xl xl:text-8xl relative pb-4 overflow-visible min-h-[1.2em]">
-                                    <span className="text-gradient-gold inline-block">Pa Rin!</span>
-                                    <motion.span
-                                        className="absolute -right-2 -top-2 text-3xl pointer-events-none"
-                                        animate={{ rotate: [0, 15, 0], scale: [1, 1.2, 1] }}
-                                        transition={{ duration: 2, repeat: Infinity }}
-                                    >
-                                        <Sparkles className="w-8 h-8 text-primary-yellow" />
-                                    </motion.span>
-                                </span>
-                            </h1>
-                        </motion.div>
+                        <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+                            Hindi kailangan ng credit history. May AI na tutulong sa iyo para sa safe at easy na pag-loan,
+                            para sa sari-sari store owners, vendors, at home-based sellers.
+                        </p>
 
-                        {/* Subtitle */}
-                        <motion.p
-                            className="text-lg md:text-xl text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                        >
-                            Hindi kailangan ng credit history! May AI na tutulong sa'yo para sa{' '}
-                            <span className="font-semibold text-primary-blue">safe</span> at{' '}
-                            <span className="font-semibold text-primary-blue">easy</span> na pag-loan.
-                            Para sa mga sari-sari store owners, vendors, at home-based sellers.
-                        </motion.p>
-
-                        {/* CTAs */}
-                        <motion.div
-                            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 }}
-                        >
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
                             <Button
                                 asChild
                                 size="lg"
-                                className="group relative rounded-full gap-3 text-lg px-8 py-7 bg-gradient-to-r from-primary-blue to-primary-blue-dark hover:from-primary-blue-dark hover:to-primary-blue shadow-xl shadow-primary-blue/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-yellow focus-visible:ring-offset-2"
+                                className="group relative rounded-full gap-3 text-lg px-8 py-7 bg-gradient-to-r from-primary-blue to-primary-blue-dark hover:from-primary-blue-dark hover:to-primary-blue shadow-xl shadow-primary-blue/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl min-h-[44px]"
                             >
-                                <a 
-                                    href={APP_LINKS.playStore} 
-                                    target="_blank" 
+                                <a
+                                    href={APP_LINKS.playStore}
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Download MSME Pathways app for free on Google Play Store"
                                 >
-                                    <Download className="w-5 h-5 group-hover:animate-bounce" />
+                                    <Download className="w-5 h-5" />
                                     Download Free
                                     <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-primary-yellow text-dark text-xs font-bold rounded-full shadow-lg" aria-hidden="true">
                                         FREE
@@ -186,30 +120,26 @@ const HeroSection = () => {
                             <Button
                                 variant="outline"
                                 size="lg"
-                                className="rounded-full gap-2 text-lg px-8 py-7 border-2 border-gray-200 hover:border-primary-blue hover:bg-primary-blue/5 transition-all duration-300 min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
+                                className="rounded-full gap-2 text-lg px-8 py-7 border-2 border-gray-200 hover:border-primary-blue hover:bg-primary-blue/5 transition-all duration-300 min-h-[44px]"
                                 onClick={scrollToFeatures}
                                 aria-label="Learn more about features"
                             >
                                 Alamin Pa
                                 <ChevronDown className="w-5 h-5" />
                             </Button>
-                        </motion.div>
+                        </div>
 
-                        {/* Floating Stats Row */}
                         <motion.div
                             className="flex flex-wrap items-center gap-4 sm:gap-6 justify-center lg:justify-start"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 0.8 }}
+                            transition={{ delay: 0.3 }}
                         >
                             {floatingStats.map((stat, index) => (
                                 <motion.div
                                     key={index}
                                     className="flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-gray-100 shadow-sm"
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.8 + stat.delay }}
-                                    whileHover={{ scale: 1.05, y: -2 }}
+                                    whileHover={{ scale: 1.03, y: -2 }}
                                 >
                                     <div className="p-1.5 bg-primary-blue/10 rounded-full">
                                         <stat.icon className="w-4 h-4 text-primary-blue" />
@@ -222,12 +152,11 @@ const HeroSection = () => {
                             ))}
                         </motion.div>
 
-                        {/* Trust Badges */}
                         <motion.div
                             className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mt-6"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
-                            transition={{ delay: 1 }}
+                            transition={{ delay: 0.45 }}
                         >
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-200">
                                 <Lock className="w-3.5 h-3.5 text-emerald-600" />
@@ -240,166 +169,38 @@ const HeroSection = () => {
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Content - Phone Mockup with 3D Tilt */}
                     <motion.div
-                        initial={{ opacity: 0, x: 50, rotateY: -15 }}
-                        animate={{ opacity: 1, x: 0, rotateY: 0 }}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="lg:col-span-5 flex justify-center lg:justify-end relative"
-                        style={{ y: phoneY }}
+                        initial={{ opacity: 0, x: 40 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        className="lg:col-span-5 flex justify-center lg:justify-end"
+                        style={allowAmbientMotion ? { y: phoneY } : undefined}
                     >
-                        <div className="relative">
-                            {/* Glow Effect Behind Phone */}
-                            <div className="absolute inset-0 scale-110">
-                                <motion.div
-                                    className="absolute inset-0 bg-gradient-radial from-primary-blue/20 via-primary-yellow/10 to-transparent blur-3xl"
-                                    animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.7, 0.5] }}
-                                    transition={{ duration: 4, repeat: Infinity }}
-                                />
-                            </div>
-
-                            {/* Phone Container with Tilt */}
-                            <motion.div
-                                className="relative transform-gpu"
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    perspective: '1000px'
-                                }}
-                                animate={{
-                                    y: [0, -15, 0],
-                                    rotateY: [0, 3, 0],
-                                    rotateX: [0, -2, 0]
-                                }}
-                                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                            >
-                                {/* Phone Frame */}
-                                <div
-                                    className="relative w-[280px] md:w-[320px] transform rotate-3 hover:rotate-0 transition-transform duration-500"
-                                    style={{ transform: 'rotateY(-5deg) rotateX(2deg)' }}
-                                >
-                                    <div className="relative bg-gradient-to-b from-gray-800 via-gray-900 to-black rounded-[3rem] p-2 shadow-2xl shadow-black/30">
-                                        {/* Phone Notch */}
-                                        <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 bg-black rounded-full z-30" />
-
-                                        {/* Phone Screen */}
-                                        <div className="relative w-full aspect-[9/19] bg-gradient-to-b from-primary-blue to-primary-blue-dark rounded-[2.5rem] overflow-hidden">
-                                            {/* App Content */}
-                                            <div className="p-4 pt-10">
-                                                {/* Header */}
-                                                <div className="flex items-center gap-3 mb-4">
-                                                    <img 
-                                                        src="/msmeLogo.png" 
-                                                        alt="MSME Pathways" 
-                                                        className="w-10 h-10 rounded-xl object-contain bg-white/20 backdrop-blur-sm p-1"
-                                                    />
-                                                    <div>
-                                                        <p className="text-white font-semibold text-sm">MSME Pathways</p>
-                                                        <p className="text-white/60 text-[10px]">Your Financial Guide</p>
-                                                    </div>
-                                                </div>
-
-                                                {/* Welcome Card */}
-                                                <motion.div
-                                                    className="bg-white/15 backdrop-blur-sm rounded-2xl p-4 mb-4 border border-white/10"
-                                                    initial={{ opacity: 0, y: 10 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: 1 }}
-                                                >
-                                                    <p className="text-white/70 text-xs mb-1">Magandang Araw! 👋</p>
-                                                    <p className="text-white font-semibold">Ready ka na ba?</p>
-                                                    <p className="text-white/60 text-xs mt-1">Pre-qualify without affecting credit</p>
-                                                </motion.div>
-
-                                                {/* Quick Actions */}
-                                                <div className="grid grid-cols-2 gap-2 mb-4">
-                                                    {['📋 Assess', '📚 Learn', '💰 Loans', '📊 Track'].map((item, i) => (
-                                                        <motion.div
-                                                            key={i}
-                                                            className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center border border-white/5 hover:bg-white/20 transition-colors cursor-pointer"
-                                                            initial={{ opacity: 0, scale: 0.9 }}
-                                                            animate={{ opacity: 1, scale: 1 }}
-                                                            transition={{ delay: 1.2 + i * 0.1 }}
-                                                        >
-                                                            <span className="text-lg">{item.split(' ')[0]}</span>
-                                                            <p className="text-white/80 text-xs mt-1">{item.split(' ')[1]}</p>
-                                                        </motion.div>
-                                                    ))}
-                                                </div>
-
-                                                {/* Progress */}
-                                                <motion.div
-                                                    className="bg-white rounded-xl p-3"
-                                                    initial={{ opacity: 0 }}
-                                                    animate={{ opacity: 1 }}
-                                                    transition={{ delay: 1.6 }}
-                                                >
-                                                    <div className="flex justify-between mb-2">
-                                                        <span className="text-xs text-gray-600">Your Progress</span>
-                                                        <span className="text-xs font-bold text-primary-blue">75%</span>
-                                                    </div>
-                                                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                                                        <motion.div
-                                                            className="h-full bg-gradient-to-r from-primary-blue to-primary-yellow rounded-full"
-                                                            initial={{ width: 0 }}
-                                                            animate={{ width: '75%' }}
-                                                            transition={{ delay: 1.8, duration: 1 }}
-                                                        />
-                                                    </div>
-                                                </motion.div>
-                                            </div>
-
-                                            {/* Bottom Nav */}
-                                            <div className="absolute bottom-0 inset-x-0 h-14 bg-white/10 backdrop-blur-md border-t border-white/10 flex items-center justify-around">
-                                                {['🏠', '📖', '💬', '👤'].map((icon, i) => (
-                                                    <div key={i} className={`p-2 ${i === 0 ? 'bg-white/20 rounded-full' : ''}`}>
-                                                        <span className="text-lg">{icon}</span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-
-                            {/* Floating Decorative Elements */}
-                            <motion.div
-                                className="absolute -top-6 -right-6 w-16 h-16 bg-gradient-to-br from-primary-yellow to-primary-yellow-dark rounded-2xl shadow-lg shadow-primary-yellow/30 flex items-center justify-center"
-                                animate={{ y: [0, -10, 0], rotate: [0, 5, 0] }}
-                                transition={{ duration: 3, repeat: Infinity }}
-                            >
-                                <span className="text-3xl">🤖</span>
-                            </motion.div>
-
-                            <motion.div
-                                className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-br from-primary-blue to-primary-blue-dark rounded-xl shadow-lg shadow-primary-blue/30 flex items-center justify-center"
-                                animate={{ y: [0, 8, 0], rotate: [0, -5, 0] }}
-                                transition={{ duration: 2.5, repeat: Infinity, delay: 0.5 }}
-                            >
-                                <span className="text-2xl">💡</span>
-                            </motion.div>
+                        <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-100 origin-center">
+                            <PhoneMockup animate={allowAmbientMotion} />
                         </div>
                     </motion.div>
                 </div>
             </div>
 
-            {/* Scroll Indicator */}
-            <motion.div
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
-                animate={{ y: [0, 10, 0], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                onClick={scrollToFeatures}
-            >
-                <span className="text-xs text-gray-400 font-medium tracking-wider uppercase">Scroll to explore</span>
-                <div className="w-6 h-10 rounded-full border-2 border-gray-300 flex items-start justify-center p-2">
-                    <motion.div
-                        className="w-1.5 h-1.5 bg-primary-blue rounded-full"
-                        animate={{ y: [0, 12, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity }}
-                    />
-                </div>
-            </motion.div>
+            {!prefersReducedMotion && (
+                <motion.div
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 cursor-pointer"
+                    animate={{ y: [0, 8, 0], opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    onClick={scrollToFeatures}
+                >
+                    <span className="text-xs text-gray-400 font-medium tracking-wider uppercase">Scroll to explore</span>
+                    <div className="w-6 h-10 rounded-full border-2 border-gray-300 flex items-start justify-center p-2">
+                        <motion.div
+                            className="w-1.5 h-1.5 bg-primary-blue rounded-full"
+                            animate={{ y: [0, 12, 0] }}
+                            transition={{ duration: 1.5, repeat: Infinity }}
+                        />
+                    </div>
+                </motion.div>
+            )}
 
-            {/* Curved Bottom Divider */}
             <div className="absolute bottom-0 left-0 right-0">
                 <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
                     <path

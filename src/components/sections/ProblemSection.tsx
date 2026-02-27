@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
-import * as LucideIcons from 'lucide-react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, CircleX, FileQuestion, Building2 } from 'lucide-react';
 import { PROBLEMS } from '@/lib/constants';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
-  CircleX: LucideIcons.CircleX,
-  FileQuestion: LucideIcons.FileQuestion,
-  Building2: LucideIcons.Building2,
+  CircleX,
+  FileQuestion,
+  Building2,
 };
 
 const ProblemSection = () => {

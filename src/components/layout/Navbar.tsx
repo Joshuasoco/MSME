@@ -50,7 +50,7 @@ const Navbar = () => {
                     <img src="/msmeLogo.png" alt="MSME Pathways Logo" className="w-14 h-14 md:w-16 md:h-16 rounded-lg object-contain" />
                     <span className={cn(
                         'font-display font-bold text-lg md:text-xl transition-colors',
-                        isScrolled ? 'text-dark' : 'text-dark'
+                        isScrolled ? 'text-dark' : 'text-primary-blue-dark'
                     )}>
                         MSME Pathways
                     </span>
@@ -75,7 +75,7 @@ const Navbar = () => {
                             className={cn(
                                 'text-sm font-medium transition-colors hover:text-primary-blue relative group',
                                 'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2 rounded-md px-2 py-1',
-                                isScrolled ? 'text-gray-700' : 'text-gray-700'
+                                isScrolled ? 'text-gray-700' : 'text-gray-900'
                             )}
                             aria-label={`Navigate to ${link.label}`}
                         >
@@ -102,16 +102,19 @@ const Navbar = () => {
 
                 {/* Mobile Menu Button */}
                 <button
-                    className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue"
+                    className={cn(
+                        'md:hidden p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue',
+                        isScrolled ? 'hover:bg-gray-100' : 'bg-white/85 hover:bg-white shadow-sm'
+                    )}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
                     aria-expanded={isMobileMenuOpen}
                     aria-controls="mobile-menu"
                 >
                     {isMobileMenuOpen ? (
-                        <X className="w-6 h-6 text-gray-700" />
+                        <X className={cn('w-6 h-6', isScrolled ? 'text-gray-700' : 'text-gray-900')} />
                     ) : (
-                        <Menu className="w-6 h-6 text-gray-700" />
+                        <Menu className={cn('w-6 h-6', isScrolled ? 'text-gray-700' : 'text-gray-900')} />
                     )}
                 </button>
             </nav>
