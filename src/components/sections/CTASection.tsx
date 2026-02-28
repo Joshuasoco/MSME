@@ -5,6 +5,7 @@ import { APP_LINKS } from '@/lib/constants';
 import PhoneMockup from '@/components/common/PhoneMockup';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import useIsMobile from '@/hooks/useIsMobile';
+import { SparklesText } from '@/components/ui/sparkles-text';
 
 const CTASection = () => {
     const prefersReducedMotion = useReducedMotion();
@@ -80,7 +81,15 @@ const CTASection = () => {
 
                         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                             Ready to Start Your{' '}
-                            <span className="text-primary-yellow">Journey</span>?
+                            <SparklesText
+                                as="span"
+                                sparklesCount={6}
+                                colors={{ first: '#FACC15', second: '#F59E0B' }}
+                                className="inline text-primary-yellow"
+                            >
+                                Journey
+                            </SparklesText>
+                            ?
                         </h2>
 
                         <p className="text-xl text-white/75 mb-8 max-w-lg mx-auto lg:mx-0">

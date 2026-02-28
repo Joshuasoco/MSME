@@ -11,6 +11,7 @@ import BotpressChatWidget from '@/components/common/BotpressChatWidget';
 import SEOHead from '@/components/common/SEOHead';
 import { ToastContainer } from '@/components/ui/toast';
 import { useToast } from '@/hooks/useToast';
+import { Toaster } from 'sileo';
 
 // Lazy load below-fold sections for better performance
 const ProblemSection = lazy(() => import('@/components/sections/ProblemSection'));
@@ -54,6 +55,22 @@ function App() {
       <SEOHead />
 
       {/* Toast Notifications */}
+      <Toaster
+        position="top-right"
+        offset={{ top: 96 }}
+        theme="light"
+        options={{
+          roundness: 20,
+          fill: '#0b1220',
+          duration: 4200,
+          styles: {
+            title: '!text-sky-300 !font-semibold',
+            description: '!text-slate-100/90',
+            badge: '!bg-sky-500/25 !text-sky-200',
+            button: '!text-white !bg-white/10 hover:!bg-white/20',
+          },
+        }}
+      />
       <ToastContainer toasts={toasts.map(t => ({ ...t, onClose: removeToast }))} />
 
       {/* Loading Screen */}

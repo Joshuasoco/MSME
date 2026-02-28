@@ -1,238 +1,167 @@
-import { motion, AnimatePresence } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
-import { ChevronLeft, ChevronRight, Quote, Star } from 'lucide-react';
-import { TESTIMONIALS } from '@/lib/constants';
-import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { useRef } from 'react';
+import type { LucideIcon } from 'lucide-react';
+import { Layers, Database, Cpu, Shield, Mail, Server } from 'lucide-react';
+import { AnimatedBeam } from '@/components/ui/animated-beam';
 
-const AUTO_PLAY_INTERVAL_MS = 5000;
+type StackNodeProps = {
+    label: string;
+    icon: LucideIcon;
+    nodeRef: React.RefObject<HTMLDivElement | null>;
+};
+
+const StackNode = ({ label, icon: Icon, nodeRef }: StackNodeProps) => {
+    return (
+        <div className="flex flex-col items-center gap-2">
+            <div
+                ref={nodeRef}
+                className="h-14 w-14 rounded-full border border-slate-200 bg-white shadow-[0_6px_16px_rgba(15,23,42,0.08)] flex items-center justify-center"
+            >
+                <Icon className="h-6 w-6 text-slate-700" />
+            </div>
+            <p className="text-center text-xs sm:text-sm font-medium text-slate-600 leading-snug max-w-[10rem]">
+                {label}
+            </p>
+        </div>
+    );
+};
+
+const GrokLogo = () => {
+    return (
+        <svg
+            viewBox="0 0 40 40"
+            aria-hidden="true"
+            className="h-10 w-10"
+        >
+            <circle cx="20" cy="20" r="19" fill="#0f172a" />
+            <path
+                d="M12 11h16l-8 9 8 9H12l8-9-8-9Z"
+                fill="#f8fafc"
+                opacity="0.95"
+            />
+        </svg>
+    );
+};
 
 const TestimonialsSection = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [direction, setDirection] = useState(0);
-    const [isPaused, setIsPaused] = useState(false);
-    const prefersReducedMotion = useReducedMotion();
+    const containerRef = useRef<HTMLDivElement>(null);
+    const centerRef = useRef<HTMLDivElement>(null);
 
-    const nextTestimonial = useCallback(() => {
-        setDirection(1);
-        setCurrentIndex((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, []);
+    const djangoRef = useRef<HTMLDivElement>(null);
+    const mongodbRef = useRef<HTMLDivElement>(null);
+    const pytorchRef = useRef<HTMLDivElement>(null);
 
-    const prevTestimonial = useCallback(() => {
-        setDirection(-1);
-        setCurrentIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
-    }, []);
+    const jwtRef = useRef<HTMLDivElement>(null);
+    const gmailRef = useRef<HTMLDivElement>(null);
+    const gunicornRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        if (prefersReducedMotion || isPaused) {
-            return;
-        }
+    const leftNodes = [
+        { label: 'Django + REST Framework', icon: Layers, ref: djangoRef },
+        { label: 'MongoDB Atlas', icon: Database, ref: mongodbRef },
+        { label: 'PyTorch + MobileNetV2', icon: Cpu, ref: pytorchRef },
+    ];
 
-        const interval = window.setInterval(() => {
-            nextTestimonial();
-        }, AUTO_PLAY_INTERVAL_MS);
+    const rightNodes = [
+        { label: 'JWT + 2FA TOTP', icon: Shield, ref: jwtRef },
+        { label: 'Gmail SMTP', icon: Mail, ref: gmailRef },
+        { label: 'Gunicorn + WhiteNoise', icon: Server, ref: gunicornRef },
+    ];
 
-        return () => window.clearInterval(interval);
-    }, [prefersReducedMotion, isPaused, nextTestimonial]);
+    const nodeRefs = [
+        djangoRef,
+        mongodbRef,
+        pytorchRef,
+        jwtRef,
+        gmailRef,
+        gunicornRef,
+    ];
 
-    const variants = {
-        enter: (slideDirection: number) => ({
-            x: slideDirection > 0 ? 280 : -280,
-            opacity: 0,
-            scale: 0.95,
-        }),
-        center: {
-            x: 0,
-            opacity: 1,
-            scale: 1,
-        },
-        exit: (slideDirection: number) => ({
-            x: slideDirection < 0 ? 280 : -280,
-            opacity: 0,
-            scale: 0.95,
-        }),
-    };
-
-    const onDragEnd = (_: MouseEvent | TouchEvent | PointerEvent, info: { offset: { x: number } }) => {
-        if (Math.abs(info.offset.x) < 70) {
-            return;
-        }
-
-        if (info.offset.x < 0) {
-            nextTestimonial();
-        } else {
-            prevTestimonial();
-        }
-    };
+    const curvatures = [42, 0, -42, 42, 0, -42];
 
     return (
-        <section className="relative py-24 md:py-32 bg-dark-secondary overflow-hidden">
+        <section id="testimonials" className="relative py-24 md:py-32 bg-slate-50 overflow-hidden">
             <div className="absolute inset-0">
                 <div
-                    className="absolute inset-0 opacity-5"
+                    className="absolute inset-0 opacity-50"
                     style={{
-                        backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-                        backgroundSize: '48px 48px',
+                        backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.2) 1px, transparent 0)',
+                        backgroundSize: '28px 28px',
                     }}
                 />
-
-                <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary-blue/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-primary-yellow/10 rounded-full blur-3xl" />
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <motion.div
-                    className="text-center mb-16"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <motion.span
-                        className="inline-flex items-center gap-2 px-5 py-2 bg-primary-yellow/20 text-primary-yellow text-sm font-semibold rounded-full mb-6 border border-primary-yellow/30"
-                        whileHover={{ scale: 1.03 }}
-                    >
-                        <Star className="w-4 h-4 fill-current" />
-                        Mga Testimonials
-                    </motion.span>
-
-                    <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-                        Ano ang sabi ng mga <span className="text-primary-yellow">users</span>
+                <div className="max-w-4xl mx-auto text-center">
+                    <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
+                        Powered by a Stack Built for the Underserved.
                     </h2>
-
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-                        Mga tunay na kwento mula sa mga negosyante na natulungan ng MSME Pathways.
+                    <p className="mt-5 text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                        From intelligent loan screening to secure document recognition - every layer of MSME Pathways is engineered
+                        to bring formal financial access to every Filipino microentrepreneur.
                     </p>
-                </motion.div>
+                </div>
 
                 <div
-                    className="relative max-w-4xl mx-auto"
-                    onMouseEnter={() => setIsPaused(true)}
-                    onMouseLeave={() => setIsPaused(false)}
-                    onFocus={() => setIsPaused(true)}
-                    onBlur={() => setIsPaused(false)}
+                    ref={containerRef}
+                    className="relative mt-14 max-w-5xl mx-auto rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 md:p-10 shadow-[0_20px_60px_rgba(15,23,42,0.06)]"
                 >
-                    <div className="absolute -top-8 -left-8 z-0">
-                        <Quote className="w-24 h-24 text-primary-yellow/20" />
-                    </div>
-
-                    <div className="relative h-[430px] md:h-[360px]">
-                        <AnimatePresence mode="wait" custom={direction}>
-                            <motion.div
-                                key={currentIndex}
-                                custom={direction}
-                                variants={variants}
-                                initial="enter"
-                                animate="center"
-                                exit="exit"
-                                transition={{
-                                    x: { type: 'spring', stiffness: 280, damping: 30 },
-                                    opacity: { duration: 0.25 },
-                                    scale: { duration: 0.25 },
-                                }}
-                                className="absolute inset-0"
-                                drag="x"
-                                dragConstraints={{ left: 0, right: 0 }}
-                                dragElastic={0.12}
-                                onDragEnd={onDragEnd}
-                            >
-                                <div className="h-full bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-3xl p-8 md:p-10 border border-white/20 shadow-2xl">
-                                    <div className="h-full flex flex-col">
-                                        <div className="flex gap-1 mb-6">
-                                            {Array.from({ length: TESTIMONIALS[currentIndex].rating }).map((_, i) => (
-                                                <Star key={i} className="w-6 h-6 fill-primary-yellow text-primary-yellow" />
-                                            ))}
-                                        </div>
-
-                                        <blockquote className="flex-1">
-                                            <p className="text-xl md:text-2xl text-white font-medium leading-relaxed italic">
-                                                "{TESTIMONIALS[currentIndex].quote}"
-                                            </p>
-                                        </blockquote>
-
-                                        <div className="flex items-center gap-4 mt-8 pt-6 border-t border-white/10">
-                                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-blue to-primary-blue-dark flex items-center justify-center text-white text-2xl font-bold shadow-lg">
-                                                {TESTIMONIALS[currentIndex].name.charAt(0)}
-                                            </div>
-
-                                            <div>
-                                                <p className="text-white font-bold text-lg">{TESTIMONIALS[currentIndex].name}</p>
-                                                <p className="text-gray-400">{TESTIMONIALS[currentIndex].role}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-
-                    <div className="flex items-center justify-between mt-8">
-                        <div className="flex gap-2">
-                            {TESTIMONIALS.map((_, index) => (
-                                <motion.button
-                                    key={index}
-                                    onClick={() => {
-                                        setDirection(index > currentIndex ? 1 : -1);
-                                        setCurrentIndex(index);
-                                    }}
-                                    className={`h-2 rounded-full transition-all duration-300 ${
-                                        index === currentIndex ? 'w-8 bg-primary-yellow' : 'w-2 bg-white/30 hover:bg-white/50'
-                                    }`}
-                                    whileHover={{ scale: 1.2 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    aria-label={`Go to testimonial ${index + 1}`}
-                                />
+                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-10 md:gap-8">
+                        <div className="flex flex-col items-center gap-8 md:gap-10">
+                            {leftNodes.map((node) => (
+                                <StackNode key={node.label} label={node.label} icon={node.icon} nodeRef={node.ref} />
                             ))}
                         </div>
 
-                        <div className="flex gap-3">
-                            <motion.button
-                                onClick={prevTestimonial}
-                                className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors border border-white/10"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                aria-label="Previous testimonial"
+                        <div className="flex flex-col items-center gap-3">
+                            <div
+                                ref={centerRef}
+                                className="h-24 w-24 rounded-full border border-slate-300 bg-white shadow-[0_14px_30px_rgba(15,23,42,0.14)] flex items-center justify-center"
                             >
-                                <ChevronLeft className="w-5 h-5" />
-                            </motion.button>
-                            <motion.button
-                                onClick={nextTestimonial}
-                                className="w-12 h-12 rounded-full bg-primary-yellow hover:bg-primary-yellow-dark flex items-center justify-center text-dark transition-colors shadow-lg shadow-primary-yellow/30"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                aria-label="Next testimonial"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </motion.button>
+                                <GrokLogo />
+                            </div>
+                            <p className="text-center text-xs sm:text-sm font-semibold text-slate-700 leading-snug max-w-[11rem]">
+                                Grok (llama-3.1-8b-instant)
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col items-center gap-8 md:gap-10">
+                            {rightNodes.map((node) => (
+                                <StackNode key={node.label} label={node.label} icon={node.icon} nodeRef={node.ref} />
+                            ))}
                         </div>
                     </div>
+
+                    {nodeRefs.map((ref, index) => (
+                        <div key={`beam-${index}`}>
+                            <AnimatedBeam
+                                containerRef={containerRef}
+                                fromRef={ref}
+                                toRef={centerRef}
+                                curvature={curvatures[index]}
+                                pathColor="#cbd5e1"
+                                pathOpacity={0.6}
+                                pathWidth={1.4}
+                                gradientStartColor="#94a3b8"
+                                gradientStopColor="#64748b"
+                                delay={index * 0.12}
+                                duration={4.6 + (index * 0.2)}
+                            />
+                            <AnimatedBeam
+                                containerRef={containerRef}
+                                fromRef={ref}
+                                toRef={centerRef}
+                                curvature={curvatures[index]}
+                                reverse
+                                pathColor="#cbd5e1"
+                                pathOpacity={0}
+                                pathWidth={1.4}
+                                gradientStartColor="#e2e8f0"
+                                gradientStopColor="#94a3b8"
+                                delay={0.35 + (index * 0.12)}
+                                duration={4.9 + (index * 0.2)}
+                            />
+                        </div>
+                    ))}
                 </div>
-
-                <motion.div
-                    className="mt-20"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                >
-                    <p className="text-center text-sm text-gray-500 mb-6 uppercase tracking-wider">
-                        Trusted by entrepreneurs across the Philippines
-                    </p>
-                    <div className="flex flex-wrap justify-center items-center gap-4 opacity-70">
-                        {['Sari-sari Stores', 'Food Vendors', 'RTW Sellers', 'Market Vendors', 'Home Businesses', 'Mobile Sellers'].map((item) => (
-                            <span key={item} className="px-3 py-1 rounded-full border border-white/20 text-white/60 text-sm">
-                                {item}
-                            </span>
-                        ))}
-                    </div>
-                </motion.div>
-            </div>
-
-            <div className="absolute bottom-0 left-0 right-0">
-                <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                    <path
-                        d="M0 80V50C480 10 960 70 1440 40V80H0Z"
-                        fill="#F5F5F5"
-                    />
-                </svg>
             </div>
         </section>
     );

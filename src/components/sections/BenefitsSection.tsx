@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Gift, CheckCircle, Heart, Sparkles, Lock, Users } from 'lucide-react';
+import { Pointer } from '@/components/ui/pointer';
 
 const benefits = [
     {
@@ -121,6 +122,12 @@ const BenefitsSection = () => {
                             className="group"
                         >
                             <div className={`relative ${benefit.bgColor} rounded-3xl p-6 h-full border border-transparent hover:border-gray-200 transition-all duration-300 shadow-sm hover:shadow-xl`}>
+                                <Pointer>
+                                    <div className={`flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br ${benefit.color} shadow-lg`}>
+                                        <benefit.icon className="h-4 w-4 text-white" />
+                                    </div>
+                                </Pointer>
+
                                 {/* Gradient overlay on hover */}
                                 <div className={`absolute inset-0 rounded-3xl bg-gradient-to-br ${benefit.color} opacity-0 group-hover:opacity-5 transition-opacity duration-300`} />
 

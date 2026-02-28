@@ -6,6 +6,8 @@ import { useRef } from 'react';
 import PhoneMockup from '@/components/common/PhoneMockup';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import useIsMobile from '@/hooks/useIsMobile';
+import { NoiseBackground } from '@/components/ui/noise-background';
+import { SparklesText } from '@/components/ui/sparkles-text';
 
 const HeroSection = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -85,12 +87,22 @@ const HeroSection = () => {
                             <span className="block text-3xl sm:text-4xl md:text-5xl text-gray-600 font-medium">
                                 Walang Credit History?
                             </span>
-                            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gradient-blue">
-                                Pwede Ka
-                            </span>
-                            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gradient-gold pb-2">
-                                Pa Rin!
-                            </span>
+                            <SparklesText
+                                as="span"
+                                sparklesCount={7}
+                                colors={{ first: '#60A5FA', second: '#38BDF8' }}
+                                className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
+                            >
+                                <span className="text-gradient-blue">Pwede Ka</span>
+                            </SparklesText>
+                            <SparklesText
+                                as="span"
+                                sparklesCount={7}
+                                colors={{ first: '#FACC15', second: '#F59E0B' }}
+                                className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-2"
+                            >
+                                <span className="text-gradient-gold">Pa Rin!</span>
+                            </SparklesText>
                         </h1>
 
                         <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
@@ -99,24 +111,34 @@ const HeroSection = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
-                            <Button
-                                asChild
-                                size="lg"
-                                className="group relative rounded-full gap-3 text-lg px-8 py-7 bg-gradient-to-r from-primary-blue to-primary-blue-dark hover:from-primary-blue-dark hover:to-primary-blue shadow-xl shadow-primary-blue/30 transition-all duration-300 hover:scale-105 hover:shadow-2xl min-h-[44px]"
+                            <a
+                                href={APP_LINKS.playStore}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="Download MSME Pathways app for free on Google Play Store"
+                                className="group relative inline-block rounded-full min-h-[44px] transition-transform duration-300 hover:scale-[1.03] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
                             >
-                                <a
-                                    href={APP_LINKS.playStore}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Download MSME Pathways app for free on Google Play Store"
+                                <NoiseBackground
+                                    containerClassName="w-fit !rounded-full !p-[1px] !bg-transparent !shadow-none"
+                                    className="!rounded-full"
+                                    gradientColors={[
+                                        'rgb(74, 222, 128)',
+                                        'rgb(52, 211, 153)',
+                                        'rgb(34, 197, 94)',
+                                    ]}
+                                    noiseIntensity={0.16}
+                                    speed={0.012}
+                                    animating={allowAmbientMotion}
                                 >
-                                    <Download className="w-5 h-5" />
-                                    Download Free
-                                    <span className="absolute -top-2 -right-2 px-2 py-0.5 bg-primary-yellow text-dark text-xs font-bold rounded-full shadow-lg" aria-hidden="true">
-                                        FREE
+                                    <span className="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 px-8 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(16,185,129,0.28),0_1px_0_rgba(255,255,255,0.35)_inset] transition-all duration-300 group-hover:from-emerald-500 group-hover:to-green-400">
+                                        <Download className="w-5 h-5" />
+                                        Download Free
                                     </span>
-                                </a>
-                            </Button>
+                                </NoiseBackground>
+                                <span className="absolute -top-2 -right-2 rounded-full bg-primary-yellow px-2 py-0.5 text-xs font-bold text-dark shadow-md" aria-hidden="true">
+                                    FREE
+                                </span>
+                            </a>
                             <Button
                                 variant="outline"
                                 size="lg"

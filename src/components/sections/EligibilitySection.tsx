@@ -1,28 +1,38 @@
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle, ArrowRight, ArrowLeft, Download, Sparkles, PencilLine } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import { CheckCircle, ArrowRight, ArrowLeft, Download, Sparkles, PencilLine, Store, CalendarDays, Wallet } from 'lucide-react';
+import { sileo } from 'sileo';
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
+
+type QuestionIcon = 'Store' | 'CalendarDays' | 'Wallet';
 
 interface Question {
     id: 'business_type' | 'years_operating' | 'monthly_income';
     question: string;
     options: string[];
-    icon: string;
+    icon: QuestionIcon;
 }
+
+const questionIcons: Record<QuestionIcon, LucideIcon> = {
+    Store,
+    CalendarDays,
+    Wallet,
+};
 
 const questions: Question[] = [
     {
         id: 'business_type',
         question: 'Anong uri ng negosyo mo?',
         options: ['Sari-sari store', 'Market vendor', 'Home-based seller', 'Food stall / carinderia', 'RTW / ukay-ukay', 'Iba pa'],
-        icon: 'Storefront',
+        icon: 'Store',
     },
     {
         id: 'years_operating',
         question: 'Gaano mo na katagal pinapatakbo ang negosyo?',
         options: ['Bago pa lang (less than 1 year)', '1-2 years na', '3-5 years na', 'More than 5 years na'],
-        icon: 'Calendar',
+        icon: 'CalendarDays',
     },
     {
         id: 'monthly_income',
@@ -92,6 +102,7 @@ const EligibilitySection = () => {
     const [isComplete, setIsComplete] = useState(false);
 
     const selectedAnswer = answers[questions[currentStep].id];
+    const CurrentQuestionIcon = questionIcons[questions[currentStep].icon];
     const totalProgressSteps = questions.length + 2; // questions + review + result
     const currentProgressStep = isComplete
         ? totalProgressSteps
@@ -131,6 +142,10 @@ const EligibilitySection = () => {
 
     const handleContinue = () => {
         if (!selectedAnswer) {
+            sileo.warning({
+                title: 'Pumili muna ng sagot',
+                description: 'Kailangan ng isang option bago mag-next.',
+            });
             return;
         }
 
@@ -140,6 +155,10 @@ const EligibilitySection = () => {
         }
 
         setIsReviewing(true);
+        sileo.info({
+            title: 'Review step',
+            description: 'I-check muna natin ang answers mo bago ang result.',
+        });
     };
 
     const handleEditStep = (stepIndex: number) => {
@@ -151,6 +170,10 @@ const EligibilitySection = () => {
     const handleConfirmReview = () => {
         setIsReviewing(false);
         setIsComplete(true);
+        sileo.success({
+            title: 'Result ready',
+            description: 'Tingnan ang matching loan range mo.',
+        });
     };
 
     const handleReset = () => {
@@ -158,10 +181,15 @@ const EligibilitySection = () => {
         setAnswers({});
         setIsReviewing(false);
         setIsComplete(false);
+        sileo.show({
+            title: 'Quick Check reset',
+            description: 'Pwede ka ulit magsimula from Question 1.',
+            type: 'action',
+        });
     };
 
     return (
-        <section id="eligibility" className="relative py-24 md:py-32 bg-gradient-to-b from-white to-blue-50/50 overflow-hidden">
+        <section id="eligibility" className="relative py-24 md:py-32 bg-gradient-to-b from-slate-50 via-slate-100/75 to-slate-50 overflow-hidden">
             {/* Background decorations */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-20 left-10 w-64 h-64 bg-primary-blue/5 rounded-full blur-3xl" />
@@ -198,7 +226,7 @@ const EligibilitySection = () => {
                 {/* Quiz Card */}
                 <div className="max-w-2xl mx-auto">
                     <motion.div
-                        className="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden"
+                        className="bg-white rounded-[24px] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-slate-200/70 overflow-hidden"
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -259,8 +287,8 @@ const EligibilitySection = () => {
                                     >
                                         {/* Question */}
                                         <div className="text-center mb-8">
-                                            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-blue/10 text-primary-blue text-xs font-semibold mb-4">
-                                                {questions[currentStep].icon}
+                                            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-blue/10 text-primary-blue mb-4">
+                                                <CurrentQuestionIcon className="w-6 h-6" aria-hidden="true" />
                                             </span>
                                             <h3 className="text-xl md:text-2xl font-bold text-gray-900">
                                                 {questions[currentStep].question}
@@ -277,8 +305,8 @@ const EligibilitySection = () => {
                                                         key={index}
                                                         onClick={() => handleSelect(questions[currentStep].id, option)}
                                                         className={`p-4 rounded-xl border-2 text-left transition-all ${isSelected
-                                                            ? 'border-primary-blue bg-primary-blue/5 shadow-sm'
-                                                            : 'border-gray-100 hover:border-primary-blue/50 hover:bg-gray-50'
+                                                            ? 'border-primary-blue bg-primary-blue/5 shadow-[0_8px_20px_rgba(21,101,192,0.12)]'
+                                                            : 'border-slate-200 hover:border-primary-blue/50 hover:bg-slate-50'
                                                             }`}
                                                         whileHover={{ scale: 1.01 }}
                                                         whileTap={{ scale: 0.99 }}
@@ -325,25 +353,34 @@ const EligibilitySection = () => {
                                         </div>
 
                                         <div className="space-y-3 mb-6">
-                                            {questions.map((question, index) => (
-                                                <div key={question.id} className="rounded-xl border border-gray-200 p-4 bg-gray-50/80">
-                                                    <div className="flex items-start justify-between gap-3">
-                                                        <div>
-                                                            <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Question {index + 1}</p>
-                                                            <p className="text-sm md:text-base font-semibold text-gray-900 mt-1">{question.question}</p>
-                                                            <p className="text-sm text-primary-blue mt-2">{answers[question.id] ?? 'No answer selected'}</p>
+                                            {questions.map((question, index) => {
+                                                const QuestionIcon = questionIcons[question.icon];
+
+                                                return (
+                                                    <div key={question.id} className="rounded-xl border border-gray-200 p-4 bg-gray-50/80">
+                                                        <div className="flex items-start justify-between gap-3">
+                                                            <div className="flex items-start gap-3">
+                                                                <span className="mt-0.5 inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-blue/10 text-primary-blue">
+                                                                    <QuestionIcon className="w-4 h-4" aria-hidden="true" />
+                                                                </span>
+                                                                <div>
+                                                                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Question {index + 1}</p>
+                                                                    <p className="text-sm md:text-base font-semibold text-gray-900 mt-1">{question.question}</p>
+                                                                    <p className="text-sm text-primary-blue mt-2">{answers[question.id] ?? 'No answer selected'}</p>
+                                                                </div>
+                                                            </div>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleEditStep(index)}
+                                                                className="inline-flex items-center gap-1 text-sm text-primary-blue hover:underline"
+                                                            >
+                                                                <PencilLine className="w-4 h-4" />
+                                                                Edit
+                                                            </button>
                                                         </div>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => handleEditStep(index)}
-                                                            className="inline-flex items-center gap-1 text-sm text-primary-blue hover:underline"
-                                                        >
-                                                            <PencilLine className="w-4 h-4" />
-                                                            Edit
-                                                        </button>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
 
                                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
