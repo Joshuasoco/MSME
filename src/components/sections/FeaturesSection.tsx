@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bot, UserCheck, Shield, Zap, Heart, BookOpen } from 'lucide-react';
+import { Bot, UserCheck, Shield, Zap, Heart, BookOpen, Lock } from 'lucide-react';
 
 const features = [
     {
@@ -260,12 +260,47 @@ const FeaturesSection = () => {
                         </motion.div>
                     </motion.div>
 
-                    {/* Feature 4: Wide Card (spans 2 columns) */}
+                    {/* Feature 4: Security Card */}
+                    <motion.div
+                        initial={false}
+                        whileHover={{ y: -8, rotate: -2, transition: { duration: 0.3 } }}
+                        className="group relative lg:col-start-4 lg:row-start-2 bg-[#ece5ff] rounded-3xl p-6 overflow-hidden shadow-lg transition-all duration-300 border border-violet-200"
+                    >
+                        <motion.div
+                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg mb-4"
+                            whileHover={{ scale: 1.1, rotate: -5 }}
+                        >
+                            <Shield className="w-6 h-6 text-white" />
+                        </motion.div>
+
+                        <span className="inline-block w-fit px-3 py-1 bg-violet-200 text-violet-800 text-xs font-semibold rounded-full mb-4 border border-violet-300">
+                            JWT + 2FA
+                        </span>
+
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">
+                            Two-Factor Authentication
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                            Ang bawat login ay may karagdagang verification layer. Ang iyong account at personal data ay protektado sa lahat ng oras.
+                        </p>
+
+                        {/* OTP Lock Accent */}
+                        <div className="absolute top-4 right-4 z-20 flex items-center gap-2 opacity-95 pointer-events-none">
+                            <div className="px-2.5 py-1 rounded-lg bg-white border border-violet-300 text-[10px] font-bold text-violet-700 tracking-[0.18em] shadow-sm">
+                                OTP 927 441
+                            </div>
+                            <div className="w-8 h-8 rounded-lg bg-violet-100 border border-violet-300 flex items-center justify-center shadow-sm">
+                                <Lock className="w-4 h-4 text-violet-700" />
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Feature 5: Wide Card (spans 2 columns) */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
+                        transition={{ duration: 0.5, delay: 0.35 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
                         className="group md:col-span-2 lg:col-span-2 relative bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100"
                     >
@@ -307,7 +342,7 @@ const FeaturesSection = () => {
                         </div>
                     </motion.div>
 
-                    {/* Feature 5 */}
+                    {/* Feature 6 */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -343,12 +378,12 @@ const FeaturesSection = () => {
                         </motion.span>
                     </motion.div>
 
-                    {/* Feature 6 */}
+                    {/* Feature 7 */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.5 }}
+                        transition={{ duration: 0.5, delay: 0.45 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
                         className="group relative bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-cyan-100"
                     >
