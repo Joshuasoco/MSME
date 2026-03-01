@@ -493,10 +493,15 @@ h6 {
 /* Keep Sileo visible above fixed nav and within narrow screens */
 [data-sileo-viewport] {
   z-index: 70 !important;
+  --sileo-duration: 420ms;
+  --sileo-spring-easing: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 [data-sileo-toast] {
   width: min(92vw, 350px) !important;
+  will-change: transform, opacity, height;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* ==========================================

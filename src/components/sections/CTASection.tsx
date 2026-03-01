@@ -164,7 +164,7 @@ const CTASection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-100 origin-center">
+                        <div className="relative origin-center">
                             <PhoneMockup
                                 animate={allowAmbientMotion}
                                 screenImageSrc="/msmephonenewbelow.webp"
