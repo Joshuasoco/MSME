@@ -199,7 +199,11 @@ const HeroSection = () => {
                         style={allowAmbientMotion ? { y: phoneY } : undefined}
                     >
                         <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-100 origin-center">
-                            <PhoneMockup animate={allowAmbientMotion} />
+                            <PhoneMockup
+                                animate={allowAmbientMotion}
+                                screenImageSrc="/msmephonebelow.webp"
+                                screenImageAlt="MSME Pathways app home screen preview"
+                            />
                         </div>
                     </motion.div>
                 </div>

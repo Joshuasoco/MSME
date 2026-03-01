@@ -165,7 +165,11 @@ const CTASection = () => {
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
                         <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-100 origin-center">
-                            <PhoneMockup animate={allowAmbientMotion} />
+                            <PhoneMockup
+                                animate={allowAmbientMotion}
+                                screenImageSrc="/msmephonenewbelow.webp"
+                                screenImageAlt="MSME Pathways app additional screen preview"
+                            />
                         </div>
                     </motion.div>
                 </div>
