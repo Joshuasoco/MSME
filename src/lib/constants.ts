@@ -209,6 +209,6 @@ export const CONTACT_INFO = {
 
 // App Store Links
 export const APP_LINKS = {
-    playStore: 'https://play.google.com/store/apps/details?id=com.msmepathways',
+    playStore: 'https://github.com/Joshuasoco/MSME/releases/download/v1.0.0/msme-pathways.apk', // GitHub Release download
     appStore: '#', // Coming soon
 };
