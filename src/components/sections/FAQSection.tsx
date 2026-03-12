@@ -164,16 +164,6 @@ const FAQSection = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Wave Divider to CTA */}
-            <div className="absolute bottom-0 left-0 right-0">
-                <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                    <path
-                        d="M0 60V30C360 60 720 10 1080 40C1260 55 1380 25 1440 40V60H0Z"
-                        fill="#0A0A0A"
-                    />
-                </svg>
-            </div>
         </section>
     );
 };

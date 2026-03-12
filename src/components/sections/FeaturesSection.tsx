@@ -414,16 +414,6 @@ const FeaturesSection = () => {
                     </motion.div>
                 </div>
             </div>
-
-            {/* Curved Divider */}
-            <div className="absolute bottom-0 left-0 right-0">
-                <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                    <path
-                        d="M0 80V30C480 80 960 0 1440 50V80H0Z"
-                        fill="#1565C0"
-                    />
-                </svg>
-            </div>
         </section>
     );
 };

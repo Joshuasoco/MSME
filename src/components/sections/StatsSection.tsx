@@ -308,21 +308,6 @@ const StatsSection = () => {
           </div>
         </motion.div>
       </div>
-
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg
-          viewBox="0 0 1440 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M0 80V50C200 70 400 30 600 40C800 50 1000 70 1200 50C1320 38 1400 55 1440 60V80H0Z"
-            fill="#1A1A1A"
-          />
-        </svg>
-      </div>
     </section>
   );
 };

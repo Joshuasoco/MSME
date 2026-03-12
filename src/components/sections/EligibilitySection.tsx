@@ -443,7 +443,7 @@ const EligibilitySection = () => {
                                                 size="lg"
                                                 className="gap-2 rounded-full bg-gradient-to-r from-primary-blue to-blue-700 hover:from-blue-700 hover:to-primary-blue shadow-lg shadow-primary-blue/30"
                                             >
-                                                <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                                                <a href={APP_LINKS.playStore} download="msme-pathways.apk">
                                                     <Download className="w-5 h-5" />
                                                     Download App - It is Free
                                                 </a>

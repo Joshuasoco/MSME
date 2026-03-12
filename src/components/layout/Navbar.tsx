@@ -93,7 +93,7 @@ const Navbar = () => {
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     <Button asChild size="lg" className="gap-2 rounded-full">
-                        <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                        <a href={APP_LINKS.playStore} download="msme-pathways.apk">
                             <Download className="w-4 h-4" />
                             Download App
                         </a>
@@ -157,7 +157,7 @@ const Navbar = () => {
                                 className="pt-2"
                             >
                                 <Button asChild className="w-full gap-2 rounded-full min-h-[44px]">
-                                    <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                                    <a href={APP_LINKS.playStore} download="msme-pathways.apk">
                                         <Download className="w-4 h-4" />
                                         Download App
                                     </a>

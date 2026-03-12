@@ -118,7 +118,7 @@ const CTASection = () => {
                                 size="lg"
                                 className="group relative rounded-full gap-3 text-lg px-10 py-8 bg-primary-yellow hover:bg-primary-yellow-dark text-dark font-bold shadow-2xl shadow-primary-yellow/30 transition-all duration-300 overflow-hidden"
                             >
-                                <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                                <a href={APP_LINKS.playStore} download="msme-pathways.apk">
                                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                                     <Download className="w-6 h-6" />
                                     Download Now - It is Free
@@ -145,7 +145,7 @@ const CTASection = () => {
                             viewport={{ once: true }}
                             transition={{ delay: 0.4 }}
                         >
-                            <a href={APP_LINKS.playStore} target="_blank" rel="noopener noreferrer">
+                            <a href={APP_LINKS.playStore} download="msme-pathways.apk">
                                 <img
                                     src="/google-play-badge.png"
                                     alt="Get it on Google Play"
@@ -173,15 +173,6 @@ const CTASection = () => {
                         </div>
                     </motion.div>
                 </div>
-            </div>
-
-            <div className="absolute top-0 left-0 right-0 transform rotate-180">
-                <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                    <path
-                        d="M0 60V30C360 60 720 0 1080 30C1260 45 1360 15 1440 30V60H0Z"
-                        fill="white"
-                    />
-                </svg>
             </div>
         </section>
     );

@@ -194,8 +194,7 @@ const Footer = () => {
                         <div className="space-y-4">
                             <a
                                 href={APP_LINKS.playStore}
-                                target="_blank"
-                                rel="noopener noreferrer"
+                                download="msme-pathways.apk"
                                 className="block"
                             >
                                 <img

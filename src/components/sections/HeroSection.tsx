@@ -113,9 +113,8 @@ const HeroSection = () => {
                         <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
                             <a
                                 href={APP_LINKS.playStore}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label="Download MSME Pathways app for free on Google Play Store"
+                                download="msme-pathways.apk"
+                                aria-label="Download MSME Pathways app for free"
                                 className="group relative inline-block rounded-full min-h-[44px] transition-transform duration-300 hover:scale-[1.03] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
                             >
                                 <NoiseBackground
@@ -226,15 +225,6 @@ const HeroSection = () => {
                     </div>
                 </motion.div>
             )}
-
-            <div className="absolute bottom-0 left-0 right-0">
-                <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
-                    <path
-                        d="M0 100V60C240 80 480 100 720 90C960 80 1200 40 1440 60V100H0Z"
-                        fill="#f9fafb"
-                    />
-                </svg>
-            </div>
         </section>
     );
 };
