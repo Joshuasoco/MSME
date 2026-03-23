@@ -13,10 +13,8 @@ const BotpressChatWidget = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   // Your Botpress credentials
-  const BOTPRESS_BOT_ID = 'dd48763a-e8cb-4063-972b-8d989dd7fc8b';
-  // TODO: Replace with your actual Webchat Configuration ID from Botpress Dashboard
-  // Go to: Botpress Dashboard > Webchat > Copy the Configuration ID
-  const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID || 'ef7fa665-d217-4eb0-897c-c78b3596de73';
+  const BOTPRESS_BOT_ID = import.meta.env.VITE_BOTPRESS_BOT_ID;
+  const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID;
 
   // Show widget after 5 seconds
   useEffect(() => {
@@ -26,8 +24,12 @@ const BotpressChatWidget = () => {
 
   // Load Botpress Web Chat script
   useEffect(() => {
-    // Check if clientId is configured
-    if (BOTPRESS_CLIENT_ID === 'YOUR_CLIENT_ID_HERE') {
+    // Check if credentials are configured
+    if (!BOTPRESS_BOT_ID || BOTPRESS_BOT_ID === 'your_bot_id_here') {
+      console.error('⚠️ Botpress botId not configured. Please add VITE_BOTPRESS_BOT_ID to your .env file.');
+      return;
+    }
+    if (!BOTPRESS_CLIENT_ID || BOTPRESS_CLIENT_ID === 'your_client_id_here') {
       console.error('⚠️ Botpress clientId not configured. Please add VITE_BOTPRESS_CLIENT_ID to your .env file.');
       return;
     }

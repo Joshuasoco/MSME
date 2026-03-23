@@ -7,7 +7,6 @@ import ErrorBoundary from '@/components/common/ErrorBoundary';
 import LoadingScreen from '@/components/common/LoadingScreen';
 import ScrollToTop from '@/components/common/ScrollToTop';
 import CookieConsent from '@/components/common/CookieConsent';
-import BotpressChatWidget from '@/components/common/BotpressChatWidget';
 import SEOHead from '@/components/common/SEOHead';
 import { ToastContainer } from '@/components/ui/toast';
 import { useToast } from '@/hooks/useToast';
@@ -137,9 +136,6 @@ function App() {
 
         {/* Scroll to Top Button */}
         <ScrollToTop />
-
-        {/* Botpress AI Chatbot */}
-        <BotpressChatWidget />
 
         {/* Cookie Consent Banner */}
         <CookieConsent />
