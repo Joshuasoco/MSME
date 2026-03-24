@@ -83,7 +83,7 @@ const FAQSection = () => {
                                 </div>
                             </div>
                             <a
-                                href="mailto:support@msmepathways.ph"
+                                href="mailto:msmepathways@gmail.com"
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
                             >
                                 Contact Support

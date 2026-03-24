@@ -172,15 +172,15 @@ export const FAQS = [
     },
     {
         question: 'Paano ako mag-download ng app?',
-        answer: 'Available ang MSME Pathways sa Google Play Store. Just search "MSME Pathways" or click the download button sa page na ito.',
+        answer: 'Currently not available sa Google Play Store. you can click the download button sa page na ito.',
     },
     {
         question: 'Available ba sa iOS?',
-        answer: 'Currently, available lang sa Android devices. Pero working na kami sa iOS version — coming soon!',
+        answer: 'Yes you can download the app on iOS devices through TestFlight. We\'re working on a full App Store release soon!',
     },
     {
         question: 'Sino ang mga lending partners?',
-        answer: 'We partnered with licensed at BSP-registered microfinance institutions at lending companies para ma-ensure na safe at legal ang lahat ng loan options.',
+        answer: 'As of now we dont have any lending partners but we\'re actively working on building partnerships with reputable financial institutions to provide you with the best loan options.',
     },
     {
         question: 'Paano kung hindi ako approved?',
@@ -202,7 +202,7 @@ export const SITE_URL = (envSiteUrl ? envSiteUrl.replace(/\/+$/, '') : 'https://
 
 // Contact Info
 export const CONTACT_INFO = {
-    email: 'support@msmepathways.ph',
+    email: 'msmepathways@gmail.com',
     phone: envPhone ?? '',
     address: 'Pangasinan, Philippines',
 };

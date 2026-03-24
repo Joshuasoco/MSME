@@ -185,7 +185,7 @@ const HeroSection = () => {
                             </div>
                             <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full border border-blue-200">
                                 <Building2 className="w-3.5 h-3.5 text-blue-600" />
-                                <span className="text-blue-700 text-xs font-medium">BSP Registered Partners</span>
+                                <span className="text-blue-700 text-xs font-medium"> Multiple Loan Products</span>
                             </div>
                         </motion.div>
                     </motion.div>
@@ -202,6 +202,11 @@ const HeroSection = () => {
                                 animate={allowAmbientMotion}
                                 screenImageSrc="/msmephonebelow.webp"
                                 screenImageAlt="MSME Pathways app home screen preview"
+                                showLoanBadge
+                                loanBadgeTitle="Loan Pre-Qualified!"
+                                loanBadgeAmount="PHP 25,000"
+                                showApprovalBadge
+                                approvalBadgeText="Check: Your loan is already approved"
                             />
                         </div>
                     </motion.div>

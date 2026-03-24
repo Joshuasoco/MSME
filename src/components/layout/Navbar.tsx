@@ -26,19 +26,24 @@ const Navbar = () => {
     };
 
     return (
-        <header
-            className={cn(
-                'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-                isScrolled
-                    ? 'bg-white/95 backdrop-blur-md shadow-md'
-                    : 'bg-transparent'
-            )}
-        >
-            <nav className="container mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
+        <header className="fixed top-0 left-0 right-0 z-50">
+            <motion.nav
+                animate={{ scale: isScrolled ? 0.96 : 1, y: isScrolled ? -1 : 0 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className={cn(
+                    'mx-auto mt-2 md:mt-3 rounded-full border flex items-center justify-between relative origin-top transition-all duration-300',
+                    isScrolled
+                        ? 'w-[calc(100%-1.25rem)] md:w-[calc(100%-2.75rem)] max-w-[1100px] h-14 md:h-[60px] px-3 md:px-4 bg-[#edf5ed]/95 border-white/70 backdrop-blur-xl shadow-[0_12px_28px_rgba(15,23,42,0.14)]'
+                        : 'w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] lg:w-[calc(100%-2.75rem)] xl:w-[calc(100%-3.5rem)] max-w-[1180px] lg:max-w-[1220px] 2xl:max-w-[1260px] h-16 md:h-[70px] lg:h-[72px] px-4 md:px-5 bg-[#edf5ed]/88 border-white/75 backdrop-blur-md shadow-[0_8px_24px_rgba(148,163,184,0.18)]'
+                )}
+            >
                 {/* Logo */}
                 <motion.a
                     href="#home"
-                    className="flex items-center gap-2"
+                    className={cn(
+                        'flex items-center transition-all duration-300',
+                        isScrolled ? 'gap-1.5 pl-1' : 'gap-2 pl-1 md:pl-2'
+                    )}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5 }}
@@ -47,10 +52,18 @@ const Navbar = () => {
                         handleNavClick('#home');
                     }}
                 >
-                    <img src="/msmeLogo.png" alt="MSME Pathways Logo" className="w-14 h-14 md:w-16 md:h-16 rounded-lg object-contain" />
+                    <img
+                        src="/msmeLogo.png"
+                        alt="MSME Pathways Logo"
+                        className={cn(
+                            'rounded-full object-contain bg-white/60 transition-all duration-300',
+                            isScrolled ? 'w-9 h-9 md:w-10 md:h-10 p-0.5' : 'w-10 h-10 md:w-[44px] md:h-[44px] p-1'
+                        )}
+                    />
                     <span className={cn(
-                        'font-display font-bold text-lg md:text-xl transition-colors',
-                        isScrolled ? 'text-dark' : 'text-primary-blue-dark'
+                        'font-display font-bold transition-all duration-300',
+                        isScrolled ? 'text-[0.95rem] md:text-[1.12rem]' : 'text-base md:text-[1.3rem]',
+                        isScrolled ? 'text-[#203a2b]' : 'text-[#234332]'
                     )}>
                         MSME Pathways
                     </span>
@@ -58,7 +71,10 @@ const Navbar = () => {
 
                 {/* Desktop Navigation */}
                 <motion.nav
-                    className="hidden md:flex items-center gap-8"
+                    className={cn(
+                        'hidden md:flex absolute left-1/2 -translate-x-1/2 items-center transition-all duration-300',
+                        isScrolled ? 'gap-7' : 'gap-8'
+                    )}
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
@@ -73,26 +89,35 @@ const Navbar = () => {
                                 handleNavClick(link.href);
                             }}
                             className={cn(
-                                'text-sm font-medium transition-colors hover:text-primary-blue relative group',
-                                'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2 rounded-md px-2 py-1',
-                                isScrolled ? 'text-gray-700' : 'text-gray-900'
+                                'text-sm font-semibold transition-colors relative group',
+                                'focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-2 py-1',
+                                isScrolled ? 'text-[#3f5f4c]' : 'text-[#3a5a48]'
                             )}
                             aria-label={`Navigate to ${link.label}`}
                         >
                             {link.label}
-                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary-blue transition-all group-hover:w-full" />
+                            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-emerald-500 transition-all group-hover:w-full" />
                         </a>
                     ))}
                 </motion.nav>
 
                 {/* CTA Button */}
                 <motion.div
-                    className="hidden md:flex items-center gap-3"
+                    className={cn(
+                        'hidden md:flex items-center gap-3 transition-all duration-300',
+                        isScrolled ? 'pr-1' : 'pr-1 md:pr-2'
+                    )}
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                    <Button asChild size="lg" className="gap-2 rounded-full">
+                    <Button
+                        asChild
+                        className={cn(
+                            'gap-2 rounded-full bg-slate-900 hover:bg-black text-white transition-all duration-300',
+                            isScrolled ? 'h-10 px-5 text-sm' : 'h-11 px-6 text-base'
+                        )}
+                    >
                         <a href={APP_LINKS.playStore} download="msme-pathways.apk">
                             <Download className="w-4 h-4" />
                             Download App
@@ -103,8 +128,8 @@ const Navbar = () => {
                 {/* Mobile Menu Button */}
                 <button
                     className={cn(
-                        'md:hidden p-2 rounded-lg transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue',
-                        isScrolled ? 'hover:bg-gray-100' : 'bg-white/85 hover:bg-white shadow-sm'
+                        'md:hidden mr-1 p-2 rounded-xl transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500',
+                        isScrolled ? 'bg-white/70 hover:bg-white' : 'bg-white/80 hover:bg-white shadow-sm'
                     )}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
@@ -117,7 +142,7 @@ const Navbar = () => {
                         <Menu className={cn('w-6 h-6', isScrolled ? 'text-gray-700' : 'text-gray-900')} />
                     )}
                 </button>
-            </nav>
+            </motion.nav>
 
             {/* Mobile Menu */}
             <AnimatePresence>
@@ -128,7 +153,7 @@ const Navbar = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="md:hidden bg-white border-t shadow-lg overflow-hidden"
+                        className="md:hidden bg-white border border-slate-200 shadow-lg overflow-hidden mt-2 mx-4 rounded-2xl"
                         role="navigation"
                         aria-label="Mobile navigation"
                     >

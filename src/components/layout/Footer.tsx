@@ -22,7 +22,7 @@ const Footer = () => {
             content: [
                 'MSME Pathways collects only the information required to provide loan education and matching support.',
                 'Personal data is processed according to the Data Privacy Act of 2012 and used only for service delivery, support, and product improvement.',
-                'You can request account, data access, or deletion support anytime via support@msmepathways.ph.',
+                'You can request account, data access, or deletion support anytime via msmepathways@gmail.com.',
             ],
         },
         terms: {
@@ -207,7 +207,7 @@ const Footer = () => {
                             </a>
                             <div className="relative">
                                 <div className="h-14 bg-gray-800 rounded-lg flex items-center justify-center border border-gray-700 opacity-60">
-                                    <span className="text-sm text-gray-400">iOS - Coming Soon</span>
+                                    <span className="text-sm text-gray-400">Coming Soon</span>
                                 </div>
                             </div>
                         </div>

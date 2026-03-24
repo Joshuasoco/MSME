@@ -149,7 +149,13 @@ const BenefitsSection = () => {
                                 </p>
 
                                 {/* Decorative corner */}
-                                <div className={`absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-br ${benefit.color} opacity-10 group-hover:opacity-20 transition-opacity`} />
+                                <div className="pointer-events-none absolute top-3 right-3">
+                                    <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${benefit.color} blur-md opacity-15 group-hover:opacity-25 transition-opacity duration-300`} />
+                                    <div className="relative h-10 w-10 rounded-full bg-white/55 border border-white/70 shadow-inner">
+                                        <div className={`absolute inset-[5px] rounded-full bg-gradient-to-br ${benefit.color} opacity-15 group-hover:opacity-30 transition-opacity duration-300`} />
+                                        <div className={`absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-gradient-to-br ${benefit.color} opacity-45 group-hover:opacity-70 transition-opacity duration-300`} />
+                                    </div>
+                                </div>
                             </div>
                         </motion.div>
                     ))}

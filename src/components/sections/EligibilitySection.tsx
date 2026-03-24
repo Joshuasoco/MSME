@@ -115,6 +115,7 @@ const EligibilitySection = () => {
         () => questions.filter((question) => Boolean(answers[question.id])).length,
         [answers],
     );
+    const hasAllAnswers = answeredCount === questions.length;
 
     const result = useMemo(() => getResultData(answers), [answers]);
 
@@ -168,6 +169,14 @@ const EligibilitySection = () => {
     };
 
     const handleConfirmReview = () => {
+        if (!hasAllAnswers) {
+            sileo.warning({
+                title: 'Complete all answers first',
+                description: 'May kulang pang sagot. I-edit muna ang questions na walang sagot.',
+            });
+            return;
+        }
+
         setIsReviewing(false);
         setIsComplete(true);
         sileo.success({
@@ -251,7 +260,9 @@ const EligibilitySection = () => {
                                             ? 'Review step'
                                             : `Question ${currentStep + 1} of ${questions.length}`}
                                 </span>
-                                <span>{answeredCount}/{questions.length} answered</span>
+                                <span className={isReviewing && !hasAllAnswers ? 'text-amber-600 font-semibold' : ''}>
+                                    {answeredCount}/{questions.length} answered
+                                </span>
                             </div>
 
                             <div className="mt-4 mb-2 flex items-center gap-2">
@@ -355,24 +366,36 @@ const EligibilitySection = () => {
                                         <div className="space-y-3 mb-6">
                                             {questions.map((question, index) => {
                                                 const QuestionIcon = questionIcons[question.icon];
+                                                const hasAnswer = Boolean(answers[question.id]);
 
                                                 return (
-                                                    <div key={question.id} className="rounded-xl border border-gray-200 p-4 bg-gray-50/80">
+                                                    <div
+                                                        key={question.id}
+                                                        className={`rounded-xl border p-4 ${hasAnswer
+                                                            ? 'border-gray-200 bg-gray-50/80'
+                                                            : 'border-amber-300 bg-amber-50/70'
+                                                            }`}
+                                                    >
                                                         <div className="flex items-start justify-between gap-3">
                                                             <div className="flex items-start gap-3">
-                                                                <span className="mt-0.5 inline-flex items-center justify-center w-8 h-8 rounded-lg bg-primary-blue/10 text-primary-blue">
+                                                                <span className={`mt-0.5 inline-flex items-center justify-center w-8 h-8 rounded-lg ${hasAnswer
+                                                                    ? 'bg-primary-blue/10 text-primary-blue'
+                                                                    : 'bg-amber-100 text-amber-700'
+                                                                    }`}>
                                                                     <QuestionIcon className="w-4 h-4" aria-hidden="true" />
                                                                 </span>
                                                                 <div>
                                                                     <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Question {index + 1}</p>
                                                                     <p className="text-sm md:text-base font-semibold text-gray-900 mt-1">{question.question}</p>
-                                                                    <p className="text-sm text-primary-blue mt-2">{answers[question.id] ?? 'No answer selected'}</p>
+                                                                    <p className={`text-sm mt-2 ${hasAnswer ? 'text-primary-blue' : 'text-amber-700 font-medium'}`}>
+                                                                        {answers[question.id] ?? 'No answer selected'}
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                             <button
                                                                 type="button"
                                                                 onClick={() => handleEditStep(index)}
-                                                                className="inline-flex items-center gap-1 text-sm text-primary-blue hover:underline"
+                                                                className={`inline-flex items-center gap-1 text-sm hover:underline ${hasAnswer ? 'text-primary-blue' : 'text-amber-700'}`}
                                                             >
                                                                 <PencilLine className="w-4 h-4" />
                                                                 Edit
@@ -397,6 +420,7 @@ const EligibilitySection = () => {
                                             <Button
                                                 type="button"
                                                 onClick={handleConfirmReview}
+                                                disabled={!hasAllAnswers}
                                                 className="rounded-full gap-2"
                                             >
                                                 See my result
