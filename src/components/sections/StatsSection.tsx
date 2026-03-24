@@ -12,7 +12,7 @@ const features = [
     description:
       'Connect your utility bills (Meralco, Manila Water) and business transactions to build your credit score effortlessly.',
     cta: 'Learn more',
-    href: '#',
+    href: '#features',
   },
   {
     id: 'fast-and-easy-application',
@@ -24,7 +24,7 @@ const features = [
     description:
       'Apply in minutes from your phone. No physical documents, no waiting in lines, just fast approvals.',
     cta: 'Start applying',
-    href: '#',
+    href: '#eligibility',
   },
   {
     id: 'zero-fees-low-interest',
@@ -36,7 +36,7 @@ const features = [
     description:
       'Transparency is our promise. Pay only what you owe with zero hidden fees and the lowest rates for micro-entrepreneurs.',
     cta: 'View rates',
-    href: '#',
+    href: '#faq',
   },
 ];
 
@@ -117,7 +117,7 @@ const StatsSection = () => {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <motion.a
-                href="#"
+                href="#eligibility"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center justify-center px-7 py-3.5 bg-white text-blue-700 font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-200 text-sm w-full sm:w-auto"
@@ -126,7 +126,7 @@ const StatsSection = () => {
               </motion.a>
 
               <motion.a
-                href="#"
+                href="#how-it-works"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.97 }}
                 className="inline-flex items-center justify-center px-7 py-3.5 bg-transparent text-white font-semibold rounded-xl border-2 border-white/50 hover:border-white hover:bg-white/10 transition-all duration-200 text-sm w-full sm:w-auto"

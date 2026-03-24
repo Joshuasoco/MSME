@@ -219,7 +219,7 @@ const EligibilitySection = () => {
                         whileHover={{ scale: 1.05 }}
                     >
                         <Sparkles className="w-4 h-4" />
-                        Quick Check - Walang Signup
+                        Quick Check - No Signup Needed
                     </motion.span>
 
                     <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">

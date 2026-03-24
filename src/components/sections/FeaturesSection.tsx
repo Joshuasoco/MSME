@@ -81,7 +81,7 @@ const FeaturesSection = () => {
                         whileHover={{ scale: 1.05 }}
                     >
                         <Zap className="w-4 h-4" />
-                        Mga Features
+                        Our Features
                     </motion.span>
 
                     <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
