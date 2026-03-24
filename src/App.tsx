@@ -5,9 +5,9 @@ import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/sections/HeroSection';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
 import LoadingScreen from '@/components/common/LoadingScreen';
-import ScrollToTop from '@/components/common/ScrollToTop';
 import CookieConsent from '@/components/common/CookieConsent';
 import SEOHead from '@/components/common/SEOHead';
+import BotpressChatWidget from '@/components/common/BotpressChatWidget';
 import { ToastContainer } from '@/components/ui/toast';
 import { useToast } from '@/hooks/useToast';
 import { Toaster } from 'sileo';
@@ -134,11 +134,11 @@ function App() {
         {/* Footer */}
         <Footer />
 
-        {/* Scroll to Top Button */}
-        <ScrollToTop />
-
         {/* Cookie Consent Banner */}
         <CookieConsent />
+
+        {/* Chatbot */}
+        <BotpressChatWidget />
       </div>
     </ErrorBoundary>
   );

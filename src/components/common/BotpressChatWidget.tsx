@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { MessageSquare, X } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -7,80 +8,124 @@ declare global {
   }
 }
 
+const TEASER_SESSION_KEY = 'msme_chat_teaser_seen';
+const TEASER_FALLBACK_KEY = 'msme_chat_teaser_seen_fallback';
+
 const BotpressChatWidget = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [showTeaser, setShowTeaser] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
-  // Your Botpress credentials
   const BOTPRESS_BOT_ID = import.meta.env.VITE_BOTPRESS_BOT_ID;
   const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID;
 
-  // Show widget after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 5000);
     return () => clearTimeout(timer);
   }, []);
 
-  // Load Botpress Web Chat script
   useEffect(() => {
-    // Check if credentials are configured
+    if (!isVisible) return;
+
+    try {
+      const hasSeenTeaser =
+        sessionStorage.getItem(TEASER_SESSION_KEY) === '1' ||
+        localStorage.getItem(TEASER_FALLBACK_KEY) === '1';
+      setShowTeaser(!hasSeenTeaser);
+      setHasInteracted(hasSeenTeaser);
+    } catch {
+      setShowTeaser(true);
+    }
+  }, [isVisible]);
+
+  const markTeaserSeen = () => {
+    setHasInteracted(true);
+    setShowTeaser(false);
+    try {
+      sessionStorage.setItem(TEASER_SESSION_KEY, '1');
+      localStorage.setItem(TEASER_FALLBACK_KEY, '1');
+    } catch {
+      try {
+        localStorage.setItem(TEASER_FALLBACK_KEY, '1');
+      } catch {
+        // Ignore storage errors (private mode, etc.)
+      }
+    }
+  };
+
+  // If user interacts with any Botpress widget surface, dismiss teaser immediately.
+  useEffect(() => {
+    const handleAnyChatInteraction = (event: PointerEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (!target) return;
+
+      const interactedWithLauncher = Boolean(target.closest('#msme-chat-launcher'));
+      const interactedWithBotpress = Boolean(target.closest('#bp-web-widget-container'));
+
+      if (interactedWithLauncher || interactedWithBotpress) {
+        markTeaserSeen();
+      }
+    };
+
+    document.addEventListener('pointerdown', handleAnyChatInteraction, true);
+    return () => document.removeEventListener('pointerdown', handleAnyChatInteraction, true);
+  }, []);
+
+  useEffect(() => {
     if (!BOTPRESS_BOT_ID || BOTPRESS_BOT_ID === 'your_bot_id_here') {
-      console.error('⚠️ Botpress botId not configured. Please add VITE_BOTPRESS_BOT_ID to your .env file.');
+      console.error('Botpress botId not configured. Add VITE_BOTPRESS_BOT_ID to .env');
       return;
     }
+
     if (!BOTPRESS_CLIENT_ID || BOTPRESS_CLIENT_ID === 'your_client_id_here') {
-      console.error('⚠️ Botpress clientId not configured. Please add VITE_BOTPRESS_CLIENT_ID to your .env file.');
+      console.error('Botpress clientId not configured. Add VITE_BOTPRESS_CLIENT_ID to .env');
       return;
     }
-    // Check if script is already loaded
+
     if (document.getElementById('botpress-webchat-script')) {
       setIsLoaded(true);
       return;
     }
 
-    // Load Botpress inject script
     const script = document.createElement('script');
     script.id = 'botpress-webchat-script';
     script.src = 'https://cdn.botpress.cloud/webchat/v2.2/inject.js';
     script.async = true;
 
     script.onload = () => {
-      // Initialize Botpress Web Chat
-      if (window.botpress) {
-        window.botpress.init({
-          botId: BOTPRESS_BOT_ID,
-          clientId: BOTPRESS_CLIENT_ID,
-          hostUrl: 'https://cdn.botpress.cloud/webchat/v2.2',
-          messagingUrl: 'https://messaging.botpress.cloud',
-          configuration: {
-            botName: 'Aling Nina',
-            botDescription: 'AI Assistant para sa MSME Pathways',
-            fabIcon: 'bot',
-            themeColor: '#3b82f6',
-            textColor: '#ffffff',
-            showPoweredBy: false,
-            enableTranscriptDownload: false,
-            closeOnEscape: true,
-            containerWidth: '360px',
-            layoutWidth: '360px',
-            composerPlaceholder: 'Type your message...',
-            locale: 'en',
-          },
-        });
+      if (!window.botpress) return;
 
-        // Hide the default Botpress button (we use our own)
-        window.botpress.on('webchat:ready', () => {
-          setIsLoaded(true);
-          console.log('✅ Botpress webchat loaded successfully');
-          // Hide default fab button
-          const style = document.createElement('style');
-          style.textContent = `
-            #bp-web-widget-container .bpw-floating-button { display: none !important; }
-          `;
-          document.head.appendChild(style);
-        });
-      }
+      window.botpress.init({
+        botId: BOTPRESS_BOT_ID,
+        clientId: BOTPRESS_CLIENT_ID,
+        hostUrl: 'https://cdn.botpress.cloud/webchat/v2.2',
+        messagingUrl: 'https://messaging.botpress.cloud',
+        configuration: {
+          botName: 'Aling Nina',
+          botDescription: 'AI Assistant para sa MSME Pathways',
+          fabIcon: 'bot',
+          themeColor: '#3b82f6',
+          textColor: '#ffffff',
+          showPoweredBy: false,
+          enableTranscriptDownload: false,
+          closeOnEscape: true,
+          containerWidth: '360px',
+          layoutWidth: '360px',
+          composerPlaceholder: 'Type your message...',
+          locale: 'en',
+        },
+      });
+
+      window.botpress.on('webchat:ready', () => {
+        setIsLoaded(true);
+
+        const style = document.createElement('style');
+        style.id = 'botpress-hide-default-fab';
+        style.textContent = '#bp-web-widget-container .bpw-floating-button { display: none !important; }';
+        document.head.appendChild(style);
+      });
     };
 
     script.onerror = () => {
@@ -91,33 +136,42 @@ const BotpressChatWidget = () => {
 
     return () => {
       const existingScript = document.getElementById('botpress-webchat-script');
-      if (existingScript) {
-        existingScript.remove();
-      }
+      if (existingScript) existingScript.remove();
+
+      const hideFabStyle = document.getElementById('botpress-hide-default-fab');
+      if (hideFabStyle) hideFabStyle.remove();
     };
-  }, []);
+  }, [BOTPRESS_BOT_ID, BOTPRESS_CLIENT_ID]);
 
   const toggleChat = () => {
+    // Treat any click as user interaction, hide teaser for this session immediately.
+    markTeaserSeen();
+
     if (!isLoaded || !window.botpress) {
       console.warn('Botpress not loaded yet');
       return;
     }
 
-    if (isOpen) {
-      window.botpress.close();
-    } else {
+    if (!isOpen) {
+      setIsOpen(true);
       window.botpress.open();
+    } else {
+      setIsOpen(false);
+      window.botpress.close();
     }
-    
-    setIsOpen(!isOpen);
   };
 
-  // Listen for Botpress open/close events
   useEffect(() => {
-    if (!window.botpress) return;
+    if (!isLoaded || !window.botpress) return;
 
-    const handleOpen = () => setIsOpen(true);
-    const handleClose = () => setIsOpen(false);
+    const handleOpen = () => {
+      setIsOpen(true);
+      markTeaserSeen();
+    };
+
+    const handleClose = () => {
+      setIsOpen(false);
+    };
 
     window.botpress.on('webchat:opened', handleOpen);
     window.botpress.on('webchat:closed', handleClose);
@@ -132,70 +186,81 @@ const BotpressChatWidget = () => {
 
   return (
     <>
-      {/* Custom Chat Button */}
       <motion.div
-        className="fixed bottom-6 right-6 z-50"
+        id="msme-chat-launcher"
+        className="fixed bottom-6 right-6 z-[60]"
         initial={{ opacity: 0, scale: 0 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', stiffness: 400, damping: 20 }}
       >
+        {!isOpen && showTeaser && !hasInteracted && (
+          <motion.div
+            className="absolute bottom-20 right-0 w-[220px] max-w-[calc(100vw-3rem)]"
+            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.28 }}
+          >
+            <div className="relative rounded-2xl border border-[#b7c9f0] bg-white px-4 py-3 shadow-[0_12px_24px_rgba(37,99,235,0.14)]">
+              <button
+                type="button"
+                onClick={markTeaserSeen}
+                className="absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                aria-label="Close chatbot teaser"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+              <div className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-[12px] font-semibold text-emerald-700">
+                AI Assistant
+              </div>
+              <p className="mt-2 text-base leading-tight font-semibold text-slate-800">Try our AI chatbot!</p>
+              <p className="mt-1 text-[12px] leading-relaxed text-slate-500">
+                Ask about loans, registration, or financial tips - available 24/7.
+              </p>
+              <div className="absolute -bottom-[7px] right-7 h-3.5 w-3.5 rotate-45 border-r border-b border-[#b7c9f0] bg-white" />
+            </div>
+          </motion.div>
+        )}
+
         <motion.button
           onClick={toggleChat}
-          className="group relative w-16 h-16 rounded-full bg-gradient-to-br from-primary-blue to-blue-700 shadow-lg shadow-primary-blue/30 flex items-center justify-center hover:scale-110 transition-transform"
-          whileHover={{ scale: 1.1 }}
+          className="group relative grid h-16 w-16 place-items-center rounded-full border-2 border-[#9ec5ff] bg-[#eaf3ff] shadow-[0_10px_24px_rgba(37,99,235,0.2)] transition-transform hover:scale-105"
           whileTap={{ scale: 0.95 }}
+          aria-label={isOpen ? 'Close chat assistant' : 'Open chat assistant'}
         >
-          {/* Pulse ring */}
-          {!isOpen && (
-            <span className="absolute inset-0 rounded-full bg-primary-blue animate-ping opacity-25" />
-          )}
-
-          {/* Bot avatar or close icon */}
+          <span className="absolute inset-1 rounded-full border-2 border-dashed border-[#8bb9ff]" />
           <AnimatePresence mode="wait">
             {isOpen ? (
-              <motion.div
+              <motion.span
                 key="close"
-                initial={{ rotate: -180, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 180, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="text-white text-2xl"
+                initial={{ opacity: 0, rotate: -90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: 90 }}
+                transition={{ duration: 0.18 }}
+                className="relative z-10 grid h-11 w-11 place-items-center rounded-full bg-slate-900 text-white"
               >
-                ✕
-              </motion.div>
+                <X className="h-5 w-5" />
+              </motion.span>
             ) : (
-              <motion.div
-                key="bot"
-                initial={{ rotate: 180, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: -180, opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="relative w-12 h-12 rounded-full bg-primary-yellow flex items-center justify-center text-2xl"
+              <motion.span
+                key="chat"
+                initial={{ opacity: 0, rotate: 90 }}
+                animate={{ opacity: 1, rotate: 0 }}
+                exit={{ opacity: 0, rotate: -90 }}
+                transition={{ duration: 0.18 }}
+                className="relative z-10 grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-sm"
               >
-                🤖
-              </motion.div>
+                <MessageSquare className="h-5 w-5" />
+              </motion.span>
             )}
           </AnimatePresence>
-
-          {/* Notification badge */}
-          {!isOpen && (
-            <motion.span
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold"
-            >
-              1
-            </motion.span>
-          )}
         </motion.button>
       </motion.div>
 
-      {/* Custom styling for Botpress webchat positioning */}
       <style>{`
         #bp-web-widget-container {
-          z-index: 40 !important;
+          z-index: 50 !important;
         }
-        
+
         #bp-web-widget-container iframe {
           bottom: 90px !important;
           right: 24px !important;

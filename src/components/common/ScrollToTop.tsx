@@ -7,9 +7,11 @@ const ScrollToTop = () => {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      setIsVisible(window.scrollY > 500);
+      const secondSectionThreshold = Math.max(420, window.innerHeight * 0.75);
+      setIsVisible(window.scrollY > secondSectionThreshold);
     };
 
+    toggleVisibility();
     window.addEventListener('scroll', toggleVisibility);
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);

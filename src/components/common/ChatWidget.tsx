@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Send, Loader2 } from 'lucide-react';
+import { X, Send, Loader2, MessageSquare } from 'lucide-react';
 
 interface Message {
     from: 'user' | 'bot';
@@ -118,25 +118,37 @@ const ChatWidget = () => {
                 transition={{ type: 'spring', stiffness: 400, damping: 20 }}
             >
                 {!isOpen && (
-                    <motion.button
-                        onClick={() => setIsOpen(true)}
-                        className="group relative w-16 h-16 rounded-full bg-gradient-to-br from-primary-blue to-blue-700 shadow-lg shadow-primary-blue/30 flex items-center justify-center hover:scale-110 transition-transform"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        {/* Pulse ring */}
-                        <span className="absolute inset-0 rounded-full bg-primary-blue animate-ping opacity-25" />
+                    <>
+                        <motion.div
+                            className="absolute bottom-20 right-0 w-[220px] max-w-[calc(100vw-3rem)]"
+                            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            transition={{ duration: 0.28 }}
+                        >
+                            <div className="relative rounded-2xl border border-[#b7c9f0] bg-white px-4 py-3 shadow-[0_12px_24px_rgba(37,99,235,0.14)]">
+                                <div className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-[12px] font-semibold text-emerald-700">
+                                    AI Assistant
+                                </div>
+                                <p className="mt-2 text-[23px] leading-tight font-semibold text-slate-800">Try our AI chatbot!</p>
+                                <p className="mt-1 text-[12px] leading-relaxed text-slate-500">
+                                    Ask about loans, registration, or financial tips - available 24/7.
+                                </p>
+                                <div className="absolute -bottom-[7px] right-7 h-3.5 w-3.5 rotate-45 border-r border-b border-[#b7c9f0] bg-white" />
+                            </div>
+                        </motion.div>
 
-                        {/* Bot avatar */}
-                        <div className="relative w-12 h-12 rounded-full bg-primary-yellow flex items-center justify-center text-2xl">
-                            🤖
-                        </div>
-
-                        {/* Notification badge */}
-                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                            1
-                        </span>
-                    </motion.button>
+                        <motion.button
+                            onClick={() => setIsOpen(true)}
+                            className="group relative grid h-16 w-16 place-items-center rounded-full border-2 border-[#9ec5ff] bg-[#eaf3ff] shadow-[0_10px_24px_rgba(37,99,235,0.2)] transition-transform hover:scale-105"
+                            whileTap={{ scale: 0.95 }}
+                            aria-label="Open chat assistant"
+                        >
+                            <span className="absolute inset-1 rounded-full border-2 border-dashed border-[#8bb9ff]" />
+                            <div className="relative grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-sm">
+                                <MessageSquare className="h-5 w-5" />
+                            </div>
+                        </motion.button>
+                    </>
                 )}
             </motion.div>
 
