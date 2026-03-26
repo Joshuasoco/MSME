@@ -178,7 +178,7 @@ const BenefitsSection = () => {
                             ))}
                         </div>
                         <span className="text-gray-600">
-                            <strong className="text-dark"><></></strong> Para sa bawat negosyanteng walang credit history
+                            <strong className="text-dark"></strong> Para sa bawat negosyanteng walang credit history
                         </span>
                     </div>
                 </motion.div>

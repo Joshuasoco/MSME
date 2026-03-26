@@ -115,7 +115,7 @@ const HeroSection = () => {
                                 href={APP_LINKS.playStore}
                                 download="msme-pathways.apk"
                                 aria-label="Download MSME Pathways app for free"
-                                className="group relative inline-block rounded-full min-h-[44px] transition-transform duration-300 hover:scale-[1.03] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
+                                className="group relative inline-block self-center sm:self-auto rounded-full min-h-[44px] transition-transform duration-300 hover:scale-[1.03] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
                             >
                                 <NoiseBackground
                                     containerClassName="w-fit !rounded-full !p-[1px] !bg-transparent !shadow-none"

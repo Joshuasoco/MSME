@@ -20,6 +20,9 @@ const BotpressChatWidget = () => {
 
   const BOTPRESS_BOT_ID = import.meta.env.VITE_BOTPRESS_BOT_ID;
   const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID;
+  const BOTPRESS_WEBCHAT_ID =
+    import.meta.env.VITE_BOTPRESS_WEBCHAT_ID || import.meta.env.VITE_BOTPRESS_STYLE_ID;
+  const BOTPRESS_CONFIG_URL = import.meta.env.VITE_BOTPRESS_CONFIG_URL;
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 5000);
@@ -74,34 +77,75 @@ const BotpressChatWidget = () => {
   }, []);
 
   useEffect(() => {
-    if (!BOTPRESS_BOT_ID || BOTPRESS_BOT_ID === 'your_bot_id_here') {
-      console.error('Botpress botId not configured. Add VITE_BOTPRESS_BOT_ID to .env');
-      return;
-    }
+    const hasConfigScript =
+      Boolean(BOTPRESS_CONFIG_URL) && BOTPRESS_CONFIG_URL !== 'your_webchat_config_url_here';
 
-    if (!BOTPRESS_CLIENT_ID || BOTPRESS_CLIENT_ID === 'your_client_id_here') {
-      console.error('Botpress clientId not configured. Add VITE_BOTPRESS_CLIENT_ID to .env');
-      return;
+    if (!hasConfigScript) {
+      if (!BOTPRESS_BOT_ID || BOTPRESS_BOT_ID === 'your_bot_id_here') {
+        console.error('Botpress botId not configured. Add VITE_BOTPRESS_BOT_ID to .env');
+        return;
+      }
+
+      if (!BOTPRESS_CLIENT_ID || BOTPRESS_CLIENT_ID === 'your_client_id_here') {
+        console.error('Botpress clientId not configured. Add VITE_BOTPRESS_CLIENT_ID to .env');
+        return;
+      }
     }
 
     if (document.getElementById('botpress-webchat-script')) {
-      setIsLoaded(true);
+      if (window.botpress) {
+        setIsLoaded(true);
+      }
       return;
     }
 
     const script = document.createElement('script');
     script.id = 'botpress-webchat-script';
-    script.src = 'https://cdn.botpress.cloud/webchat/v2.2/inject.js';
+    script.src = 'https://cdn.botpress.cloud/webchat/v3.3/inject.js';
     script.async = true;
 
     script.onload = () => {
       if (!window.botpress) return;
 
-      window.botpress.init({
+      const onWidgetReady = async () => {
+        setIsLoaded(true);
+
+        if (!document.getElementById('botpress-hide-default-fab')) {
+          const style = document.createElement('style');
+          style.id = 'botpress-hide-default-fab';
+          style.textContent =
+            '#bp-web-widget-container .bpw-floating-button, .bpFabWrapper { display: none !important; }';
+          document.head.appendChild(style);
+        }
+
+        // Pre-create a clean conversation to avoid race conditions when users send the first message quickly.
+        if (typeof window.botpress.restartConversation === 'function') {
+          try {
+            await window.botpress.restartConversation();
+          } catch {
+            // Ignore warmup errors; the widget can still open and create a conversation lazily.
+          }
+        }
+      };
+
+      window.botpress.on('webchat:initialized', onWidgetReady);
+      window.botpress.on('webchat:ready', onWidgetReady);
+
+      if (hasConfigScript) {
+        const configScript = document.createElement('script');
+        configScript.id = 'botpress-webchat-config-script';
+        configScript.src = BOTPRESS_CONFIG_URL;
+        configScript.defer = true;
+        configScript.onerror = () => {
+          console.error('Failed to load Botpress Webchat config script');
+        };
+        document.body.appendChild(configScript);
+        return;
+      }
+
+      const initPayload: Record<string, unknown> = {
         botId: BOTPRESS_BOT_ID,
         clientId: BOTPRESS_CLIENT_ID,
-        hostUrl: 'https://cdn.botpress.cloud/webchat/v2.2',
-        messagingUrl: 'https://messaging.botpress.cloud',
         configuration: {
           botName: 'Aling Nina',
           botDescription: 'AI Assistant para sa MSME Pathways',
@@ -116,16 +160,19 @@ const BotpressChatWidget = () => {
           composerPlaceholder: 'Type your message...',
           locale: 'en',
         },
-      });
+      };
 
-      window.botpress.on('webchat:ready', () => {
-        setIsLoaded(true);
+      const hasWebchatId =
+        Boolean(BOTPRESS_WEBCHAT_ID) &&
+        BOTPRESS_WEBCHAT_ID !== 'your_webchat_id_here' &&
+        BOTPRESS_WEBCHAT_ID !== 'your_style_id_here';
 
-        const style = document.createElement('style');
-        style.id = 'botpress-hide-default-fab';
-        style.textContent = '#bp-web-widget-container .bpw-floating-button { display: none !important; }';
-        document.head.appendChild(style);
-      });
+      if (hasWebchatId) {
+        initPayload.webchatId = BOTPRESS_WEBCHAT_ID;
+        initPayload.webhookId = BOTPRESS_WEBCHAT_ID;
+      }
+
+      window.botpress.init(initPayload);
     };
 
     script.onerror = () => {
@@ -138,10 +185,13 @@ const BotpressChatWidget = () => {
       const existingScript = document.getElementById('botpress-webchat-script');
       if (existingScript) existingScript.remove();
 
+      const configScript = document.getElementById('botpress-webchat-config-script');
+      if (configScript) configScript.remove();
+
       const hideFabStyle = document.getElementById('botpress-hide-default-fab');
       if (hideFabStyle) hideFabStyle.remove();
     };
-  }, [BOTPRESS_BOT_ID, BOTPRESS_CLIENT_ID]);
+  }, [BOTPRESS_BOT_ID, BOTPRESS_CLIENT_ID, BOTPRESS_WEBCHAT_ID, BOTPRESS_CONFIG_URL]);
 
   const toggleChat = () => {
     // Treat any click as user interaction, hide teaser for this session immediately.
