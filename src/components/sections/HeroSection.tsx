@@ -197,7 +197,7 @@ const HeroSection = () => {
                         className="lg:col-span-5 flex justify-center lg:justify-end"
                         style={allowAmbientMotion ? { y: phoneY } : undefined}
                     >
-                        <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-100 origin-center">
+                        <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-[0.96] lg:scale-[0.92] xl:scale-[0.95] origin-center lg:-translate-x-5">
                             <PhoneMockup
                                 animate={allowAmbientMotion}
                                 screenImageSrc="/msmephonebelow.webp"
