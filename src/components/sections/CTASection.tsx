@@ -167,8 +167,9 @@ const CTASection = () => {
                         <div className="relative origin-center">
                             <PhoneMockup
                                 animate={allowAmbientMotion}
-                                screenImageSrc="/msmephonenewbelow.webp"
-                                screenImageAlt="MSME Pathways app additional screen preview"
+                                screenImageSrc="/iPhone%2016%20-%2029.png"
+                                screenImageAlt="Analyzing application screen"
+                                frameClassName="w-[240px] min-[375px]:w-[270px] sm:w-[300px] md:w-[340px]"
                             />
                         </div>
                     </motion.div>

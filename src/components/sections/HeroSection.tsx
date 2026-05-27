@@ -200,8 +200,8 @@ const HeroSection = () => {
                         <div className="relative scale-[0.82] min-[375px]:scale-90 sm:scale-[0.96] lg:scale-[0.92] xl:scale-[0.95] origin-center lg:-translate-x-5">
                             <PhoneMockup
                                 animate={allowAmbientMotion}
-                                screenImageSrc="/msmephonebelow.webp"
-                                screenImageAlt="MSME Pathways app home screen preview"
+                                screenImageSrc="/iPhone%2016%20-%2027%20%281%29.png"
+                                screenImageAlt="You're pre-qualified screen"
                                 showLoanBadge
                                 loanBadgeTitle="Loan Pre-Qualified!"
                                 loanBadgeAmount="PHP 25,000"

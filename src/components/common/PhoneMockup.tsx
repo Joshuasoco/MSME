@@ -5,6 +5,8 @@ interface PhoneMockupProps {
     animate?: boolean;
     screenImageSrc?: string;
     screenImageAlt?: string;
+    screenImageFit?: 'cover' | 'contain';
+    frameClassName?: string;
     showLoanBadge?: boolean;
     loanBadgeTitle?: string;
     loanBadgeAmount?: string;
@@ -16,6 +18,8 @@ const PhoneMockup = ({
     animate = false,
     screenImageSrc = '/msmephone1revised.webp',
     screenImageAlt = 'MSME Pathways mobile app screen',
+    screenImageFit = 'cover',
+    frameClassName = '',
     showLoanBadge = false,
     loanBadgeTitle = 'Loan Pre-Qualified!',
     loanBadgeAmount = 'PHP 25,000',
@@ -37,8 +41,8 @@ const PhoneMockup = ({
 
             {showApprovalBadge && (
                 <motion.div
-                    className="pointer-events-none absolute right-2 sm:-right-10 md:-right-20 top-[10%] z-[70]"
-                    animate={animate ? { y: [0, -4, 0] } : undefined}
+                    className="pointer-events-none absolute right-2 sm:-right-10 md:-right-20 top-[32%] z-[70]"
+                    animate={animate ? { y: [0, -4, 0], rotate: [-12, -4, -6] } : undefined}
                     transition={animate ? { duration: 3.2, repeat: Infinity, ease: 'easeInOut' } : undefined}
                 >
                     <div className="min-w-[182px] flex items-center gap-2.5 rounded-2xl bg-white px-3.5 py-2.5 shadow-[0_16px_30px_rgba(15,23,42,0.26)] ring-1 ring-emerald-100">
@@ -48,7 +52,9 @@ const PhoneMockup = ({
                 </motion.div>
             )}
 
-            <div className="relative w-[220px] min-[375px]:w-[250px] sm:w-[280px] md:w-[320px] aspect-[9/19.5] rounded-[3.2rem] bg-gradient-to-b from-slate-300 via-slate-500 to-slate-900 p-[5px] shadow-[0_30px_60px_rgba(2,6,23,0.45)]">
+            <div
+                className={`relative w-[220px] min-[375px]:w-[250px] sm:w-[280px] md:w-[320px] aspect-[9/19.5] rounded-[3.2rem] bg-gradient-to-b from-slate-300 via-slate-500 to-slate-900 p-[5px] shadow-[0_30px_60px_rgba(2,6,23,0.45)] ${frameClassName}`}
+            >
                 <div className="absolute inset-[1px] rounded-[3.1rem] bg-gradient-to-r from-white/35 via-transparent to-white/20 pointer-events-none" />
 
                 <div className="absolute -left-[2px] top-[19%] h-8 w-[3px] rounded-full bg-slate-500/85" />
@@ -61,7 +67,9 @@ const PhoneMockup = ({
                         <img
                             src={screenImageSrc}
                             alt={screenImageAlt}
-                            className="absolute inset-0 h-full w-full object-cover"
+                            className={`absolute inset-0 h-full w-full ${
+                                screenImageFit === 'contain' ? 'object-contain bg-black' : 'object-cover'
+                            }`}
                             loading={animate ? 'eager' : 'lazy'}
                             decoding="async"
                         />
