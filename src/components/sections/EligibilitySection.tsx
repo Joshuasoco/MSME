@@ -236,7 +236,7 @@ const EligibilitySection = () => {
                         {/* Progress Bar */}
                         <div className="h-2 bg-gray-100">
                             <motion.div
-                                className="h-full bg-gradient-to-r from-primary-blue to-emerald-500"
+                                className="h-full bg-primary-blue"
                                 initial={{ width: 0 }}
                                 animate={{ width: `${progressPercent}%` }}
                                 transition={{ duration: 0.3 }}
@@ -252,9 +252,6 @@ const EligibilitySection = () => {
                                             ? 'Review step'
                                             : `Question ${currentStep + 1} of ${questions.length}`}
                                 </span>
-                                <span className={isReviewing && !hasAllAnswers ? 'text-amber-600 font-semibold' : ''}>
-                                    {answeredCount}/{questions.length} answered
-                                </span>
                             </div>
 
                             <div className="mt-4 mb-2 flex items-center gap-2">
@@ -268,7 +265,7 @@ const EligibilitySection = () => {
                                             className={`h-2.5 rounded-full transition-all ${isActive
                                                 ? 'w-10 bg-primary-blue'
                                                 : isAnswered
-                                                    ? 'w-6 bg-emerald-500'
+                                                    ? 'w-6 bg-primary-blue'
                                                     : 'w-6 bg-gray-200'
                                                 }`}
                                             aria-hidden="true"

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bot, UserCheck, Shield, Zap, Heart, BookOpen, Lock } from 'lucide-react';
+import { Bot, UserCheck, Shield, Zap, Heart, BookOpen, Lock, BarChart3, Wallet, TrendingUp } from 'lucide-react';
 
 const features = [
     {
@@ -278,18 +278,22 @@ const FeaturesSection = () => {
                                 </p>
                             </div>
 
-                            {/* Mini Course Cards - simplified */}
+                            {/* Mini Course Cards - Lucide icons */}
                             <div className="flex gap-2 flex-shrink-0">
-                                {['📊', '💰', '📈'].map((emoji, i) => (
+                                {[
+                                    { icon: BarChart3, key: 'chart' },
+                                    { icon: Wallet, key: 'wallet' },
+                                    { icon: TrendingUp, key: 'trending' }
+                                ].map((item, i) => (
                                     <motion.div
-                                        key={i}
-                                        className="w-12 h-12 bg-[#F5F5F7] rounded-xl flex items-center justify-center text-2xl"
+                                        key={item.key}
+                                        className="w-12 h-12 bg-[#F5F5F7] rounded-xl flex items-center justify-center"
                                         initial={{ opacity: 0, scale: 0 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         transition={{ delay: 0.5 + i * 0.1 }}
                                         whileHover={{ y: -4, scale: 1.05 }}
                                     >
-                                        {emoji}
+                                        <item.icon className="w-6 h-6 text-primary-blue" />
                                     </motion.div>
                                 ))}
                             </div>

@@ -55,7 +55,7 @@ function App() {
 
       {/* Toast Notifications */}
       <Toaster
-        position="top-right"
+        position="top-center"
         offset={{ top: 96 }}
         theme="light"
         options={{
