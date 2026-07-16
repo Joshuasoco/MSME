@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
-import { AlertTriangle, CircleX, FileQuestion, Building2 } from 'lucide-react';
+import { CircleX, FileQuestion, Building2 } from 'lucide-react';
 import { PROBLEMS } from '@/lib/constants';
 
 const iconMap: Record<string, React.ComponentType<any>> = {
@@ -60,14 +60,6 @@ const ProblemSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <motion.span
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-red-50 text-red-600 text-sm font-medium rounded-full mb-6 border border-red-100"
-            whileHover={{ scale: 1.05 }}
-          >
-            <AlertTriangle className="w-4 h-4" />
-            Common Challenges
-          </motion.span>
-
           <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 tracking-tight">
             <span className="text-gray-900">Bakit Mahirap</span>
             <br />

@@ -75,14 +75,6 @@ const HeroSection = () => {
                         transition={{ duration: 0.7 }}
                         className="lg:col-span-7 text-center lg:text-left"
                     >
-                        <motion.div
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-white/80 backdrop-blur-sm border border-primary-blue/20 text-primary-blue text-sm font-medium rounded-full mb-6 shadow-lg"
-                            whileHover={{ scale: 1.03 }}
-                        >
-                            <Sparkles className="w-4 h-4 text-primary-yellow" />
-                            AI-Powered Financial Inclusion
-                        </motion.div>
-
                         <h1 className="font-display font-bold leading-tight tracking-tight mb-6">
                             <span className="block text-3xl sm:text-4xl md:text-5xl text-gray-600 font-medium">
                                 Walang Credit History?

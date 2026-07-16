@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { LucideIcon } from 'lucide-react';
-import { CheckCircle, ArrowRight, ArrowLeft, Download, Sparkles, PencilLine, Store, CalendarDays, Wallet } from 'lucide-react';
+import { CheckCircle, ArrowRight, ArrowLeft, Download, PencilLine, Store, CalendarDays, Wallet } from 'lucide-react';
 import { sileo } from 'sileo';
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
@@ -214,14 +214,6 @@ const EligibilitySection = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    <motion.span
-                        className="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-50 text-emerald-700 text-sm font-medium rounded-full mb-6 border border-emerald-200"
-                        whileHover={{ scale: 1.05 }}
-                    >
-                        <Sparkles className="w-4 h-4" />
-                        Quick Check - No Signup Needed
-                    </motion.span>
-
                     <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
                         <span className="text-gray-900">Check mo kung </span>
                         <span className="text-gradient-blue">Pwede ka mag-loan</span>

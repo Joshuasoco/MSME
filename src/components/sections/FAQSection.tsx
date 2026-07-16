@@ -51,7 +51,7 @@ const FAQSection = () => {
                         transition={{ duration: 0.6 }}
                     >
                         <motion.span
-                            className="inline-flex items-center gap-2 px-5 py-2 bg-primary-blue/10 text-primary-blue text-sm font-semibold rounded-full mb-6"
+                            className="inline-flex items-center gap-2 text-primary-blue text-sm font-semibold mb-4"
                             whileHover={{ scale: 1.05 }}
                         >
                             <HelpCircle className="w-4 h-4" />

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Download, ArrowRight, CheckCircle, Sparkles } from 'lucide-react';
+import { Download, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
 import PhoneMockup from '@/components/common/PhoneMockup';
@@ -71,14 +71,6 @@ const CTASection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6 }}
                     >
-                        <motion.span
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold rounded-full mb-6 border border-white/20"
-                            whileHover={{ scale: 1.03 }}
-                        >
-                            <Sparkles className="w-4 h-4 text-primary-yellow" />
-                            Free to Download
-                        </motion.span>
-
                         <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
                             Ready to Start Your{' '}
                             <SparklesText

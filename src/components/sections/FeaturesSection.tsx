@@ -6,8 +6,7 @@ const features = [
         icon: Bot,
         title: 'AI Personal Guide',
         description: 'Parang may personal financial advisor ka! I-eexplain sa\'yo ang bawat detail ng loan nang simple at easy to understand.',
-        badge: 'Powered by AI',
-        gradient: 'from-blue-500 to-indigo-600',
+        eyebrow: 'POWERED BY AI',
         size: 'large', // spans 2 columns
         mockupType: 'chat',
     },
@@ -15,8 +14,7 @@ const features = [
         icon: UserCheck,
         title: 'No Credit History? No Problem!',
         description: 'Alternative data assessment para sa fair at transparent na evaluation.',
-        badge: 'Inclusive',
-        gradient: 'from-emerald-500 to-teal-600',
+        eyebrow: 'INCLUSIVE',
         size: 'tall',
         mockupType: 'profile',
     },
@@ -24,8 +22,7 @@ const features = [
         icon: Shield,
         title: 'Safe & Transparent',
         description: 'Walang hidden charges. 100% secure.',
-        badge: '100% Secure',
-        gradient: 'from-violet-500 to-purple-600',
+        eyebrow: '100% SECURE',
         size: 'normal',
         mockupType: null,
     },
@@ -33,8 +30,7 @@ const features = [
         icon: BookOpen,
         title: 'Free Financial Education',
         description: 'Learn proper money management at smart borrowing tips.',
-        badge: 'Free Learning',
-        gradient: 'from-amber-500 to-orange-600',
+        eyebrow: 'FREE LEARNING',
         size: 'wide',
         mockupType: null,
     },
@@ -42,8 +38,7 @@ const features = [
         icon: Zap,
         title: 'Fast Pre-qualification',
         description: 'Quick at easy process. Hindi magtatagal.',
-        badge: 'Instant',
-        gradient: 'from-pink-500 to-rose-600',
+        eyebrow: 'INSTANT',
         size: 'normal',
         mockupType: null,
     },
@@ -51,8 +46,7 @@ const features = [
         icon: Heart,
         title: 'Built for Filipinos',
         description: 'Designed especially para sa mga Pinoy microentrepreneurs.',
-        badge: 'Filipino-First',
-        gradient: 'from-cyan-500 to-blue-600',
+        eyebrow: 'FILIPINO-FIRST',
         size: 'normal',
         mockupType: null,
     },
@@ -76,14 +70,6 @@ const FeaturesSection = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
                 >
-                    <motion.span
-                        className="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary-blue/10 to-primary-yellow/10 text-primary-blue text-sm font-semibold rounded-full mb-6 border border-primary-blue/20"
-                        whileHover={{ scale: 1.05 }}
-                    >
-                        <Zap className="w-4 h-4" />
-                        Our Features
-                    </motion.span>
-
                     <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                         <span className="text-dark">How We Can </span>
                         <span className="text-gradient-blue">Help You</span>
@@ -96,56 +82,42 @@ const FeaturesSection = () => {
 
                 {/* Bento Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-                    {/* Feature 1: Large Card (2x2) */}
+                    {/* Feature 1: Hero Card (2x2) - Only card with brand blue */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group md:col-span-2 lg:col-span-2 lg:row-span-2 relative bg-gradient-to-br from-primary-blue via-blue-600 to-indigo-700 rounded-3xl p-8 text-white overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300"
+                        className="group md:col-span-2 lg:col-span-2 lg:row-span-2 relative bg-primary-blue rounded-2xl p-8 text-white overflow-hidden border border-[#0051D5]/20"
                     >
-                        {/* Animated Background Pattern */}
-                        <div className="absolute inset-0 opacity-10">
-                            <motion.div
-                                className="absolute inset-0"
-                                style={{
-                                    backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-                                    backgroundSize: '32px 32px'
-                                }}
-                                animate={{ y: [0, -32], x: [0, -32] }}
-                                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                            />
-                        </div>
-
                         <div className="relative z-10 h-full flex flex-col">
-                            {/* Badge */}
-                            <span className="inline-flex items-center gap-2 px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-semibold rounded-full w-fit mb-6">
-                                <Bot className="w-3 h-3" />
-                                {features[0].badge}
+                            {/* Eyebrow text - Apple style */}
+                            <span className="text-white/70 text-[10px] font-medium tracking-[0.08em] uppercase mb-4">
+                                {features[0].eyebrow}
                             </span>
 
                             {/* Content */}
-                            <h3 className="text-3xl md:text-4xl font-bold mb-4">
+                            <h3 className="text-3xl md:text-4xl font-semibold mb-4">
                                 {features[0].title}
                             </h3>
-                            <p className="text-white/80 text-lg mb-8 max-w-md">
+                            <p className="text-white/80 text-base mb-8 max-w-md">
                                 {features[0].description}
                             </p>
 
-                            {/* Chat Mockup */}
+                            {/* Chat Mockup with distinct bubble colors */}
                             <div className="mt-auto relative">
                                 <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-4 border border-white/10">
                                     <motion.div
-                                        className="bg-primary-yellow rounded-xl rounded-bl-sm p-3 max-w-[80%] mb-3 shadow-lg"
+                                        className="bg-white rounded-xl p-3 max-w-[80%] mb-3"
                                         initial={{ opacity: 0, x: -20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.3 }}
                                     >
-                                        <p className="text-sm text-dark font-medium">Hi! I'm your AI Assistant. Paano kita matutulungan today?</p>
+                                        <p className="text-sm text-gray-900">Hi! I'm your AI Assistant. Paano kita matutulungan today?</p>
                                     </motion.div>
                                     <motion.div
-                                        className="bg-white/20 rounded-xl rounded-br-sm p-3 max-w-[70%] ml-auto"
+                                        className="bg-white/20 backdrop-blur-sm rounded-xl p-3 max-w-[70%] ml-auto"
                                         initial={{ opacity: 0, x: 20 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.5 }}
@@ -156,7 +128,7 @@ const FeaturesSection = () => {
                             </div>
                         </div>
 
-                        {/* Floating Icon */}
+                        {/* Robot Icon Badge - restored to top-right corner */}
                         <motion.div
                             className="absolute -top-4 -right-4 w-24 h-24 bg-white/10 backdrop-blur-sm rounded-full flex items-center justify-center"
                             animate={{ rotate: [0, 10, 0] }}
@@ -166,174 +138,156 @@ const FeaturesSection = () => {
                         </motion.div>
                     </motion.div>
 
-                    {/* Feature 2: Tall Card */}
+                    {/* Feature 2: Tall Card - Neutral surface */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.1 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group md:row-span-2 lg:row-span-2 relative bg-gradient-to-br from-emerald-50 to-teal-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-emerald-100"
+                        className="group md:row-span-2 lg:row-span-2 relative bg-white rounded-2xl p-6 overflow-hidden border border-[#E5E5E5]"
                     >
                         <div className="h-full flex flex-col">
-                            {/* Icon */}
+                            {/* Icon - consistent style, brand blue only */}
                             <motion.div
-                                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg mb-4"
-                                whileHover={{ scale: 1.1, rotate: -5 }}
+                                className="w-10 h-10 rounded-full bg-[#F5F5F7] flex items-center justify-center mb-4"
+                                whileHover={{ scale: 1.05 }}
                             >
-                                <UserCheck className="w-7 h-7 text-white" />
+                                <UserCheck className="w-5 h-5 text-primary-blue" />
                             </motion.div>
 
-                            <span className="inline-block px-3 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-full w-fit mb-4">
-                                {features[1].badge}
+                            {/* Eyebrow text - Apple style */}
+                            <span className="text-[#86868B] text-[10px] font-medium tracking-[0.08em] uppercase mb-4">
+                                {features[1].eyebrow}
                             </span>
 
-                            <h3 className="text-xl font-bold text-gray-900 mb-3">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">
                                 {features[1].title}
                             </h3>
-                            <p className="text-gray-600 mb-6">
+                            <p className="text-[#86868B] text-sm leading-relaxed mb-6">
                                 {features[1].description}
                             </p>
 
-                            {/* Profile Score Mockup */}
-                            <div className="mt-auto bg-white rounded-2xl p-4 shadow-md border border-gray-100">
+                            {/* Minimal Profile Score Mockup */}
+                            <div className="mt-auto bg-[#F5F5F7] rounded-xl p-4">
                                 <div className="flex justify-between items-center mb-2">
-                                    <span className="text-xs text-gray-500">Profile Score</span>
-                                    <span className="text-lg font-bold text-emerald-600">85%</span>
+                                    <span className="text-xs text-[#86868B]">Profile Score</span>
+                                    <span className="text-lg font-semibold text-gray-900">85%</span>
                                 </div>
-                                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div className="h-1.5 bg-white rounded-full overflow-hidden">
                                     <motion.div
-                                        className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full"
+                                        className="h-full bg-primary-blue rounded-full"
                                         initial={{ width: 0 }}
                                         whileInView={{ width: '85%' }}
                                         transition={{ duration: 1.5, delay: 0.5 }}
                                     />
                                 </div>
                                 <div className="mt-4 grid grid-cols-2 gap-2">
-                                    <div className="bg-emerald-50 rounded-lg p-2 text-center">
-                                        <p className="text-lg font-bold text-emerald-700">3+</p>
-                                        <p className="text-[10px] text-gray-500">Years Business</p>
+                                    <div className="bg-white rounded-lg p-2 text-center">
+                                        <p className="text-lg font-semibold text-gray-900">3+</p>
+                                        <p className="text-[10px] text-[#86868B]">Years Business</p>
                                     </div>
-                                    <div className="bg-emerald-50 rounded-lg p-2 text-center">
-                                        <p className="text-lg font-bold text-emerald-700">₱50K</p>
-                                        <p className="text-[10px] text-gray-500">Monthly Sales</p>
+                                    <div className="bg-white rounded-lg p-2 text-center">
+                                        <p className="text-lg font-semibold text-gray-900">₱50K</p>
+                                        <p className="text-[10px] text-[#86868B]">Monthly Sales</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Feature 3: Normal Card */}
+                    {/* Feature 3: Normal Card - Neutral surface */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.2 }}
-                        whileHover={{ y: -8, rotate: 2, transition: { duration: 0.3 } }}
-                        className="group relative bg-gradient-to-br from-violet-50 to-purple-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-violet-100"
+                        whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                        className="group relative bg-white rounded-2xl p-6 overflow-hidden border border-[#E5E5E5]"
                     >
                         <motion.div
-                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg mb-4"
-                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            className="w-10 h-10 rounded-full bg-[#F5F5F7] flex items-center justify-center mb-4"
+                            whileHover={{ scale: 1.05 }}
                         >
-                            <Shield className="w-6 h-6 text-white" />
+                            <Shield className="w-5 h-5 text-primary-blue" />
                         </motion.div>
 
-                        <span className="inline-block px-3 py-1 bg-violet-100 text-violet-700 text-xs font-semibold rounded-full mb-4">
-                            {features[2].badge}
+                        <span className="text-[#86868B] text-[10px] font-medium tracking-[0.08em] uppercase mb-4 block">
+                            {features[2].eyebrow}
                         </span>
 
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
                             {features[2].title}
                         </h3>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-[#86868B] text-sm leading-relaxed">
                             {features[2].description}
                         </p>
-
-                        {/* Lock Icon Animation */}
-                        <motion.div
-                            className="absolute -bottom-2 -right-2 text-6xl opacity-10 group-hover:opacity-20 transition-opacity"
-                            animate={{ y: [0, -5, 0] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            🔒
-                        </motion.div>
                     </motion.div>
 
-                    {/* Feature 4: Security Card */}
+                    {/* Feature 4: Security Card - Neutral surface */}
                     <motion.div
                         initial={false}
-                        whileHover={{ y: -8, rotate: -2, transition: { duration: 0.3 } }}
-                        className="group relative lg:col-start-4 lg:row-start-2 bg-[#ece5ff] rounded-3xl p-6 overflow-hidden shadow-lg transition-all duration-300 border border-violet-200"
+                        whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                        className="group relative lg:col-start-4 lg:row-start-2 bg-white rounded-2xl p-6 overflow-hidden border border-[#E5E5E5]"
                     >
                         <motion.div
-                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center shadow-lg mb-4"
-                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            className="w-10 h-10 rounded-full bg-[#F5F5F7] flex items-center justify-center mb-4"
+                            whileHover={{ scale: 1.05 }}
                         >
-                            <Shield className="w-6 h-6 text-white" />
+                            <Shield className="w-5 h-5 text-primary-blue" />
                         </motion.div>
 
-                        <span className="inline-block w-fit px-3 py-1 bg-violet-200 text-violet-800 text-xs font-semibold rounded-full mb-4 border border-violet-300">
+                        <span className="text-[#86868B] text-[10px] font-medium tracking-[0.08em] uppercase mb-4 block">
                             JWT + 2FA
                         </span>
 
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
                             Two-Factor Authentication
                         </h3>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-[#86868B] text-sm leading-relaxed">
                             Ang bawat login ay may karagdagang verification layer. Ang iyong account at personal data ay protektado sa lahat ng oras.
                         </p>
-
-                        {/* OTP Lock Accent */}
-                        <div className="absolute top-4 right-4 z-20 flex items-center gap-2 opacity-95 pointer-events-none">
-                            <div className="px-2.5 py-1 rounded-lg bg-white border border-violet-300 text-[10px] font-bold text-violet-700 tracking-[0.18em] shadow-sm">
-                                OTP 927 441
-                            </div>
-                            <div className="w-8 h-8 rounded-lg bg-violet-100 border border-violet-300 flex items-center justify-center shadow-sm">
-                                <Lock className="w-4 h-4 text-violet-700" />
-                            </div>
-                        </div>
                     </motion.div>
 
-                    {/* Feature 5: Wide Card (spans 2 columns) */}
+                    {/* Feature 5: Wide Card - Neutral surface */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.35 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group md:col-span-2 lg:col-span-2 relative bg-gradient-to-r from-amber-50 to-orange-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-amber-100"
+                        className="group md:col-span-2 lg:col-span-2 relative bg-white rounded-2xl p-6 overflow-hidden border border-[#E5E5E5]"
                     >
                         <div className="flex flex-col md:flex-row gap-6 items-center">
                             <motion.div
-                                className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg flex-shrink-0"
-                                whileHover={{ scale: 1.1, rotate: -5 }}
+                                className="w-10 h-10 rounded-full bg-[#F5F5F7] flex items-center justify-center flex-shrink-0"
+                                whileHover={{ scale: 1.05 }}
                             >
-                                <BookOpen className="w-7 h-7 text-white" />
+                                <BookOpen className="w-5 h-5 text-primary-blue" />
                             </motion.div>
 
                             <div className="flex-1 text-center md:text-left">
-                                <span className="inline-block px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full mb-2">
-                                    {features[3].badge}
+                                <span className="text-[#86868B] text-[10px] font-medium tracking-[0.08em] uppercase mb-2 block">
+                                    {features[3].eyebrow}
                                 </span>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                                <h3 className="text-xl font-semibold text-gray-900 mb-2">
                                     {features[3].title}
                                 </h3>
-                                <p className="text-gray-600">
+                                <p className="text-[#86868B] text-sm leading-relaxed">
                                     {features[3].description}
                                 </p>
                             </div>
 
-                            {/* Mini Course Cards */}
+                            {/* Mini Course Cards - simplified */}
                             <div className="flex gap-2 flex-shrink-0">
                                 {['📊', '💰', '📈'].map((emoji, i) => (
                                     <motion.div
                                         key={i}
-                                        className="w-12 h-12 bg-white rounded-xl shadow-md flex items-center justify-center text-2xl"
+                                        className="w-12 h-12 bg-[#F5F5F7] rounded-xl flex items-center justify-center text-2xl"
                                         initial={{ opacity: 0, scale: 0 }}
                                         whileInView={{ opacity: 1, scale: 1 }}
                                         transition={{ delay: 0.5 + i * 0.1 }}
-                                        whileHover={{ y: -4, scale: 1.1 }}
+                                        whileHover={{ y: -4, scale: 1.05 }}
                                     >
                                         {emoji}
                                     </motion.div>
@@ -342,75 +296,60 @@ const FeaturesSection = () => {
                         </div>
                     </motion.div>
 
-                    {/* Feature 6 */}
+                    {/* Feature 6: Normal Card - Neutral surface */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.4 }}
-                        whileHover={{ y: -8, rotate: -2, transition: { duration: 0.3 } }}
-                        className="group relative bg-gradient-to-br from-pink-50 to-rose-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-pink-100"
+                        whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                        className="group relative bg-white rounded-2xl p-6 overflow-hidden border border-[#E5E5E5]"
                     >
                         <motion.div
-                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center shadow-lg mb-4"
-                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            className="w-10 h-10 rounded-full bg-[#F5F5F7] flex items-center justify-center mb-4"
+                            whileHover={{ scale: 1.05 }}
                         >
-                            <Zap className="w-6 h-6 text-white" />
+                            <Zap className="w-5 h-5 text-primary-blue" />
                         </motion.div>
 
-                        <span className="inline-block px-3 py-1 bg-pink-100 text-pink-700 text-xs font-semibold rounded-full mb-4">
-                            {features[4].badge}
+                        <span className="text-[#86868B] text-[10px] font-medium tracking-[0.08em] uppercase mb-4 block">
+                            {features[4].eyebrow}
                         </span>
 
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
                             {features[4].title}
                         </h3>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-[#86868B] text-sm leading-relaxed">
                             {features[4].description}
                         </p>
-
-                        <motion.span
-                            className="absolute -bottom-2 -right-2 text-6xl opacity-10 group-hover:opacity-20"
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            ⚡
-                        </motion.span>
                     </motion.div>
 
-                    {/* Feature 7 */}
+                    {/* Feature 7: Normal Card - Neutral surface */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5, delay: 0.45 }}
                         whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                        className="group relative bg-gradient-to-br from-cyan-50 to-blue-50 rounded-3xl p-6 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border border-cyan-100"
+                        className="group relative bg-white rounded-2xl p-6 overflow-hidden border border-[#E5E5E5]"
                     >
                         <motion.div
-                            className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center shadow-lg mb-4"
-                            whileHover={{ scale: 1.1, rotate: -5 }}
+                            className="w-10 h-10 rounded-full bg-[#F5F5F7] flex items-center justify-center mb-4"
+                            whileHover={{ scale: 1.05 }}
                         >
-                            <Heart className="w-6 h-6 text-white" />
+                            <Heart className="w-5 h-5 text-primary-blue" />
                         </motion.div>
 
-                        <span className="inline-block px-3 py-1 bg-cyan-100 text-cyan-700 text-xs font-semibold rounded-full mb-4">
-                            {features[5].badge}
+                        <span className="text-[#86868B] text-[10px] font-medium tracking-[0.08em] uppercase mb-4 block">
+                            {features[5].eyebrow}
                         </span>
 
-                        <h3 className="text-lg font-bold text-gray-900 mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
                             {features[5].title}
                         </h3>
-                        <p className="text-gray-600 text-sm">
+                        <p className="text-[#86868B] text-sm leading-relaxed">
                             {features[5].description}
                         </p>
-
-                        {/* Philippine Flag Colors */}
-                        <div className="absolute bottom-4 right-4 flex gap-1">
-                            <div className="w-2 h-6 bg-blue-600 rounded-full opacity-30" />
-                            <div className="w-2 h-6 bg-red-600 rounded-full opacity-30" />
-                            <div className="w-2 h-6 bg-yellow-500 rounded-full opacity-30" />
-                        </div>
                     </motion.div>
                 </div>
             </div>
