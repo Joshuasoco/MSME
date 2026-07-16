@@ -124,7 +124,7 @@ const BenefitsSection = () => {
                     ))}
                 </div>
 
-                {/* Bottom Highlight - simplified avatars */}
+                {/* Bottom Highlight - avatar stack with circular placeholders */}
                 <motion.div
                     className="mt-16 text-center"
                     initial={{ opacity: 0 }}
@@ -134,10 +134,11 @@ const BenefitsSection = () => {
                 >
                     <div className="inline-flex items-center gap-3 px-6 py-3 bg-white rounded-full border border-[#E5E5E5]">
                         <div className="flex -space-x-2">
-                            {[1, 2, 3, 4].map((i) => (
-                                <div key={i} className="w-8 h-8 rounded-full bg-[#F5F5F7] flex items-center justify-center border-2 border-white">
-                                    <div className="w-4 h-4 rounded-full bg-[#D1D1D6]" />
-                                </div>
+                            {[1, 2, 3].map((i) => (
+                                <div 
+                                    key={i} 
+                                    className="w-7 h-7 rounded-full bg-[#E5E5E5] border-2 border-white"
+                                />
                             ))}
                         </div>
                         <span className="text-[#86868B] text-sm">
