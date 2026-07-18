@@ -1,13 +1,11 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Download, ChevronDown, Sparkles, TrendingUp, Users, Shield, Lock, Building2 } from 'lucide-react';
+import { ArrowDown, Download, TrendingUp, Users, ShieldCheck, LockKeyhole } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { APP_LINKS } from '@/lib/constants';
 import { useRef } from 'react';
 import PhoneMockup from '@/components/common/PhoneMockup';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import useIsMobile from '@/hooks/useIsMobile';
-import { NoiseBackground } from '@/components/ui/noise-background';
-import { SparklesText } from '@/components/ui/sparkles-text';
 
 const HeroSection = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -29,9 +27,9 @@ const HeroSection = () => {
     };
 
     const floatingStats = [
-        { icon: Users, value: '10K+', label: 'Users' },
-        { icon: TrendingUp, value: 'PHP 50M+', label: 'Enabled' },
-        { icon: Shield, value: '100%', label: 'Secure' },
+        { icon: Users, value: '10K+', label: 'MSME users' },
+        { icon: TrendingUp, value: 'PHP 50M+', label: 'Financing enabled' },
+        { icon: ShieldCheck, value: '100%', label: 'Secure' },
     ];
 
     return (
@@ -73,77 +71,49 @@ const HeroSection = () => {
                         initial={{ opacity: 0, y: 16 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.7 }}
-                        className="lg:col-span-7 text-center lg:text-left"
+                        className="lg:col-span-7 text-center lg:text-left lg:pr-8 xl:pr-16"
                     >
-                        <h1 className="font-display font-bold leading-tight tracking-tight mb-6">
-                            <span className="block text-3xl sm:text-4xl md:text-5xl text-gray-600 font-medium">
-                                Walang Credit History?
+                        <div className="mb-6 flex items-center justify-center gap-3 lg:justify-start">
+                            <span className="h-px w-8 bg-primary-blue/50" aria-hidden="true" />
+                            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-blue sm:text-xs">
+                                Puhunan para sa masisipag
                             </span>
-                            <SparklesText
-                                as="span"
-                                sparklesCount={7}
-                                colors={{ first: '#60A5FA', second: '#38BDF8' }}
-                                className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl"
-                            >
-                                <span className="text-gradient-blue">Pwede Ka</span>
-                            </SparklesText>
-                            <SparklesText
-                                as="span"
-                                sparklesCount={7}
-                                colors={{ first: '#FACC15', second: '#F59E0B' }}
-                                className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl pb-2"
-                            >
-                                <span className="text-gradient-gold">Pa Rin!</span>
-                            </SparklesText>
+                        </div>
+
+                        <h1 className="mx-auto mb-6 max-w-[700px] font-body text-[clamp(3.15rem,6vw,5.6rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-slate-950 lg:mx-0">
+                            Walang credit history?
+                            <span className="mt-2 block text-primary-blue">Pwede ka pa rin.</span>
                         </h1>
 
-                        <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
-                            Hindi kailangan ng credit history. May AI na tutulong sa iyo para sa safe at easy na pag-loan,
-                            para sa sari-sari store owners, vendors, at home-based sellers.
+                        <p className="mx-auto mb-8 max-w-[600px] text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 lg:mx-0">
+                            Mas patas na access sa financing para sa sari-sari stores, vendors, at home-based sellers—
+                            gamit ang AI na tumitingin sa tunay na galaw ng negosyo mo.
                         </p>
 
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-10">
+                        <div className="mb-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
                             <a
                                 href={APP_LINKS.playStore}
                                 download="msme-pathways.apk"
                                 aria-label="Download MSME Pathways app for free"
-                                className="group relative inline-block self-center sm:self-auto rounded-full min-h-[44px] transition-transform duration-300 hover:scale-[1.03] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 focus-visible:ring-offset-2"
+                                className="group inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-slate-950 px-7 text-[15px] font-semibold text-white shadow-[0_12px_30px_rgba(15,23,42,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-blue hover:shadow-[0_16px_34px_rgba(21,101,192,0.24)] active:translate-y-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-offset-2"
                             >
-                                <NoiseBackground
-                                    containerClassName="w-fit !rounded-full !p-[1px] !bg-transparent !shadow-none"
-                                    className="!rounded-full"
-                                    gradientColors={[
-                                        'rgb(74, 222, 128)',
-                                        'rgb(52, 211, 153)',
-                                        'rgb(34, 197, 94)',
-                                    ]}
-                                    noiseIntensity={0.16}
-                                    speed={0.012}
-                                    animating={allowAmbientMotion}
-                                >
-                                    <span className="inline-flex items-center gap-3 rounded-full bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 px-8 py-4 text-lg font-semibold text-white shadow-[0_10px_24px_rgba(16,185,129,0.28),0_1px_0_rgba(255,255,255,0.35)_inset] transition-all duration-300 group-hover:from-emerald-500 group-hover:to-green-400">
-                                        <Download className="w-5 h-5" />
-                                        Download Free
-                                    </span>
-                                </NoiseBackground>
-                                <span className="absolute -top-2 -right-2 rounded-full bg-primary-yellow px-2 py-0.5 text-xs font-bold text-dark shadow-md" aria-hidden="true">
-                                    FREE
-                                </span>
+                                <Download className="h-[18px] w-[18px] transition-transform duration-300 group-hover:translate-y-0.5" />
+                                Download free
                             </a>
                             <Button
-                                variant="outline"
+                                variant="ghost"
                                 size="lg"
-                                className="rounded-full gap-2 text-lg px-8 py-7 border-2 border-gray-200 hover:border-primary-blue hover:bg-primary-blue/5 transition-all duration-300 min-h-[44px]"
+                                className="group min-h-14 rounded-full px-6 text-[15px] font-semibold text-slate-700 transition-colors hover:bg-white/70 hover:text-primary-blue"
                                 onClick={scrollToFeatures}
                                 aria-label="Learn more about features"
                             >
-                                Alamin Pa
-                                <ChevronDown className="w-5 h-5" />
+                                Alamin pa
+                                <ArrowDown className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-y-1" />
                             </Button>
                         </div>
 
                         <motion.div
-                            className="flex flex-wrap items-center gap-4 sm:gap-6 justify-center lg:justify-start"
+                            className="mx-auto grid max-w-[620px] grid-cols-3 divide-x divide-slate-200/80 border-y border-slate-200/80 py-5 lg:mx-0"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.3 }}
@@ -151,34 +121,31 @@ const HeroSection = () => {
                             {floatingStats.map((stat, index) => (
                                 <motion.div
                                     key={index}
-                                    className="flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-gray-100 shadow-sm"
-                                    whileHover={{ scale: 1.03, y: -2 }}
+                                    className="flex min-w-0 items-center justify-center gap-2 px-2 sm:gap-3 sm:px-5 lg:first:justify-start lg:last:justify-end"
+                                    whileHover={{ y: -2 }}
                                 >
-                                    <div className="p-1.5 bg-primary-blue/10 rounded-full">
-                                        <stat.icon className="w-4 h-4 text-primary-blue" />
+                                    <div className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-50 sm:flex">
+                                        <stat.icon className="h-4 w-4 text-primary-blue" />
                                     </div>
-                                    <div className="text-sm">
-                                        <span className="font-bold text-dark">{stat.value}</span>
-                                        <span className="text-gray-500 ml-1">{stat.label}</span>
+                                    <div className="min-w-0 text-left leading-tight">
+                                        <span className="block text-sm font-bold tracking-[-0.02em] text-slate-900 sm:text-[15px]">{stat.value}</span>
+                                        <span className="mt-1 block truncate text-[10px] text-slate-500 sm:text-xs">{stat.label}</span>
                                     </div>
                                 </motion.div>
                             ))}
                         </motion.div>
 
                         <motion.div
-                            className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mt-6"
+                            className="mt-5 flex items-center justify-center gap-2 text-xs font-medium text-slate-500 lg:justify-start"
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.45 }}
                         >
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-full border border-emerald-200">
-                                <Lock className="w-3.5 h-3.5 text-emerald-600" />
-                                <span className="text-emerald-700 text-xs font-medium">Data Privacy Act Compliant</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 rounded-full border border-blue-200">
-                                <Building2 className="w-3.5 h-3.5 text-blue-600" />
-                                <span className="text-blue-700 text-xs font-medium"> Multiple Loan Products</span>
-                            </div>
+                            <LockKeyhole className="h-3.5 w-3.5 text-emerald-600" />
+                            <span>Data Privacy Act compliant</span>
+                            <span className="text-slate-300" aria-hidden="true">•</span>
+                            <ShieldCheck className="h-3.5 w-3.5 text-primary-blue" />
+                            <span>Secure by design</span>
                         </motion.div>
                     </motion.div>
 
