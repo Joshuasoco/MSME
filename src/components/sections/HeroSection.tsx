@@ -81,7 +81,7 @@ const HeroSection = () => {
                         </h1>
 
                         <p className="mx-auto mb-8 max-w-[600px] text-base leading-7 text-slate-600 sm:text-lg sm:leading-8 lg:mx-0">
-                            Mas patas na access sa financing para sa sari-sari stores, vendors, at home-based sellers—
+                            Mas patas na access sa financing para sa sari-sari stores, vendors, at home-based sellers
                             gamit ang AI na tumitingin sa tunay na galaw ng negosyo mo.
                         </p>
 

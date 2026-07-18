@@ -5,7 +5,7 @@ const benefits = [
     {
         icon: Gift,
         title: 'Free & Accessible',
-        description: '100% free ang app — walang bayad!',
+        description: '100% free ang app walang bayad!',
     },
     {
         icon: CheckCircle,

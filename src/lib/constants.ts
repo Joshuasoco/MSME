@@ -23,7 +23,7 @@ export const PROBLEMS = [
     {
         icon: 'FileQuestion',
         title: 'Limited Financial Knowledge',
-        description: 'Kulang sa knowledge about proper borrowing at money management — hindi alam kung saan magsisimula.',
+        description: 'Kulang sa knowledge about proper borrowing at money management hindi alam kung saan magsisimula.',
     },
     {
         icon: 'Building2',
@@ -90,7 +90,7 @@ export const BENEFITS = [
     {
         icon: 'Gift',
         title: 'Free & Accessible',
-        description: '100% free ang app — walang bayad!',
+        description: '100% free ang app walang bayad!',
     },
     {
         icon: 'CheckCircle',
@@ -184,7 +184,7 @@ export const FAQS = [
     },
     {
         question: 'Paano kung hindi ako approved?',
-        answer: 'Hindi ka bibigyan ng rejection lang — we\'ll provide recommendations kung paano mo ma-improve ang iyong financial profile at mga alternative options na pwede mong i-try.',
+        answer: 'Hindi ka bibigyan ng rejection lang we\'ll provide recommendations kung paano mo ma-improve ang iyong financial profile at mga alternative options na pwede mong i-try.',
     },
 ] as const;
 
