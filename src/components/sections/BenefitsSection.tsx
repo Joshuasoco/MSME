@@ -124,7 +124,7 @@ const BenefitsSection = () => {
                     ))}
                 </div>
 
-                {/* Bottom Highlight - avatar stack with circular placeholders */}
+                {/* Bottom Highlight */}
                 <motion.div
                     className="mt-16 text-center"
                     initial={{ opacity: 0 }}
@@ -132,16 +132,23 @@ const BenefitsSection = () => {
                     viewport={{ once: true }}
                     transition={{ delay: 0.5 }}
                 >
-                    <div className="inline-flex items-center gap-3 px-6 py-3 bg-white rounded-full border border-[#E5E5E5]">
-                        <div className="flex -space-x-2">
-                            {[1, 2, 3].map((i) => (
-                                <div 
-                                    key={i} 
-                                    className="w-7 h-7 rounded-full bg-[#E5E5E5] border-2 border-white"
+                    <div className="inline-flex items-center gap-3 rounded-full border border-[#DDE2E8] bg-gradient-to-b from-white to-[#FAFAFB] px-6 py-3 shadow-[0_10px_30px_rgba(15,23,42,0.07),0_1px_0_rgba(255,255,255,0.9)_inset]">
+                        <div className="flex -space-x-2" aria-label="Filipino MSME entrepreneurs">
+                            {[
+                                { position: 'left center', alt: 'Filipina sari-sari store owner' },
+                                { position: 'center center', alt: 'Filipino market vendor' },
+                                { position: 'right center', alt: 'Filipina home-based food entrepreneur' },
+                            ].map((avatar) => (
+                                <img
+                                    key={avatar.position}
+                                    src="/filipino-entrepreneur-avatars.webp"
+                                    alt={avatar.alt}
+                                    className="h-7 w-7 rounded-full border-2 border-white bg-slate-100 object-cover shadow-[0_2px_6px_rgba(15,23,42,0.16)] ring-1 ring-slate-900/5"
+                                    style={{ objectPosition: avatar.position }}
                                 />
                             ))}
                         </div>
-                        <span className="text-[#86868B] text-sm">
+                        <span className="text-sm font-medium tracking-[-0.01em] text-[#4A5565]">
                             Para sa bawat negosyanteng walang credit history
                         </span>
                     </div>

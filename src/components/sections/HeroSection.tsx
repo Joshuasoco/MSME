@@ -73,12 +73,7 @@ const HeroSection = () => {
                         transition={{ duration: 0.7 }}
                         className="lg:col-span-7 text-center lg:text-left lg:pr-8 xl:pr-16"
                     >
-                        <div className="mb-6 flex items-center justify-center gap-3 lg:justify-start">
-                            <span className="h-px w-8 bg-primary-blue/50" aria-hidden="true" />
-                            <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary-blue sm:text-xs">
-                                Puhunan para sa masisipag
-                            </span>
-                        </div>
+
 
                         <h1 className="mx-auto mb-6 max-w-[700px] font-body text-[clamp(3.15rem,6vw,5.6rem)] font-semibold leading-[0.98] tracking-[-0.055em] text-slate-950 lg:mx-0">
                             Walang credit history?
