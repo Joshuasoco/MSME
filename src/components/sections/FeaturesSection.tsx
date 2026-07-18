@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bot, UserCheck, Shield, Zap, Heart, BookOpen, Lock, BarChart3, Wallet, TrendingUp } from 'lucide-react';
+import { Bot, UserCheck, Shield, Zap, Heart, BookOpen, BarChart3, Wallet, TrendingUp } from 'lucide-react';
 
 const features = [
     {

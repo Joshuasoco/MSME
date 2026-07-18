@@ -572,6 +572,383 @@ select:focus-visible {
   }
 }
 
+/* Loan eligibility checker: quiet, mobile-first product UI */
+.eligibility-section {
+  --eligibility-accent: #1769e8;
+  --eligibility-ink: #101828;
+  --eligibility-muted: #667085;
+  --eligibility-border: rgba(16, 24, 40, 0.12);
+  background: #f7f8fa;
+  color: var(--eligibility-ink);
+  padding: 96px 24px 104px;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+}
+
+.eligibility-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.eligibility-intro {
+  margin: 0 auto 40px;
+  max-width: 560px;
+  text-align: center;
+}
+
+.eligibility-kicker,
+.question-eyebrow,
+.review-label,
+.eligibility-meta {
+  color: var(--eligibility-muted);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.eligibility-kicker {
+  margin-bottom: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.eligibility-intro h2 {
+  margin: 0;
+  color: var(--eligibility-ink);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  font-size: clamp(28px, 4vw, 32px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.eligibility-intro > p:last-child {
+  margin: 14px auto 0;
+  color: var(--eligibility-muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.eligibility-card {
+  overflow: hidden;
+  border: 1px solid var(--eligibility-border);
+  border-radius: 20px;
+  background: #fff;
+}
+
+.eligibility-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 0 32px;
+  border-bottom: 1px solid rgba(16, 24, 40, 0.1);
+}
+
+.eligibility-meta {
+  color: var(--eligibility-ink);
+  font-weight: 600;
+}
+
+.eligibility-meta-muted {
+  color: var(--eligibility-muted);
+  font-weight: 400;
+}
+
+.eligibility-screen {
+  padding: 40px 40px 36px;
+}
+
+.question-heading {
+  margin-bottom: 28px;
+  text-align: left;
+}
+
+.question-eyebrow {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.question-heading h3,
+.result-heading h3 {
+  margin: 0;
+  color: var(--eligibility-ink);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.25;
+}
+
+.question-heading p,
+.result-heading p {
+  margin: 8px 0 0;
+  color: var(--eligibility-muted);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.eligibility-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.eligibility-option {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--eligibility-border);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--eligibility-ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.35;
+  text-align: left;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.eligibility-option:hover {
+  border-color: rgba(23, 105, 232, 0.5);
+}
+
+.eligibility-option.is-selected {
+  border-color: var(--eligibility-accent);
+  background: rgba(23, 105, 232, 0.05);
+}
+
+.option-check {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(16, 24, 40, 0.2);
+  border-radius: 50%;
+  color: #fff;
+}
+
+.is-selected .option-check {
+  border-color: var(--eligibility-accent);
+  background: var(--eligibility-accent);
+}
+
+.eligibility-actions,
+.result-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.eligibility-primary,
+.eligibility-secondary {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: background-color 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.eligibility-primary {
+  padding: 0 18px;
+  background: var(--eligibility-accent);
+  color: #fff;
+}
+
+.eligibility-primary:hover {
+  background: #0f5bcf;
+}
+
+.eligibility-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.eligibility-secondary {
+  padding: 0 2px;
+  background: transparent;
+  color: var(--eligibility-muted);
+}
+
+.eligibility-secondary:hover:not(:disabled) {
+  color: var(--eligibility-ink);
+}
+
+.eligibility-secondary:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.review-screen .question-heading,
+.result-heading {
+  margin-bottom: 28px;
+}
+
+.review-list,
+.result-summary {
+  border-top: 1px solid rgba(16, 24, 40, 0.1);
+}
+
+.review-row,
+.result-summary > div {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(16, 24, 40, 0.1);
+}
+
+.review-row p,
+.result-summary p {
+  margin: 5px 0 0;
+  color: var(--eligibility-ink);
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.review-label {
+  display: block;
+}
+
+.review-edit {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 0;
+  border: 0;
+  background: transparent;
+  color: var(--eligibility-muted);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.result-screen {
+  padding-top: 44px;
+}
+
+.result-range {
+  margin: 28px 0;
+  padding: 20px;
+  border: 1px solid var(--eligibility-border);
+  border-radius: 12px;
+  background: #f7f8fa;
+}
+
+.result-range span {
+  display: block;
+  color: var(--eligibility-muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.result-range strong {
+  display: block;
+  margin-top: 6px;
+  color: var(--eligibility-ink);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.result-summary > div {
+  display: block;
+}
+
+.result-actions {
+  justify-content: flex-start;
+}
+
+.result-actions .eligibility-secondary {
+  margin-left: 8px;
+}
+
+.eligibility-footnote {
+  margin: 20px auto 0;
+  color: var(--eligibility-muted);
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .eligibility-section {
+    padding: 72px 16px 80px;
+  }
+
+  .eligibility-intro {
+    margin-bottom: 32px;
+  }
+
+  .eligibility-intro h2 {
+    font-size: 30px;
+  }
+
+  .eligibility-intro > p:last-child {
+    max-width: 310px;
+  }
+
+  .eligibility-card {
+    border-radius: 16px;
+  }
+
+  .eligibility-card-header {
+    min-height: 56px;
+    padding: 0 20px;
+  }
+
+  .eligibility-meta-muted {
+    display: none;
+  }
+
+  .eligibility-screen {
+    padding: 32px 20px 24px;
+  }
+
+  .eligibility-options {
+    grid-template-columns: 1fr;
+  }
+
+  .eligibility-actions {
+    margin-top: 28px;
+  }
+
+  .eligibility-primary {
+    padding: 0 16px;
+  }
+
+  .result-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .result-actions .eligibility-secondary {
+    margin-left: 0;
+  }
+}
+
 
 
 @layer base {

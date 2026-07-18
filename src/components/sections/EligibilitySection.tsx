@@ -1,48 +1,39 @@
 import { useMemo, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import type { LucideIcon } from 'lucide-react';
-import { CheckCircle, ArrowRight, ArrowLeft, Download, PencilLine, Store, CalendarDays, Wallet } from 'lucide-react';
-import { sileo } from 'sileo';
-import { Button } from '@/components/ui/button';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ArrowLeft, ArrowRight, Check, Download, PencilLine } from 'lucide-react';
 import { APP_LINKS } from '@/lib/constants';
 
-type QuestionIcon = 'Store' | 'CalendarDays' | 'Wallet';
+type QuestionId = 'business_type' | 'years_operating' | 'monthly_income';
 
 interface Question {
-    id: 'business_type' | 'years_operating' | 'monthly_income';
+    id: QuestionId;
+    eyebrow: string;
     question: string;
     options: string[];
-    icon: QuestionIcon;
 }
-
-const questionIcons: Record<QuestionIcon, LucideIcon> = {
-    Store,
-    CalendarDays,
-    Wallet,
-};
 
 const questions: Question[] = [
     {
         id: 'business_type',
+        eyebrow: 'About your business',
         question: 'Anong uri ng negosyo mo?',
         options: ['Sari-sari store', 'Market vendor', 'Home-based seller', 'Food stall / carinderia', 'RTW / ukay-ukay', 'Iba pa'],
-        icon: 'Store',
     },
     {
         id: 'years_operating',
-        question: 'Gaano mo na katagal pinapatakbo ang negosyo?',
-        options: ['Bago pa lang (less than 1 year)', '1-2 years na', '3-5 years na', 'More than 5 years na'],
-        icon: 'CalendarDays',
+        eyebrow: 'About your business',
+        question: 'Gaano na katagal ang negosyo mo?',
+        options: ['Bago pa lang (less than 1 year)', '1–2 years na', '3–5 years na', 'More than 5 years na'],
     },
     {
         id: 'monthly_income',
-        question: 'Magkano ang monthly sales/income mo (estimate)?',
-        options: ['PHP 5,000 - PHP 15,000', 'PHP 15,000 - PHP 30,000', 'PHP 30,000 - PHP 50,000', 'PHP 50,000+'],
-        icon: 'Wallet',
+        eyebrow: 'About your business',
+        question: 'Magkano ang monthly sales mo?',
+        options: ['PHP 5,000 – PHP 15,000', 'PHP 15,000 – PHP 30,000', 'PHP 30,000 – PHP 50,000', 'PHP 50,000+'],
     },
 ];
 
-type Answers = Partial<Record<Question['id'], string>>;
+type Answers = Partial<Record<QuestionId, string>>;
 
 type ResultData = {
     title: string;
@@ -54,46 +45,41 @@ type ResultData = {
 const getResultData = (answers: Answers): ResultData => {
     const years = answers.years_operating ?? '';
     const income = answers.monthly_income ?? '';
-
     let score = 0;
 
-    if (years.includes('3-5') || years.includes('More than 5')) {
-        score += 2;
-    } else if (years.includes('1-2 years')) {
-        score += 1;
-    }
+    if (years.includes('3–5') || years.includes('More than 5')) score += 2;
+    else if (years.includes('1–2')) score += 1;
 
-    if (income.includes('50,000+')) {
-        score += 2;
-    } else if (income.includes('30,000')) {
-        score += 1;
-    }
+    if (income.includes('50,000+')) score += 2;
+    else if (income.includes('30,000')) score += 1;
 
     if (score >= 3) {
         return {
-            title: 'Great news!',
+            title: 'You may qualify for more options.',
             subtitle: 'Malaki ang chance mo for a broader set of loan options.',
-            recommendation: 'Start with medium-term working capital offers para sa expansion.',
-            loanRange: 'PHP 20,000 - PHP 50,000',
+            recommendation: 'Start with a medium-term working capital offer para sa expansion.',
+            loanRange: 'PHP 20,000 – PHP 50,000',
         };
     }
 
     if (score >= 2) {
         return {
-            title: 'Good start!',
-            subtitle: 'Mukhang may loan options ka na pwede i-target ngayon.',
-            recommendation: 'Focus on lower-risk starter loans, then build repayment history for higher limits.',
-            loanRange: 'PHP 10,000 - PHP 30,000',
+            title: 'You have options to explore.',
+            subtitle: 'Mukhang may loan options ka na puwedeng i-target ngayon.',
+            recommendation: 'Start with a lower-risk loan, then build repayment history for higher limits.',
+            loanRange: 'PHP 10,000 – PHP 30,000',
         };
     }
 
     return {
-        title: 'You can still begin today.',
-        subtitle: 'May mga entry-level options pa rin na pwedeng simulan.',
-        recommendation: 'Complete in-app learning modules first to unlock stronger pre-qualification outcomes.',
-        loanRange: 'PHP 5,000 - PHP 15,000',
+        title: 'You can still start today.',
+        subtitle: 'May entry-level options pa rin na puwedeng simulan.',
+        recommendation: 'Complete the in-app learning modules first to strengthen your next application.',
+        loanRange: 'PHP 5,000 – PHP 15,000',
     };
 };
+
+const transition = { duration: 0.25, ease: 'easeOut' as const };
 
 const EligibilitySection = () => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -102,64 +88,36 @@ const EligibilitySection = () => {
     const [isComplete, setIsComplete] = useState(false);
 
     const selectedAnswer = answers[questions[currentStep].id];
-    const CurrentQuestionIcon = questionIcons[questions[currentStep].icon];
-    const totalProgressSteps = questions.length + 2; // questions + review + result
-    const currentProgressStep = isComplete
-        ? totalProgressSteps
-        : isReviewing
-            ? questions.length + 1
-            : currentStep + 1;
-    const progressPercent = (currentProgressStep / totalProgressSteps) * 100;
-
     const answeredCount = useMemo(
         () => questions.filter((question) => Boolean(answers[question.id])).length,
         [answers],
     );
     const hasAllAnswers = answeredCount === questions.length;
-
     const result = useMemo(() => getResultData(answers), [answers]);
 
-    const handleSelect = (questionId: Question['id'], answer: string) => {
-        setAnswers((prev) => ({ ...prev, [questionId]: answer }));
+    const handleSelect = (questionId: QuestionId, answer: string) => {
+        setAnswers((previous) => ({ ...previous, [questionId]: answer }));
     };
 
     const handleBack = () => {
         if (isComplete) {
             setIsComplete(false);
             setIsReviewing(true);
-            return;
-        }
-
-        if (isReviewing) {
+        } else if (isReviewing) {
             setIsReviewing(false);
             setCurrentStep(questions.length - 1);
-            return;
-        }
-
-        if (currentStep > 0) {
-            setCurrentStep((prev) => prev - 1);
+        } else if (currentStep > 0) {
+            setCurrentStep((step) => step - 1);
         }
     };
 
     const handleContinue = () => {
-        if (!selectedAnswer) {
-            sileo.warning({
-                title: 'Pumili muna ng sagot',
-                description: 'Kailangan ng isang option bago mag-next.',
-            });
-            return;
-        }
-
+        if (!selectedAnswer) return;
         if (currentStep < questions.length - 1) {
-            setCurrentStep((prev) => prev + 1);
-            return;
+            setCurrentStep((step) => step + 1);
+        } else {
+            setIsReviewing(true);
         }
-
-        setIsReviewing(true);
-        sileo.info({
-            title: 'Review step',
-            description: 'I-check muna natin ang answers mo bago ang result.',
-        });
     };
 
     const handleEditStep = (stepIndex: number) => {
@@ -169,20 +127,10 @@ const EligibilitySection = () => {
     };
 
     const handleConfirmReview = () => {
-        if (!hasAllAnswers) {
-            sileo.warning({
-                title: 'Complete all answers first',
-                description: 'May kulang pang sagot. I-edit muna ang questions na walang sagot.',
-            });
-            return;
+        if (hasAllAnswers) {
+            setIsReviewing(false);
+            setIsComplete(true);
         }
-
-        setIsReviewing(false);
-        setIsComplete(true);
-        sileo.success({
-            title: 'Result ready',
-            description: 'Tingnan ang matching loan range mo.',
-        });
     };
 
     const handleReset = () => {
@@ -190,305 +138,194 @@ const EligibilitySection = () => {
         setAnswers({});
         setIsReviewing(false);
         setIsComplete(false);
-        sileo.show({
-            title: 'Quick Check reset',
-            description: 'Pwede ka ulit magsimula from Question 1.',
-            type: 'action',
-        });
     };
 
+    const screenLabel = isComplete
+        ? 'Your result'
+        : isReviewing
+            ? 'Review your answers'
+            : `${currentStep + 1} of ${questions.length}`;
+
     return (
-        <section id="eligibility" className="relative py-24 md:py-32 bg-gradient-to-b from-slate-50 via-slate-100/75 to-slate-50 overflow-hidden">
-            {/* Background decorations */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-64 h-64 bg-primary-blue/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-10 w-80 h-80 bg-primary-yellow/5 rounded-full blur-3xl" />
-            </div>
-
-            <div className="container mx-auto px-4 relative z-10">
-                {/* Header */}
-                <motion.div
-                    className="text-center mb-12"
-                    initial={{ opacity: 0, y: 30 }}
+        <section id="eligibility" className="eligibility-section">
+            <div className="eligibility-shell">
+                <motion.header
+                    className="eligibility-intro"
+                    initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={transition}
                 >
-                    <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-                        <span className="text-gray-900">Check mo kung </span>
-                        <span className="text-gradient-blue">Pwede ka mag-loan</span>
-                    </h2>
+                    <p className="eligibility-kicker">MSME Quick Check</p>
+                    <h2>Check mo kung puwede ka mag-loan</h2>
+                    <p>Sagutin ang 3 questions, then see your estimated loan range.</p>
+                </motion.header>
 
-                    <p className="text-lg text-gray-600 max-w-xl mx-auto">
-                        Sagutin ang 3 questions, review your answers, then see your matching range.
-                    </p>
+                <motion.div
+                    className="eligibility-card"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={{ ...transition, delay: 0.05 }}
+                >
+                    <div className="eligibility-card-header">
+                        <span className="eligibility-meta">{screenLabel}</span>
+                        {!isComplete && !isReviewing && (
+                            <span className="eligibility-meta eligibility-meta-muted">Takes about 1 minute</span>
+                        )}
+                    </div>
+
+                    <AnimatePresence mode="wait" initial={false}>
+                        {!isReviewing && !isComplete ? (
+                            <motion.div
+                                key={`question-${currentStep}`}
+                                className="eligibility-screen"
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={transition}
+                            >
+                                <div className="question-heading">
+                                    <span className="question-eyebrow">{questions[currentStep].eyebrow}</span>
+                                    <h3>{questions[currentStep].question}</h3>
+                                    <p>Choose one answer.</p>
+                                </div>
+
+                                <div className="eligibility-options" role="radiogroup" aria-label={questions[currentStep].question}>
+                                    {questions[currentStep].options.map((option) => {
+                                        const isSelected = selectedAnswer === option;
+
+                                        return (
+                                            <button
+                                                key={option}
+                                                type="button"
+                                                role="radio"
+                                                aria-checked={isSelected}
+                                                className={`eligibility-option${isSelected ? ' is-selected' : ''}`}
+                                                onClick={() => handleSelect(questions[currentStep].id, option)}
+                                            >
+                                                <span>{option}</span>
+                                                <span className="option-check" aria-hidden="true">
+                                                    {isSelected && <Check size={15} strokeWidth={2.5} />}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+
+                                <div className="eligibility-actions">
+                                    <button
+                                        type="button"
+                                        className="eligibility-secondary"
+                                        onClick={handleBack}
+                                        disabled={currentStep === 0}
+                                    >
+                                        <ArrowLeft size={16} aria-hidden="true" />
+                                        Back
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="eligibility-primary"
+                                        onClick={handleContinue}
+                                        disabled={!selectedAnswer}
+                                    >
+                                        {currentStep === questions.length - 1 ? 'Review answers' : 'Next'}
+                                        <ArrowRight size={16} aria-hidden="true" />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ) : isReviewing ? (
+                            <motion.div
+                                key="review"
+                                className="eligibility-screen review-screen"
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={transition}
+                            >
+                                <div className="question-heading">
+                                    <span className="question-eyebrow">Almost there</span>
+                                    <h3>Review your answers</h3>
+                                    <p>Make sure everything looks right before we show your estimate.</p>
+                                </div>
+
+                                <div className="review-list">
+                                    {questions.map((question, index) => (
+                                        <div className="review-row" key={question.id}>
+                                            <div>
+                                                <span className="review-label">Question {index + 1}</span>
+                                                <p>{answers[question.id] ?? 'No answer selected'}</p>
+                                            </div>
+                                            <button type="button" className="review-edit" onClick={() => handleEditStep(index)}>
+                                                <PencilLine size={15} aria-hidden="true" />
+                                                Edit
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="eligibility-actions">
+                                    <button type="button" className="eligibility-secondary" onClick={handleBack}>
+                                        <ArrowLeft size={16} aria-hidden="true" />
+                                        Back
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="eligibility-primary"
+                                        onClick={handleConfirmReview}
+                                        disabled={!hasAllAnswers}
+                                    >
+                                        See my result
+                                        <ArrowRight size={16} aria-hidden="true" />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            <motion.div
+                                key="result"
+                                className="eligibility-screen result-screen"
+                                initial={{ opacity: 0, x: 10 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -10 }}
+                                transition={transition}
+                            >
+                                <div className="result-heading">
+                                    <span className="question-eyebrow">Based on your answers</span>
+                                    <h3>{result.title}</h3>
+                                    <p>{result.subtitle}</p>
+                                </div>
+
+                                <div className="result-range">
+                                    <span>Estimated loan range</span>
+                                    <strong>{result.loanRange}</strong>
+                                </div>
+
+                                <div className="result-summary">
+                                    <div>
+                                        <span className="review-label">What to consider</span>
+                                        <p>{result.recommendation}</p>
+                                    </div>
+                                    <div>
+                                        <span className="review-label">Your answers</span>
+                                        <p>{answers.business_type} · {answers.years_operating} · {answers.monthly_income}</p>
+                                    </div>
+                                </div>
+
+                                <div className="result-actions">
+                                    <a className="eligibility-primary" href={APP_LINKS.playStore} download="msme-pathways.apk">
+                                        <Download size={16} aria-hidden="true" />
+                                        Continue in the app
+                                    </a>
+                                    <button type="button" className="eligibility-secondary" onClick={handleReset}>
+                                        Start again
+                                    </button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </motion.div>
 
-                {/* Quiz Card */}
-                <div className="max-w-2xl mx-auto">
-                    <motion.div
-                        className="bg-white rounded-[24px] shadow-[0_10px_30px_rgba(15,23,42,0.08)] border border-slate-200/70 overflow-hidden"
-                        initial={{ opacity: 0, y: 40 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        {/* Progress Bar */}
-                        <div className="h-2 bg-gray-100">
-                            <motion.div
-                                className="h-full bg-primary-blue"
-                                initial={{ width: 0 }}
-                                animate={{ width: `${progressPercent}%` }}
-                                transition={{ duration: 0.3 }}
-                            />
-                        </div>
-
-                        <div className="px-6 md:px-8 pt-5">
-                            <div className="flex items-center justify-between text-sm text-gray-500">
-                                <span>
-                                    {isComplete
-                                        ? 'Result ready'
-                                        : isReviewing
-                                            ? 'Review step'
-                                            : `Question ${currentStep + 1} of ${questions.length}`}
-                                </span>
-                            </div>
-
-                            <div className="mt-4 mb-2 flex items-center gap-2">
-                                {questions.map((question, index) => {
-                                    const isAnswered = Boolean(answers[question.id]);
-                                    const isActive = !isReviewing && !isComplete && currentStep === index;
-
-                                    return (
-                                        <span
-                                            key={question.id}
-                                            className={`h-2.5 rounded-full transition-all ${isActive
-                                                ? 'w-10 bg-primary-blue'
-                                                : isAnswered
-                                                    ? 'w-6 bg-primary-blue'
-                                                    : 'w-6 bg-gray-200'
-                                                }`}
-                                            aria-hidden="true"
-                                        />
-                                    );
-                                })}
-                            </div>
-                        </div>
-
-                        <div className="p-6 md:p-8 pt-4">
-                            <AnimatePresence mode="wait">
-                                {!isReviewing && !isComplete ? (
-                                    <motion.div
-                                        key={`question-${currentStep}`}
-                                        initial={{ opacity: 0, x: 20 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        exit={{ opacity: 0, x: -20 }}
-                                        transition={{ duration: 0.25 }}
-                                    >
-                                        {/* Question */}
-                                        <div className="text-center mb-8">
-                                            <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-blue/10 text-primary-blue mb-4">
-                                                <CurrentQuestionIcon className="w-6 h-6" aria-hidden="true" />
-                                            </span>
-                                            <h3 className="text-xl md:text-2xl font-bold text-gray-900">
-                                                {questions[currentStep].question}
-                                            </h3>
-                                        </div>
-
-                                        {/* Options */}
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                                            {questions[currentStep].options.map((option, index) => {
-                                                const isSelected = answers[questions[currentStep].id] === option;
-
-                                                return (
-                                                    <motion.button
-                                                        key={index}
-                                                        onClick={() => handleSelect(questions[currentStep].id, option)}
-                                                        className={`p-4 rounded-xl border-2 text-left transition-all ${isSelected
-                                                            ? 'border-primary-blue bg-primary-blue/5 shadow-[0_8px_20px_rgba(21,101,192,0.12)]'
-                                                            : 'border-slate-200 hover:border-primary-blue/50 hover:bg-slate-50'
-                                                            }`}
-                                                        whileHover={{ scale: 1.01 }}
-                                                        whileTap={{ scale: 0.99 }}
-                                                    >
-                                                        <span className="text-gray-800 font-medium">{option}</span>
-                                                    </motion.button>
-                                                );
-                                            })}
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                onClick={handleBack}
-                                                disabled={currentStep === 0}
-                                                className="rounded-full gap-2 border-primary-blue/30 text-primary-blue font-semibold"
-                                            >
-                                                <ArrowLeft className="w-4 h-4" />
-                                                Back
-                                            </Button>
-
-                                            <Button
-                                                type="button"
-                                                onClick={handleContinue}
-                                                disabled={!selectedAnswer}
-                                                className="rounded-full gap-2"
-                                            >
-                                                {currentStep === questions.length - 1 ? 'Review Answers' : 'Next'}
-                                                <ArrowRight className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </motion.div>
-                                ) : isReviewing ? (
-                                    <motion.div
-                                        key="review"
-                                        initial={{ opacity: 0, scale: 0.98 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        exit={{ opacity: 0 }}
-                                    >
-                                        <div className="text-center mb-6">
-                                            <h3 className="text-2xl font-bold text-gray-900 mb-2">Review your answers</h3>
-                                            <p className="text-gray-600">Check everything before we compute your result.</p>
-                                        </div>
-
-                                        <div className="space-y-3 mb-6">
-                                            {questions.map((question, index) => {
-                                                const QuestionIcon = questionIcons[question.icon];
-                                                const hasAnswer = Boolean(answers[question.id]);
-
-                                                return (
-                                                    <div
-                                                        key={question.id}
-                                                        className={`rounded-xl border p-4 ${hasAnswer
-                                                            ? 'border-gray-200 bg-gray-50/80'
-                                                            : 'border-amber-300 bg-amber-50/70'
-                                                            }`}
-                                                    >
-                                                        <div className="flex items-start justify-between gap-3">
-                                                            <div className="flex items-start gap-3">
-                                                                <span className={`mt-0.5 inline-flex items-center justify-center w-8 h-8 rounded-lg ${hasAnswer
-                                                                    ? 'bg-primary-blue/10 text-primary-blue'
-                                                                    : 'bg-amber-100 text-amber-700'
-                                                                    }`}>
-                                                                    <QuestionIcon className="w-4 h-4" aria-hidden="true" />
-                                                                </span>
-                                                                <div>
-                                                                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500">Question {index + 1}</p>
-                                                                    <p className="text-sm md:text-base font-semibold text-gray-900 mt-1">{question.question}</p>
-                                                                    <p className={`text-sm mt-2 ${hasAnswer ? 'text-primary-blue' : 'text-amber-700 font-medium'}`}>
-                                                                        {answers[question.id] ?? 'No answer selected'}
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => handleEditStep(index)}
-                                                                className={`inline-flex items-center gap-1 text-sm hover:underline ${hasAnswer ? 'text-primary-blue' : 'text-amber-700'}`}
-                                                            >
-                                                                <PencilLine className="w-4 h-4" />
-                                                                Edit
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
-
-                                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-                                            <Button
-                                                type="button"
-                                                variant="outline"
-                                                onClick={handleBack}
-                                                className="rounded-full gap-2 border-primary-blue/30 text-primary-blue font-semibold"
-                                            >
-                                                <ArrowLeft className="w-4 h-4" />
-                                                Back to questions
-                                            </Button>
-
-                                            <Button
-                                                type="button"
-                                                onClick={handleConfirmReview}
-                                                disabled={!hasAllAnswers}
-                                                className="rounded-full gap-2"
-                                            >
-                                                See my result
-                                                <ArrowRight className="w-4 h-4" />
-                                            </Button>
-                                        </div>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        key="result"
-                                        initial={{ opacity: 0, scale: 0.92 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        className="text-center py-6"
-                                    >
-                                        <motion.div
-                                            className="w-20 h-20 mx-auto mb-6 rounded-full bg-emerald-100 flex items-center justify-center"
-                                            initial={{ scale: 0 }}
-                                            animate={{ scale: 1 }}
-                                            transition={{ type: 'spring', stiffness: 400, damping: 15, delay: 0.2 }}
-                                        >
-                                            <CheckCircle className="w-10 h-10 text-emerald-600" />
-                                        </motion.div>
-
-                                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">
-                                            {result.title}
-                                        </h3>
-
-                                        <p className="text-lg text-gray-600 mb-1">{result.subtitle}</p>
-
-                                        <motion.p
-                                            className="text-4xl font-bold text-primary-blue mb-4"
-                                            initial={{ scale: 0.5 }}
-                                            animate={{ scale: 1 }}
-                                            transition={{ delay: 0.3, type: 'spring' }}
-                                        >
-                                            {result.loanRange}
-                                        </motion.p>
-
-                                        <p className="text-gray-600 mb-8 max-w-xl mx-auto">{result.recommendation}</p>
-
-                                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                                            <Button
-                                                asChild
-                                                size="lg"
-                                                className="gap-2 rounded-full bg-gradient-to-r from-primary-blue to-blue-700 hover:from-blue-700 hover:to-primary-blue shadow-lg shadow-primary-blue/30"
-                                            >
-                                                <a href={APP_LINKS.playStore} download="msme-pathways.apk">
-                                                    <Download className="w-5 h-5" />
-                                                    Download App - It is Free
-                                                </a>
-                                            </Button>
-
-                                            <Button
-                                                variant="outline"
-                                                size="lg"
-                                                onClick={handleReset}
-                                                className="rounded-full gap-2"
-                                            >
-                                                <ArrowRight className="w-4 h-4 rotate-180" />
-                                                Try Again
-                                            </Button>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-                        </div>
-                    </motion.div>
-
-                    {/* Trust note */}
-                    <motion.p
-                        className="text-center text-sm text-gray-500 mt-6"
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        Secure and private ang lahat ng information mo. Hindi ito maaapektuhan ang credit score mo.
-                    </motion.p>
-                </div>
+                <p className="eligibility-footnote">Private and secure. This quick check won’t affect your credit score.</p>
             </div>
         </section>
     );
