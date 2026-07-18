@@ -2,21 +2,36 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X } from 'lucide-react';
 
+const TEASER_SESSION_KEY = 'msme_chat_teaser_seen';
+const TEASER_FALLBACK_KEY = 'msme_chat_teaser_seen_fallback';
+
 declare global {
   interface Window {
-    botpress: any;
+    botpress?: {
+      open: () => void;
+      close: () => void;
+      init: (payload: Record<string, unknown>) => void;
+      on: (event: string, handler: () => void) => void;
+      off: (event: string, handler: () => void) => void;
+      restartConversation?: () => Promise<void>;
+    };
   }
 }
 
-const TEASER_SESSION_KEY = 'msme_chat_teaser_seen';
-const TEASER_FALLBACK_KEY = 'msme_chat_teaser_seen_fallback';
+const hasSeenTeaser = () => {
+  try {
+    return sessionStorage.getItem(TEASER_SESSION_KEY) === '1' || localStorage.getItem(TEASER_FALLBACK_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
 
 const BotpressChatWidget = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [showTeaser, setShowTeaser] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
+  const [showTeaser, setShowTeaser] = useState(() => !hasSeenTeaser());
+  const [hasInteracted, setHasInteracted] = useState(hasSeenTeaser);
 
   const BOTPRESS_BOT_ID = import.meta.env.VITE_BOTPRESS_BOT_ID;
   const BOTPRESS_CLIENT_ID = import.meta.env.VITE_BOTPRESS_CLIENT_ID;
@@ -28,20 +43,6 @@ const BotpressChatWidget = () => {
     const timer = setTimeout(() => setIsVisible(true), 5000);
     return () => clearTimeout(timer);
   }, []);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    try {
-      const hasSeenTeaser =
-        sessionStorage.getItem(TEASER_SESSION_KEY) === '1' ||
-        localStorage.getItem(TEASER_FALLBACK_KEY) === '1';
-      setShowTeaser(!hasSeenTeaser);
-      setHasInteracted(hasSeenTeaser);
-    } catch {
-      setShowTeaser(true);
-    }
-  }, [isVisible]);
 
   const markTeaserSeen = () => {
     setHasInteracted(true);
@@ -93,9 +94,6 @@ const BotpressChatWidget = () => {
     }
 
     if (document.getElementById('botpress-webchat-script')) {
-      if (window.botpress) {
-        setIsLoaded(true);
-      }
       return;
     }
 
@@ -106,6 +104,7 @@ const BotpressChatWidget = () => {
 
     script.onload = () => {
       if (!window.botpress) return;
+      const botpress = window.botpress;
 
       const onWidgetReady = async () => {
         setIsLoaded(true);
@@ -119,17 +118,17 @@ const BotpressChatWidget = () => {
         }
 
         // Pre-create a clean conversation to avoid race conditions when users send the first message quickly.
-        if (typeof window.botpress.restartConversation === 'function') {
+        if (typeof botpress.restartConversation === 'function') {
           try {
-            await window.botpress.restartConversation();
+            await botpress.restartConversation();
           } catch {
             // Ignore warmup errors; the widget can still open and create a conversation lazily.
           }
         }
       };
 
-      window.botpress.on('webchat:initialized', onWidgetReady);
-      window.botpress.on('webchat:ready', onWidgetReady);
+      botpress.on('webchat:initialized', onWidgetReady);
+      botpress.on('webchat:ready', onWidgetReady);
 
       if (hasConfigScript) {
         const configScript = document.createElement('script');
@@ -213,6 +212,7 @@ const BotpressChatWidget = () => {
 
   useEffect(() => {
     if (!isLoaded || !window.botpress) return;
+    const botpress = window.botpress;
 
     const handleOpen = () => {
       setIsOpen(true);
@@ -223,12 +223,12 @@ const BotpressChatWidget = () => {
       setIsOpen(false);
     };
 
-    window.botpress.on('webchat:opened', handleOpen);
-    window.botpress.on('webchat:closed', handleClose);
+    botpress.on('webchat:opened', handleOpen);
+    botpress.on('webchat:closed', handleClose);
 
     return () => {
-      window.botpress.off('webchat:opened', handleOpen);
-      window.botpress.off('webchat:closed', handleClose);
+      botpress.off('webchat:opened', handleOpen);
+      botpress.off('webchat:closed', handleClose);
     };
   }, [isLoaded]);
 
@@ -238,46 +238,38 @@ const BotpressChatWidget = () => {
     <>
       <motion.div
         id="msme-chat-launcher"
-        className="fixed bottom-6 right-6 z-[60]"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+        className="msme-chat-launcher"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.22, ease: 'easeOut' }}
       >
         {!isOpen && showTeaser && !hasInteracted && (
           <motion.div
-            className="absolute bottom-20 right-0 w-[220px] max-w-[calc(100vw-3rem)]"
+            className="msme-chat-teaser"
             initial={{ opacity: 0, y: 8, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.28 }}
+            transition={{ duration: 0.22, ease: 'easeOut' }}
           >
-            <div className="relative rounded-2xl border border-[#b7c9f0] bg-white px-4 py-3 shadow-[0_12px_24px_rgba(37,99,235,0.14)]">
+            <div className="msme-chat-teaser__bubble">
               <button
                 type="button"
                 onClick={markTeaserSeen}
-                className="absolute right-2 top-2 grid h-6 w-6 place-items-center rounded-full text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
+                className="msme-chat-close"
                 aria-label="Close chatbot teaser"
               >
-                <X className="h-3.5 w-3.5" />
+                <X size={14} />
               </button>
-              <div className="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-1 text-[12px] font-semibold text-emerald-700">
-                AI Assistant
-              </div>
-              <p className="mt-2 text-base leading-tight font-semibold text-slate-800">Try our AI chatbot!</p>
-              <p className="mt-1 text-[12px] leading-relaxed text-slate-500">
-                Ask about loans, registration, or financial tips - available 24/7.
-              </p>
-              <div className="absolute -bottom-[7px] right-7 h-3.5 w-3.5 rotate-45 border-r border-b border-[#b7c9f0] bg-white" />
+              <p className="msme-chat-teaser__title">Need a hand?</p>
+              <p className="msme-chat-teaser__copy">Ask about loans, registration, or financial tips.</p>
             </div>
           </motion.div>
         )}
 
         <motion.button
           onClick={toggleChat}
-          className="group relative grid h-16 w-16 place-items-center rounded-full border-2 border-[#9ec5ff] bg-[#eaf3ff] shadow-[0_10px_24px_rgba(37,99,235,0.2)] transition-transform hover:scale-105"
-          whileTap={{ scale: 0.95 }}
+          className="msme-chat-button"
           aria-label={isOpen ? 'Close chat assistant' : 'Open chat assistant'}
         >
-          <span className="absolute inset-1 rounded-full border-2 border-dashed border-[#8bb9ff]" />
           <AnimatePresence mode="wait">
             {isOpen ? (
               <motion.span
@@ -286,9 +278,9 @@ const BotpressChatWidget = () => {
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0, rotate: 90 }}
                 transition={{ duration: 0.18 }}
-                className="relative z-10 grid h-11 w-11 place-items-center rounded-full bg-slate-900 text-white"
+                className="msme-chat-button__icon"
               >
-                <X className="h-5 w-5" />
+                <X size={19} />
               </motion.span>
             ) : (
               <motion.span
@@ -297,9 +289,9 @@ const BotpressChatWidget = () => {
                 animate={{ opacity: 1, rotate: 0 }}
                 exit={{ opacity: 0, rotate: -90 }}
                 transition={{ duration: 0.18 }}
-                className="relative z-10 grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 text-white shadow-sm"
+                className="msme-chat-button__icon"
               >
-                <MessageSquare className="h-5 w-5" />
+                <MessageSquare size={19} />
               </motion.span>
             )}
           </AnimatePresence>

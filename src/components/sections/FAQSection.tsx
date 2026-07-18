@@ -1,167 +1,69 @@
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { ChevronDown, MessageCircle } from 'lucide-react';
 import { useState } from 'react';
-import { ChevronDown, MessageCircle, HelpCircle } from 'lucide-react';
 import { FAQS } from '@/lib/constants';
 
 const FAQSection = () => {
     const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-    const toggleFAQ = (index: number) => {
-        setOpenIndex(openIndex === index ? null : index);
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            toggleFAQ(index);
-        }
-    };
-
     return (
-        <section id="faq" className="relative py-24 md:py-32 bg-white overflow-hidden" aria-labelledby="faq-heading">
-            {/* Background Decorations */}
-            <div className="absolute inset-0" aria-hidden="true">
-                <motion.div
-                    className="absolute top-20 left-10 w-72 h-72 bg-primary-blue/5 rounded-full blur-3xl"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{ duration: 8, repeat: Infinity }}
-                />
-                <motion.div
-                    className="absolute bottom-20 right-10 w-64 h-64 bg-primary-yellow/5 rounded-full blur-3xl"
-                    animate={{ scale: [1.2, 1, 1.2] }}
-                    transition={{ duration: 10, repeat: Infinity }}
-                />
-            </div>
+        <section id="faq" className="msme-section msme-section--muted" aria-labelledby="faq-heading">
+            <div className="msme-container msme-faq-layout">
+                <motion.header
+                    className="msme-faq-intro"
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-80px' }}
+                    transition={{ duration: 0.22, ease: 'easeOut' }}
+                >
+                    <p className="msme-eyebrow">FAQ</p>
+                    <h2 id="faq-heading">Mga karaniwang tanong</h2>
+                    <p>Narito ang mga sagot sa mga madalas na tanong tungkol sa MSME Pathways.</p>
+                    <a className="msme-button msme-button--text" href="mailto:msmepathways@gmail.com">
+                        <MessageCircle size={16} aria-hidden="true" />
+                        Contact support
+                    </a>
+                </motion.header>
 
-            {/* Large Decorative Text */}
-            <div className="absolute top-32 right-0 pointer-events-none overflow-hidden" aria-hidden="true">
-                <span className="text-[180px] md:text-[250px] font-black text-gray-50 leading-none select-none">
-                    FAQ
-                </span>
-            </div>
-
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="grid lg:grid-cols-12 gap-12 items-start">
-                    {/* Left Column - Header (Sticky) */}
-                    <motion.div
-                        className="lg:col-span-5 lg:sticky lg:top-24"
-                        initial={{ opacity: 0, x: -30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <motion.span
-                            className="inline-flex items-center gap-2 text-primary-blue text-sm font-semibold mb-4"
-                            whileHover={{ scale: 1.05 }}
-                        >
-                            <HelpCircle className="w-4 h-4" />
-                            FAQ
-                        </motion.span>
-
-                        <h2 className="font-display text-4xl md:text-5xl font-bold mb-6">
-                            <span className="text-dark">Mga Karaniwang</span>
-                            <br />
-                            <span className="text-gradient-blue">Tanong</span>
-                        </h2>
-
-                        <p className="text-xl text-gray-600 mb-8">
-                            Narito ang mga sagot sa mga madalas na tanong tungkol sa MSME Pathways
-                        </p>
-
-                        {/* Contact Card */}
-                        <motion.div
-                            className="bg-gradient-to-br from-primary-blue to-primary-blue-dark rounded-2xl p-6 text-white"
-                            whileHover={{ scale: 1.02 }}
-                        >
-                            <div className="flex items-center gap-4 mb-4">
-                                <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center">
-                                    <MessageCircle className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <p className="font-semibold">May tanong pa?</p>
-                                    <p className="text-white/70 text-sm">We're here to help!</p>
-                                </div>
-                            </div>
-                            <a
-                                href="mailto:msmepathways@gmail.com"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg text-sm font-medium transition-colors"
+                <div className="msme-faq-list">
+                    {FAQS.map((faq, index) => {
+                        const isOpen = openIndex === index;
+                        return (
+                            <motion.div
+                                key={faq.question}
+                                className={`msme-faq-item${isOpen ? ' is-open' : ''}`}
+                                initial={{ opacity: 0, y: 8 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: '-60px' }}
+                                transition={{ duration: 0.22, delay: index * 0.025, ease: 'easeOut' }}
                             >
-                                Contact Support
-                                <span>→</span>
-                            </a>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Right Column - FAQ Accordion */}
-                    <div className="lg:col-span-7">
-                        <div className="space-y-4">
-                            {FAQS.map((faq, index) => (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: index * 0.05 }}
+                                <button
+                                    type="button"
+                                    className="msme-faq-question"
+                                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                                    aria-expanded={isOpen}
+                                    aria-controls={`faq-answer-${index}`}
                                 >
-                                    <div
-                                        className={`group rounded-2xl border transition-all duration-300 overflow-hidden ${openIndex === index
-                                                ? 'bg-white border-primary-blue/20 shadow-lg'
-                                                : 'bg-gray-50 border-gray-100 hover:border-gray-200 hover:bg-white'
-                                            }`}
-                                    >
-                                        {/* Question */}
-                                        <button
-                                            onClick={() => toggleFAQ(index)}
-                                            onKeyDown={(e) => handleKeyDown(e, index)}
-                                            className="flex items-center justify-between w-full p-6 text-left min-h-[44px] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-blue focus-visible:ring-inset rounded-2xl"
-                                            aria-expanded={openIndex === index}
-                                            aria-controls={`faq-answer-${index}`}
-                                            id={`faq-question-${index}`}
-                                        >
-                                            <span className="flex items-center gap-4">
-                                                <span className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold transition-colors ${openIndex === index
-                                                        ? 'bg-primary-blue text-white'
-                                                        : 'bg-gray-200 text-gray-600 group-hover:bg-primary-blue/10 group-hover:text-primary-blue'
-                                                    }`}
-                                                    aria-hidden="true"
-                                                >
-                                                    {String(index + 1).padStart(2, '0')}
-                                                </span>
-                                                <span className="font-semibold text-dark text-lg pr-4">
-                                                    {faq.question}
-                                                </span>
-                                            </span>
-                                            <ChevronDown
-                                                className={`w-5 h-5 flex-shrink-0 text-gray-400 transition-transform duration-300 ${openIndex === index ? 'rotate-180 text-primary-blue' : ''
-                                                    }`}
-                                                aria-hidden="true"
-                                            />
-                                        </button>
-
-                                        {/* Answer */}
+                                    <span><small>0{index + 1}</small>{faq.question}</span>
+                                    <ChevronDown size={18} aria-hidden="true" />
+                                </button>
+                                <AnimatePresence initial={false}>
+                                    {isOpen && (
                                         <motion.div
                                             id={`faq-answer-${index}`}
-                                            role="region"
-                                            aria-labelledby={`faq-question-${index}`}
-                                            initial={false}
-                                            animate={{
-                                                height: openIndex === index ? 'auto' : 0,
-                                                opacity: openIndex === index ? 1 : 0,
-                                            }}
-                                            transition={{ duration: 0.3 }}
-                                            className="overflow-hidden"
+                                            className="msme-faq-answer"
+                                            initial={{ height: 0, opacity: 0 }}
+                                            animate={{ height: 'auto', opacity: 1 }}
+                                            exit={{ height: 0, opacity: 0 }}
+                                            transition={{ duration: 0.2, ease: 'easeOut' }}
                                         >
-                                            <div className="px-6 pb-6 pl-[4.5rem]">
-                                                <p className="text-gray-600 leading-relaxed">
-                                                    {faq.answer}
-                                                </p>
-                                            </div>
+                                            <p>{faq.answer}</p>
                                         </motion.div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

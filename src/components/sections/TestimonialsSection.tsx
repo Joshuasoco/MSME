@@ -1,169 +1,46 @@
-import { useRef } from 'react';
-import type { LucideIcon } from 'lucide-react';
-import { Layers, Database, Cpu, Shield, Mail, Server } from 'lucide-react';
-import { AnimatedBeam } from '@/components/ui/animated-beam';
+import { motion } from 'framer-motion';
+import { Quote } from 'lucide-react';
+import { TESTIMONIALS } from '@/lib/constants';
 
-type StackNodeProps = {
-    label: string;
-    icon: LucideIcon;
-    nodeRef: React.RefObject<HTMLDivElement | null>;
-};
-
-const StackNode = ({ label, icon: Icon, nodeRef }: StackNodeProps) => {
-    return (
-        <div className="flex flex-col items-center gap-2">
-            <div
-                ref={nodeRef}
-                className="h-14 w-14 rounded-full border border-slate-200 bg-white shadow-[0_6px_16px_rgba(15,23,42,0.08)] flex items-center justify-center"
+const TestimonialsSection = () => (
+    <section id="testimonials" className="msme-section" aria-labelledby="testimonials-heading">
+        <div className="msme-container">
+            <motion.header
+                className="msme-section-header"
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
             >
-                <Icon className="h-6 w-6 text-slate-700" />
-            </div>
-            <p className="text-center text-xs sm:text-sm font-medium text-slate-600 leading-snug max-w-[10rem]">
-                {label}
-            </p>
-        </div>
-    );
-};
+                <p className="msme-eyebrow">Stories from the community</p>
+                <h2 id="testimonials-heading">Para sa tunay na negosyo</h2>
+                <p>Mga kwento ng Filipino entrepreneurs na nagsisimula at patuloy na lumalago.</p>
+            </motion.header>
 
-const GrokLogo = () => {
-    return (
-        <svg
-            viewBox="0 0 40 40"
-            aria-hidden="true"
-            className="h-10 w-10"
-        >
-            <circle cx="20" cy="20" r="19" fill="#0f172a" />
-            <path
-                d="M12 11h16l-8 9 8 9H12l8-9-8-9Z"
-                fill="#f8fafc"
-                opacity="0.95"
-            />
-        </svg>
-    );
-};
-
-const TestimonialsSection = () => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const centerRef = useRef<HTMLDivElement>(null);
-
-    const djangoRef = useRef<HTMLDivElement>(null);
-    const mongodbRef = useRef<HTMLDivElement>(null);
-    const pytorchRef = useRef<HTMLDivElement>(null);
-
-    const jwtRef = useRef<HTMLDivElement>(null);
-    const gmailRef = useRef<HTMLDivElement>(null);
-    const gunicornRef = useRef<HTMLDivElement>(null);
-
-    const leftNodes = [
-        { label: '99.9% uptime architecture', icon: Layers, ref: djangoRef },
-        { label: 'Encrypted cloud data storage', icon: Database, ref: mongodbRef },
-        { label: 'AI document scanning, 7 document types', icon: Cpu, ref: pytorchRef },
-    ];
-
-    const rightNodes = [
-        { label: 'Two-factor login protection', icon: Shield, ref: jwtRef },
-        { label: 'Verified account notifications', icon: Mail, ref: gmailRef },
-        { label: 'Optimized for fast performance', icon: Server, ref: gunicornRef },
-    ];
-
-    const nodeRefs = [
-        djangoRef,
-        mongodbRef,
-        pytorchRef,
-        jwtRef,
-        gmailRef,
-        gunicornRef,
-    ];
-
-    const curvatures = [42, 0, -42, 42, 0, -42];
-
-    return (
-        <section id="testimonials" className="relative py-24 md:py-32 bg-slate-50 overflow-hidden">
-            <div className="absolute inset-0">
-                <div
-                    className="absolute inset-0 opacity-50"
-                    style={{
-                        backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.2) 1px, transparent 0)',
-                        backgroundSize: '28px 28px',
-                    }}
-                />
-            </div>
-
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="max-w-4xl mx-auto text-center">
-                    <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 leading-tight">
-                        Powered by a Stack Built for the Underserved.
-                    </h2>
-                    <p className="mt-5 text-base md:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                        Every part of MSME Pathways, from AI guidance to document checks to blockchain records, has been tested and secured, so Filipino microentrepreneurs can trust the platform with their loan journey
-                    </p>
-                </div>
-
-                <div
-                    ref={containerRef}
-                    className="relative mt-14 max-w-5xl mx-auto rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 md:p-10 shadow-[0_20px_60px_rgba(15,23,42,0.06)]"
-                >
-                    <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center gap-10 md:gap-8">
-                        <div className="flex flex-col items-center gap-8 md:gap-10">
-                            {leftNodes.map((node) => (
-                                <StackNode key={node.label} label={node.label} icon={node.icon} nodeRef={node.ref} />
-                            ))}
-                        </div>
-
-                        <div className="flex flex-col items-center gap-3">
-                            <div
-                                ref={centerRef}
-                                className="h-24 w-24 rounded-full border border-slate-300 bg-white shadow-[0_14px_30px_rgba(15,23,42,0.14)] flex items-center justify-center"
-                            >
-                                <GrokLogo />
+            <div className="msme-card-grid msme-card-grid--three">
+                {TESTIMONIALS.map((testimonial, index) => (
+                    <motion.article
+                        key={testimonial.name}
+                        className="msme-card msme-card--testimonial"
+                        initial={{ opacity: 0, y: 12 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: '-60px' }}
+                        transition={{ duration: 0.22, delay: index * 0.04, ease: 'easeOut' }}
+                    >
+                        <Quote className="msme-card__icon" size={22} strokeWidth={1.7} aria-hidden="true" />
+                        <p className="msme-testimonial__quote">“{testimonial.quote}”</p>
+                        <div className="msme-testimonial__person">
+                            <img src={testimonial.avatar} alt="" loading="lazy" decoding="async" />
+                            <div>
+                                <strong>{testimonial.name}</strong>
+                                <span>{testimonial.role}</span>
                             </div>
-                            <p className="text-center text-xs sm:text-sm font-semibold text-slate-700 leading-snug max-w-[11rem]">
-                                AI loan readiness coach
-                            </p>
                         </div>
-
-                        <div className="flex flex-col items-center gap-8 md:gap-10">
-                            {rightNodes.map((node) => (
-                                <StackNode key={node.label} label={node.label} icon={node.icon} nodeRef={node.ref} />
-                            ))}
-                        </div>
-                    </div>
-
-                    {nodeRefs.map((ref, index) => (
-                        <div key={`beam-${index}`}>
-                            <AnimatedBeam
-                                containerRef={containerRef}
-                                fromRef={ref}
-                                toRef={centerRef}
-                                curvature={curvatures[index]}
-                                pathColor="#cbd5e1"
-                                pathOpacity={0.6}
-                                pathWidth={1.4}
-                                gradientStartColor="#94a3b8"
-                                gradientStopColor="#64748b"
-                                delay={index * 0.12}
-                                duration={4.6 + (index * 0.2)}
-                            />
-                            <AnimatedBeam
-                                containerRef={containerRef}
-                                fromRef={ref}
-                                toRef={centerRef}
-                                curvature={curvatures[index]}
-                                reverse
-                                pathColor="#cbd5e1"
-                                pathOpacity={0}
-                                pathWidth={1.4}
-                                gradientStartColor="#e2e8f0"
-                                gradientStopColor="#94a3b8"
-                                delay={0.35 + (index * 0.12)}
-                                duration={4.9 + (index * 0.2)}
-                            />
-                        </div>
-                    ))}
-                </div>
+                    </motion.article>
+                ))}
             </div>
-        </section>
-    );
-};
+        </div>
+    </section>
+);
 
 export default TestimonialsSection;
