@@ -18,14 +18,14 @@ const CTASection = () => {
     ];
 
     return (
-        <section id="cta" className="relative overflow-hidden bg-[#0B0B0D] py-24 md:py-32">
+        <section id="cta" className="relative scroll-mt-24 overflow-hidden bg-[#0B0B0D] py-20 md:py-24 lg:py-28">
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_48%,rgba(21,101,192,0.28),transparent_48%),radial-gradient(ellipse_at_18%_8%,rgba(255,193,7,0.06),transparent_40%)]" />
                 <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.025),transparent_30%,rgba(0,0,0,0.18))]" />
             </div>
 
-            <div className="container mx-auto px-4 relative z-10">
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
+            <div className="container relative z-10 mx-auto max-w-6xl px-4">
+                <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(320px,0.75fr)] lg:gap-10">
                     <motion.div
                         className="text-center lg:text-left"
                         initial={{ opacity: 0, x: -30 }}
@@ -99,12 +99,12 @@ const CTASection = () => {
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
                     >
-                        <div className="relative origin-center">
+                        <div className="relative origin-center scale-[0.9] min-[375px]:scale-95 sm:scale-[0.98] lg:scale-[0.82] xl:scale-[0.86] 2xl:scale-[0.9] lg:translate-y-1 lg:pr-4">
                             <PhoneMockup
                                 animate={allowAmbientMotion}
                                 screenImageSrc="/iPhone%2016%20-%2029.png"
                                 screenImageAlt="Analyzing application screen"
-                                frameClassName="w-[240px] min-[375px]:w-[270px] sm:w-[300px] md:w-[340px]"
+                                frameClassName="w-[220px] min-[375px]:w-[250px] sm:w-[280px] md:w-[320px]"
                             />
                         </div>
                     </motion.div>
