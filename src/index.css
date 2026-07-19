@@ -2805,3 +2805,559 @@ select:focus-visible {
     justify-content: center;
   }
 }
+
+/* Subscription paywall parody: keep the original composition, tune the tone. */
+.msme-paywall {
+  --coming-ink: #1a2332;
+  --coming-muted: #69737d;
+  --coming-accent: #4a7c59;
+  background:
+    radial-gradient(circle at 82% 10%, rgba(74, 124, 89, 0.08), transparent 34%),
+    #f5f5f2;
+  color: var(--coming-ink);
+}
+
+.msme-paywall .msme-coming-hero__layout {
+  min-height: 620px;
+}
+
+.msme-paywall .msme-coming-hero__mark {
+  width: clamp(240px, 27vw, 330px);
+  border-radius: 64px;
+  background: #4a7c59;
+  box-shadow: 0 22px 42px rgba(34, 70, 45, 0.16);
+}
+
+.msme-paywall .msme-coming-hero__mark img {
+  filter: brightness(0) invert(1);
+}
+
+.msme-paywall .msme-coming-hero__copy {
+  max-width: 650px;
+}
+
+.msme-paywall .msme-coming-hero .msme-eyebrow,
+.msme-paywall .msme-eyebrow {
+  margin-bottom: 20px;
+  color: #4a7c59;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.msme-paywall .msme-coming-hero h1 {
+  max-width: 630px;
+  color: #1a2332;
+  font-size: clamp(52px, 6.4vw, 86px);
+  letter-spacing: -0.065em;
+  line-height: 0.94;
+}
+
+.msme-paywall .msme-coming-hero__lede {
+  max-width: 560px;
+  margin-top: 26px;
+  color: #69737d;
+  font-size: clamp(16px, 1.45vw, 19px);
+  line-height: 1.58;
+}
+
+.msme-paywall__actions {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 30px;
+}
+
+.msme-paywall .msme-coming-hero__action {
+  min-height: 54px;
+  gap: 12px;
+  padding: 0 21px;
+  border-radius: 12px;
+  background: #1a2332;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  box-shadow: 0 8px 16px rgba(26, 35, 50, 0.13);
+}
+
+.msme-paywall .msme-coming-hero__action:hover {
+  background: #29384d;
+  transform: translateY(-2px);
+}
+
+.msme-paywall__limited {
+  padding: 2px 2px;
+  color: #9aa1a8;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: rgba(154, 161, 168, 0.35);
+  text-underline-offset: 3px;
+  transition: color 160ms ease;
+}
+
+.msme-paywall__limited:hover {
+  color: #69737d;
+}
+
+.msme-paywall__features {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 18px;
+  max-width: 570px;
+  margin: 30px 0 0;
+  padding: 0;
+  color: #4d5962;
+  font-size: 13px;
+  line-height: 1.45;
+  list-style: none;
+}
+
+.msme-paywall__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.msme-paywall__features li span {
+  flex: 0 0 auto;
+  color: #4a7c59;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.msme-paywall .msme-coming-hero__rule {
+  max-width: 570px;
+  margin-top: 42px;
+  border-top-color: rgba(26, 35, 50, 0.16);
+}
+
+.msme-paywall .msme-coming-hero__small-copy {
+  max-width: 570px;
+  margin-top: 13px;
+  color: #8b9298;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .msme-paywall .msme-coming-hero__layout {
+    gap: 64px;
+  }
+
+  .msme-paywall .msme-coming-hero h1 {
+    font-size: clamp(50px, 7vw, 72px);
+  }
+}
+
+@media (max-width: 680px) {
+  .msme-paywall {
+    padding: 80px 20px 58px;
+  }
+
+  .msme-paywall .msme-coming-hero__layout {
+    min-height: auto;
+    gap: 38px;
+  }
+
+  .msme-paywall .msme-coming-hero__mark-wrap {
+    text-align: left;
+  }
+
+  .msme-paywall .msme-coming-hero__mark {
+    width: min(58vw, 230px);
+    margin: 0;
+    border-radius: 40px;
+  }
+
+  .msme-paywall .msme-coming-hero__copy {
+    text-align: left;
+  }
+
+  .msme-paywall .msme-coming-hero h1 {
+    font-size: clamp(44px, 13vw, 62px);
+    line-height: 0.96;
+  }
+
+  .msme-paywall .msme-coming-hero__lede {
+    margin-top: 22px;
+    font-size: 16px;
+  }
+
+  .msme-paywall__actions {
+    margin-top: 26px;
+  }
+
+  .msme-paywall .msme-coming-hero__action {
+    width: min(100%, 320px);
+    justify-content: space-between;
+  }
+
+  .msme-paywall__features {
+    grid-template-columns: 1fr;
+    gap: 9px;
+    margin-top: 28px;
+  }
+
+  .msme-paywall .msme-coming-hero__rule {
+    margin-top: 38px;
+  }
+}
+
+/* Dark pricing modal treatment for the paywall parody. */
+.msme-pricing-page {
+  min-height: 100svh;
+  padding: 24px 24px 20px;
+  overflow: auto;
+  background: #090a0d;
+  color: #f7f8f7;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+}
+
+.msme-pricing-shell {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+}
+
+.msme-pricing-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 46px;
+}
+
+.msme-pricing-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: #f7f8f7;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.msme-pricing-brand__tile {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #4a7c59;
+}
+
+.msme-pricing-brand__tile img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+.msme-pricing-close {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #85898e;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.msme-pricing-close:hover {
+  background: #222427;
+  color: #f7f8f7;
+}
+
+.msme-pricing-intro {
+  margin: 18px auto 0;
+  text-align: center;
+}
+
+.msme-pricing-intro .msme-eyebrow {
+  margin: 0 0 11px;
+  color: #78ad84;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.msme-pricing-intro h1 {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  color: #f7f8f7;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  font-size: clamp(32px, 4vw, 46px);
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+}
+
+.msme-pricing-intro > p:last-of-type {
+  max-width: 530px;
+  margin: 11px auto 0;
+  color: #9b9fa4;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.msme-pricing-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100%, 352px);
+  margin: 20px auto 0;
+  padding: 4px;
+  border-radius: 999px;
+  background: #303133;
+}
+
+.msme-pricing-toggle button {
+  min-height: 36px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #bfc2c5;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.msme-pricing-toggle button.is-active {
+  background: #1d1e20;
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
+}
+
+.msme-pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.msme-pricing-card {
+  display: flex;
+  min-height: 540px;
+  flex-direction: column;
+  padding: 25px 24px 23px;
+  border: 1px solid #444547;
+  border-radius: 16px;
+  background: #202122;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.17);
+}
+
+.msme-pricing-card.is-featured {
+  border-color: #4a7c59;
+  box-shadow: 0 0 0 1px rgba(74, 124, 89, 0.22), 0 18px 38px rgba(18, 52, 28, 0.3);
+}
+
+.msme-pricing-card__heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.msme-pricing-card h2 {
+  margin: 0;
+  color: #f7f8f7;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  font-size: 29px;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+}
+
+.msme-pricing-card__badge {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(74, 124, 89, 0.22);
+  color: #9dd4a6;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.msme-pricing-card__price {
+  display: flex;
+  align-items: baseline;
+  min-height: 78px;
+  margin-top: 17px;
+  color: #f7f8f7;
+}
+
+.msme-pricing-card__currency {
+  align-self: flex-start;
+  margin-top: 10px;
+  color: #c8cbd0;
+  font-size: 18px;
+}
+
+.msme-pricing-card__price strong {
+  margin-left: 5px;
+  font-size: clamp(38px, 4vw, 52px);
+  font-weight: 650;
+  letter-spacing: -0.055em;
+  line-height: 1;
+}
+
+.msme-pricing-card__period {
+  margin-left: 8px;
+  color: #aeb2b6;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.msme-pricing-card__description {
+  min-height: 43px;
+  margin: 0;
+  color: #f7f8f7;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.msme-pricing-card__button {
+  min-height: 44px;
+  margin-top: 23px;
+  border: 1px solid #484a4c;
+  border-radius: 999px;
+  background: transparent;
+  color: #f2f3f3;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+
+.msme-pricing-card__button:hover {
+  border-color: #73807a;
+  background: #2a2c2e;
+  transform: translateY(-1px);
+}
+
+.msme-pricing-card.is-featured .msme-pricing-card__button {
+  border-color: #4a7c59;
+  background: #4a7c59;
+  color: #fff;
+}
+
+.msme-pricing-card.is-featured .msme-pricing-card__button:hover {
+  background: #5b956a;
+}
+
+.msme-pricing-card__features {
+  display: grid;
+  gap: 16px;
+  margin: 28px 0 0;
+  padding: 0;
+  color: #e0e2e2;
+  font-size: 13px;
+  line-height: 1.4;
+  list-style: none;
+}
+
+.msme-pricing-card__features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+}
+
+.msme-pricing-card__features svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #9eb6a3;
+}
+
+.msme-pricing-footnote {
+  margin: 22px 0 0;
+  color: #74797e;
+  font-size: 11px;
+  text-align: center;
+}
+
+.msme-pricing-notice {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+  width: min(100% - 40px, 490px);
+  margin: 0 auto;
+  padding: 14px 18px;
+  border: 1px solid #6a9d75;
+  border-radius: 12px;
+  background: #25452d;
+  color: #e7f2e9;
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.45;
+  text-align: left;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.38);
+}
+
+.msme-pricing-notice strong {
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .msme-pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .msme-pricing-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .msme-pricing-page {
+    padding: 16px 14px 22px;
+  }
+
+  .msme-pricing-brand {
+    font-size: 13px;
+  }
+
+  .msme-pricing-brand__tile {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .msme-pricing-intro {
+    margin-top: 22px;
+  }
+
+  .msme-pricing-intro h1 {
+    font-size: 34px;
+  }
+
+  .msme-pricing-intro > p:last-of-type {
+    padding: 0 12px;
+    font-size: 13px;
+  }
+
+  .msme-pricing-toggle {
+    margin-top: 17px;
+  }
+
+  .msme-pricing-card {
+    padding: 22px 20px 21px;
+  }
+
+  .msme-pricing-card__price strong {
+    font-size: 43px;
+  }
+}

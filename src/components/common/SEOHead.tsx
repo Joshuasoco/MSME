@@ -13,8 +13,8 @@ interface SEOHeadProps {
 }
 
 const SEOHead = ({
-  title = 'MSME Pathways - AI-Powered Financial Inclusion for Filipino Microentrepreneurs',
-  description = 'Walang Credit History? Pwede Ka Pa Rin! Get AI-powered financial guidance and inclusive lending solutions. No credit history required. Built for Filipino microentrepreneurs.',
+  title = 'MSME Pathways · Members Only',
+  description = 'Upgrade to keep building better paths. Unlock unlimited business advice and priority support with MSME Pathways.',
   keywords = 'MSME, microenterprise, lending, Philippines, AI financial advisor, credit, small business loans, sari-sari store, financial inclusion',
   ogImage = `${SITE_URL}/og-image.png`,
   ogType = 'website',
@@ -83,7 +83,7 @@ const SEOHead = ({
     setMetaTag('apple-mobile-web-app-title', 'MSME Pathways')
 
     // Theme color
-    setMetaTag('theme-color', '#1565C0')
+    setMetaTag('theme-color', '#1A2332')
 
     // Canonical link
     let linkTag = document.querySelector('link[rel="canonical"]')
