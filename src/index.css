@@ -2779,7 +2779,7 @@ select:focus-visible {
   .msme-coming-hero__mark {
     width: min(72vw, 280px);
     margin: 0 auto;
-    border-radius: 96px;
+    border-radius: 48px;
   }
 
   .msme-coming-hero__copy {
@@ -2798,6 +2798,7 @@ select:focus-visible {
   }
 
   .msme-coming-hero__action-row {
+    align-items: center;
     justify-content: center;
   }
 
