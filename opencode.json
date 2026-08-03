@@ -7,7 +7,7 @@
       "name": "AgentRouter",
       "options": {
         "baseURL": "https://co.agentrouter.org/v1",
-        "apiKey": "s"
+        "apiKey": ""
       },
       "models": {
         "kimi-k3": {
